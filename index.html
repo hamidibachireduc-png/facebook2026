@@ -186,27 +186,22 @@
     <div class="designer-credit">من تصميم الأستاذ حميدي بشير 2026</div>
     <div class="subtitle">محين وفقاً للمرسوم 25-54 والتعليمة المشتركة 01 ومراسيم الجنوب والهضاب</div>
 
-    <!-- أزرار التبويبات -->
     <div class="tabs-header">
         <button class="tab-btn active" onclick="switchTab('intro')">القسم التعريفي والتعداد</button>
         <button class="tab-btn" onclick="switchTab('guide')">دليل الترقية</button>
         <button class="tab-btn" onclick="switchTab('simulator')">المحاكي</button>
     </div>
 
-    <!-- 1. الشاشة الأولى: القسم التعريفي -->
     <div id="intro" class="tab-content active">
         
-        <!-- لوحة عرض التعداد -->
         <div class="section-card" style="background: #f8fafc; border-color: #94a3b8;">
             <h3 style="color: #334155; border-bottom-color: #cbd5e1;">📊 استعلام عن المناصب المفتوحة للامتحان المهني 2026</h3>
             <label for="directorateSelect" style="color: var(--primary);">اختر مديرية التربية (الولاية):</label>
             <select id="directorateSelect" onchange="updateQuotaDisplay()" style="border-color: var(--primary); border-width: 2px; font-weight: bold; color: var(--primary);">
-                <!-- سيتم ملؤها برمجيا -->
-            </select>
+                </select>
             
             <div id="quotaGrid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; margin-top: 15px;">
-                <!-- البطاقات تولد هنا -->
-            </div>
+                </div>
 
             <details style="margin-top: 15px; background: white; border: 1px solid var(--border); padding: 10px; border-radius: 6px;">
                 <summary style="cursor: pointer; font-weight: bold; color: var(--primary);">🌍 عرض المناصب الوطنية المفتوحة (لا ترتبط بولاية)</summary>
@@ -226,7 +221,6 @@
                 أهلاً بك في محاكي موظف قطاع التربية. يوضح هذا القسم طريقة حساب الأقدمية، حيث يتم جمع الأقدمية بين الرتبة الحالية والرتبة السابقة وذلك بشرط الإدماج في الرتبة الحالية. يرجى إدخال بياناتك بدقة للحصول على نتيجة مطابقة للنصوص القانونية.
             </p>
 
-            <!-- القاعدة الذهبية -->
             <div class="golden-rule-box">
                 <span style="font-size: 1.2rem;">🌟 معيار احتساب الجمع في الأقدمية:</span><br>
                 (كل من له أقدمية قبل 11 جويلية 2021 يكون قد أتم 5 سنوات باحتساب رتبة الإدماج، أعيد وأذكر بشرط الإدماج في الرتبة الحالية بتاريخ 01 جانفي 2025، ومن لم يُدمج في الرتبة الحالية لا تشمله الترقية بحسب المرسوم الخاص لقطاع التربية).
@@ -243,7 +237,6 @@
                 </div>
             </div>
             
-            <!-- جدول الرزنامة الجديد -->
             <h4 style="margin-top: 25px; color: var(--primary);">📅 رزنامة مراحل إجراء الامتحانات المهنية 2026:</h4>
             <div style="overflow-x: auto;">
                 <table class="schedule-table">
@@ -284,7 +277,6 @@
                 </table>
             </div>
 
-            <!-- خطوات التسجيل الملخصة للمترشحين -->
             <h4 style="margin-top: 25px; color: var(--primary);">📝 خطوات التسجيل للمشاركة في الامتحان:</h4>
             <div class="info-content">
                 <p>حرصا على تكريس مبدأ تكافؤ الفرص، يتعين على جميع الموظفين المرسمين والراغبين في المشاركة، التسجيل <strong>حصرياً وإلزامياً</strong> عبر المنصة الرقمية <a href="https://mowadaf.education.dz" target="_blank" style="color: var(--primary); font-weight: bold; text-decoration: none;">https://mowadaf.education.dz</a> خلال الفترة المحددة في الرزنامة أعلاه، باتباع الخطوات التالية:</p>
@@ -311,7 +303,6 @@
         </div>
     </div>
 
-    <!-- 2. الشاشة الثانية: دليل الترقية -->
     <div id="guide" class="tab-content">
         <div class="section-card">
             <h3>دليل الترقية: النصوص القانونية المنظمة</h3>
@@ -361,9 +352,7 @@
         </div>
     </div>
 
-    <!-- 3. الشاشة الثالثة: المحاكي -->
     <div id="simulator" class="tab-content">
-        <!-- الترقية والرتب -->
         <div class="section-card">
             <h3>1. بيانات الرتبة ومسار الترقية</h3>
             
@@ -476,7 +465,6 @@
             </div>
         </div>
     
-        <!-- التواريخ والجنوب -->
         <div class="section-card">
             <h3>2. الأقدمية الأساسية وولاية العمل</h3>
             <div class="row">
@@ -491,29 +479,45 @@
                 </div>
             </div>
             
+            <hr style="border: 0; border-top: 1px solid var(--border); margin: 20px 0;">
+            
             <div class="row" style="margin-top: 15px;">
                 <div class="col">
-                    <label for="wilayaSelect">ولاية العمل (مراسيم الجنوب والهضاب):</label>
+                    <label for="wilayaSelect">طبيعة المسار المهني (بخصوص العمل في مناطق الجنوب والهضاب):</label>
                     <select id="wilayaSelect" onchange="toggleWilayaDuration()">
-                        <option value="0">ولايات الشمال (بدون زيادة)</option>
-                        <optgroup label="أقصى الجنوب (شهرين/سنة)"><option value="2">أدرار، تامنغست، تندوف، إيليزي، تيميمون، برج باجي مختار، إن صالح، إن قزام، جانت</option></optgroup>
-                        <optgroup label="الجنوب والهضاب العليا (شهر/سنة)"><option value="1">بشار، البيض، ورقلة، غرداية، النعامة، الأغواط، الوادي، بني عباس، تقرت، المغير، المنيعة</option><option value="1">خنشلة، تبسة، المسيلة، سعيدة، قالمة، تيارت، باتنة، أم البواقي، تيسمسيلت، سوق أهراس</option><option value="1">بعض البلديات المحددة (الجلفة، بسكرة، أولاد جلال...)</option></optgroup>
+                        <option value="0">كل مساري في ولايات الشمال (لا توجد زيادة)</option>
+                        <option value="2">كل مساري في ولايات أقصى الجنوب (استفادة شهرين/سنة)</option>
+                        <option value="1">كل مساري في ولايات الجنوب والهضاب (استفادة شهر/سنة)</option>
+                        <option value="mixed">مسار مختلط (عملت في مناطق مختلفة بنسب مختلفة)</option>
                     </select>
                 </div>
             </div>
     
-            <div id="wilayaDurationDiv" style="display: none; background: #e2e8f0; padding: 15px; border-radius: 6px; margin-top: 10px;">
-                <label style="color: var(--primary);">المدة المقضية في الولاية المعنية بالامتياز:</label>
-                <span class="help-text" style="margin-bottom: 10px;">(اتركها فارغة إذا قضيت كل مسارك بها وسيحسبها النظام آلياً)</span>
-                <div class="grid-3">
-                    <div><label>سنوات:</label><input type="number" id="wYears" min="0" placeholder="آلي"></div>
-                    <div><label>أشهر:</label><input type="number" id="wMonths" min="0" placeholder="آلي"></div>
-                    <div><label>أيام:</label><input type="number" id="wDays" min="0" placeholder="آلي"></div>
+            <div id="mixedDurationDiv" style="display: none; background: #e2e8f0; padding: 15px; border-radius: 6px; margin-top: 15px;">
+                <label style="color: var(--primary); margin-bottom: 15px; display: block; border-bottom: 1px solid #cbd5e1; padding-bottom: 8px;">تفصيل المسار المختلط (أدخل المدة المقضية في كل منطقة إن وجدت):</label>
+                
+                <div style="margin-bottom: 20px;">
+                    <span style="color: #b45309; font-weight: bold; font-size: 0.95rem;">أ. ولايات أقصى الجنوب (شهرين عن كل سنة):</span>
+                    <span class="help-text" style="margin-bottom: 8px;">أدرار، تامنغست، تندوف، إيليزي، تيميمون، برج باجي مختار، إن صالح، إن قزام، جانت</span>
+                    <div class="grid-3">
+                        <div><label>سنوات:</label><input type="number" id="fsYears" min="0" value="0"></div>
+                        <div><label>أشهر:</label><input type="number" id="fsMonths" min="0" value="0"></div>
+                        <div><label>أيام:</label><input type="number" id="fsDays" min="0" value="0"></div>
+                    </div>
+                </div>
+
+                <div>
+                    <span style="color: #0369a1; font-weight: bold; font-size: 0.95rem;">ب. ولايات الجنوب والهضاب العليا (شهر عن كل سنة):</span>
+                    <span class="help-text" style="margin-bottom: 8px;">بشار، ورقلة، الأغواط، الوادي، الجلفة، البيض، النعامة، غرداية... وباقي الولايات المعنية</span>
+                    <div class="grid-3">
+                        <div><label>سنوات:</label><input type="number" id="hpYears" min="0" value="0"></div>
+                        <div><label>أشهر:</label><input type="number" id="hpMonths" min="0" value="0"></div>
+                        <div><label>أيام:</label><input type="number" id="hpDays" min="0" value="0"></div>
+                    </div>
                 </div>
             </div>
         </div>
     
-        <!-- الخدمة الوطنية -->
         <div class="section-card">
             <h3>3. فترات الخدمة الوطنية / الاستبقاء</h3>
             <div class="grid-3">
@@ -525,7 +529,6 @@
     
         <button class="btn-submit" onclick="calculateSeniority()">حساب النتيجة النهائية وتأكيد القبول</button>
     
-        <!-- النتيجة -->
         <div class="result-panel" id="resultPanel">
             <div class="status-badge" id="statusBadge"></div>
             <div class="final-time" id="finalResult"></div>
@@ -737,10 +740,16 @@
         }
     }
 
+    // تفعيل نافذة المدة المختلطة
     function toggleWilayaDuration() {
         const wilayaSelect = document.getElementById('wilayaSelect').value;
-        const durationDiv = document.getElementById('wilayaDurationDiv');
-        durationDiv.style.display = wilayaSelect > 0 ? 'block' : 'none';
+        const mixedDiv = document.getElementById('mixedDurationDiv');
+        
+        if (wilayaSelect === 'mixed') {
+            mixedDiv.style.display = 'block';
+        } else {
+            mixedDiv.style.display = 'none';
+        }
     }
 
     function calcDateDiff(start, end) {
@@ -781,27 +790,39 @@
         let reqYears = promoType === 'exam' ? parseInt(selectedOption.value) : parseInt(selectedOption.getAttribute('data-qualif'));
 
         let base = calcDateDiff(startDate, examDate);
-
-        let wilayaMultiplier = parseFloat(document.getElementById('wilayaSelect').value);
         let bonus = {y:0, m:0, d:0};
-        let workInSouth = {y: base.y, m: base.m, d: base.d};
+        const wilayaSelect = document.getElementById('wilayaSelect').value;
 
-        if (wilayaMultiplier > 0) {
-            let userWY = document.getElementById('wYears').value;
-            let userWM = document.getElementById('wMonths').value;
-            let userWD = document.getElementById('wDays').value;
-            
-            if (userWY !== "" || userWM !== "" || userWD !== "") {
-                workInSouth.y = parseInt(userWY) || 0;
-                workInSouth.m = parseInt(userWM) || 0;
-                workInSouth.d = parseInt(userWD) || 0;
-            }
-
-            let totalSouthMonths = (workInSouth.y * 12) + workInSouth.m + (workInSouth.d / 30);
-            let earnedBonusMonths = totalSouthMonths * (wilayaMultiplier / 12);
+        // حساب الزيادة حسب طبيعة المسار
+        if (wilayaSelect === '2' || wilayaSelect === '1') {
+            // كل المسار في نفس المنطقة
+            let multiplier = parseFloat(wilayaSelect);
+            let totalSouthMonths = (base.y * 12) + base.m + (base.d / 30);
+            let earnedBonusMonths = totalSouthMonths * (multiplier / 12);
             
             bonus.m = Math.floor(earnedBonusMonths);
             bonus.d = Math.round((earnedBonusMonths - bonus.m) * 30);
+            bonus = normalize(0, bonus.m, bonus.d);
+            
+        } else if (wilayaSelect === 'mixed') {
+            // مسار مختلط
+            let fsY = parseInt(document.getElementById('fsYears').value) || 0;
+            let fsM = parseInt(document.getElementById('fsMonths').value) || 0;
+            let fsD = parseInt(document.getElementById('fsDays').value) || 0;
+            
+            let hpY = parseInt(document.getElementById('hpYears').value) || 0;
+            let hpM = parseInt(document.getElementById('hpMonths').value) || 0;
+            let hpD = parseInt(document.getElementById('hpDays').value) || 0;
+
+            let totalFsMonths = (fsY * 12) + fsM + (fsD / 30);
+            let earnedFsMonths = totalFsMonths * (2 / 12); 
+            
+            let totalHpMonths = (hpY * 12) + hpM + (hpD / 30);
+            let earnedHpMonths = totalHpMonths * (1 / 12);
+
+            let totalEarnedMonths = earnedFsMonths + earnedHpMonths;
+            bonus.m = Math.floor(totalEarnedMonths);
+            bonus.d = Math.round((totalEarnedMonths - bonus.m) * 30);
             bonus = normalize(0, bonus.m, bonus.d);
         }
 
@@ -825,15 +846,20 @@
         detailsHTML += `<strong>طريقة الترقية:</strong> ${promoTypeText}<br>`;
         detailsHTML += `<strong>تطبيق التعليمة 01 (الإدماج):</strong> ${integrationText}<br>`;
         detailsHTML += `<strong>الأقدمية الأساسية المكتسبة:</strong> ${base.y}س، ${base.m}ش، ${base.d}ي<br>`;
-        if (wilayaMultiplier > 0) detailsHTML += `<strong>زيادة منطقة العمل:</strong> ${bonus.y}س، ${bonus.m}ش، ${bonus.d}ي<br>`;
+        
+        if (wilayaSelect === '2' || wilayaSelect === '1') {
+            detailsHTML += `<strong>زيادة منطقة العمل:</strong> ${bonus.y}س، ${bonus.m}ش، ${bonus.d}ي (احتساب آلي لكامل المسار)<br>`;
+        } else if (wilayaSelect === 'mixed' && (bonus.y > 0 || bonus.m > 0 || bonus.d > 0)) {
+            detailsHTML += `<strong>زيادة منطقة العمل (مسار مختلط):</strong> ${bonus.y}س، ${bonus.m}ش، ${bonus.d}ي<br>`;
+        }
+        
         if (ns.y>0 || ns.m>0 || ns.d>0) detailsHTML += `<strong>الخدمة الوطنية:</strong> ${ns.y}س، ${ns.m}ش، ${ns.d}ي<br>`;
         detailsHTML += `<hr style="border:0; border-top:1px dashed var(--border); margin:12px 0;"><strong style="color:var(--primary)">الأقدمية القانونية المشترطة: ${reqYears} سنوات.</strong>`;
         
         let legalTexts = ["- المرسوم التنفيذي 25-54 المتضمن القانون الأساسي الخاص بالموظفين المنتمين للأسلاك الخاصة بالتربية الوطنية."];
         if (isIntegrated) legalTexts.push("- التعليمة الوزارية المشتركة رقم 01 لعام 2026 والمادة 63 من المرسوم 25-54.");
-        if (wilayaMultiplier > 0) {
-            let decree = wilayaMultiplier == 2 ? "95-28 و 22-232 (أقصى الجنوب)" : "95-300، 95-330، 22-233، 22-234 (الجنوب والهضاب العليا)";
-            legalTexts.push(`- المراسيم التنفيذية رقم ${decree} الخاصة بزيادة الأقدمية المهنية.`);
+        if (wilayaSelect !== '0') {
+            legalTexts.push(`- المراسيم التنفيذية الخاصة بزيادة الأقدمية المهنية لولايات الجنوب والهضاب العليا.`);
         }
 
         let legalHTML = `<div class="legal-reference"><strong style="color: var(--primary); display:block; margin-bottom: 5px;">⚖️ السند القانوني المعتمد:</strong>${legalTexts.join("<br>")}</div>`;
