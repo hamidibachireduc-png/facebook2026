@@ -123,6 +123,27 @@
         .article-card h4 { color: var(--primary); margin-bottom: 8px; font-size: 1.05rem; }
         .article-card p { font-size: 0.95rem; color: #475569; line-height: 1.7; text-align: justify; }
 
+        /* تنسيقات القاعدة الذهبية الوامضة */
+        @keyframes flashGolden {
+            0% { box-shadow: 0 0 0 0 rgba(217, 119, 6, 0.5); opacity: 1;}
+            50% { opacity: 0.85; }
+            70% { box-shadow: 0 0 0 10px rgba(217, 119, 6, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(217, 119, 6, 0); opacity: 1;}
+        }
+        .golden-rule-box {
+            background: linear-gradient(135deg, #fef3c7, #fde68a);
+            border: 2px solid var(--accent);
+            color: #92400e;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            font-size: 1.05rem;
+            font-weight: 900;
+            line-height: 1.8;
+            text-align: center;
+            animation: flashGolden 2s infinite;
+        }
+
         /* تنسيقات لوحة التعداد */
         .quota-card { background: white; border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.04); transition: transform 0.2s;}
         .quota-card:hover { transform: translateY(-2px); border-color: var(--secondary); }
@@ -192,6 +213,12 @@
             <p style="color: #166534; font-weight: 500;">
                 أهلاً بك في محاكي موظف قطاع التربية. يوضح هذا القسم طريقة حساب الأقدمية، حيث يتم جمع الأقدمية بين الرتبة الحالية والرتبة السابقة وذلك بشرط الإدماج في الرتبة الحالية. يرجى إدخال بياناتك بدقة للحصول على نتيجة مطابقة للنصوص القانونية.
             </p>
+
+            <!-- القاعدة الذهبية الجديدة -->
+            <div class="golden-rule-box">
+                <span style="font-size: 1.2rem;">🌟 معيار احتساب الجمع في الأقدمية:</span><br>
+                (كل من له أقدمية قبل 11 جويلية 2021 يكون قد أتم 5 سنوات باحتساب رتبة الإدماج، أعيد وأذكر بشرط الإدماج في الرتبة الحالية بتاريخ 01 جانفي 2025، ومن لم يُدمج في الرتبة الحالية لا تشمله الترقية بحسب المرسوم الخاص لقطاع التربية).
+            </div>
             
             <h4 style="margin-top: 20px; color: var(--primary);">الرتب المعنية بالامتحان المهني للترقية (وفقاً للنصوص القانونية):</h4>
             <ul class="list-ranks">
@@ -230,7 +257,6 @@
                 </p>
             </div>
 
-            <!-- القسم المحدث والجديد الخاص بالمفتشين -->
             <div class="article-card">
                 <h4>سلك التفتيش (مفتشو التعليم ومفتشو التربية الوطنية)</h4>
                 <p>
