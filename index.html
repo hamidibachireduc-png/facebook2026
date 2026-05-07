@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>محاكي مسار ترقية موظف قطاع التربية</title>
+    <title>محاكي الترقية لموظفي قطاع التربية</title>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -148,9 +148,7 @@
         .schedule-table tr.highlight { background-color: #ecfdf5; font-weight: bold; color: var(--secondary); }
         .schedule-table tr.alert { font-weight: bold; color: var(--accent); }
 
-        /* =========================================
-           أنماط المخططات التوضيحية (Infographics)
-           ========================================= */
+        /* الأنماط الخاصة بالمخططات التوضيحية */
         .ig-container { background: #fff; border: 2px dashed var(--border); border-radius: 12px; padding: 25px; margin-bottom: 25px; }
         .ig-title { text-align: center; color: var(--primary); font-size: 1.3rem; margin-bottom: 20px; font-weight: 900; }
         
@@ -184,7 +182,6 @@
             .ig-arrow { transform: rotate(90deg); margin: -5px 0; }
             .ig-split { grid-template-columns: 1fr; gap: 15px; }
             .title-header { flex-direction: row; gap: 10px; }
-            .user-photo { width: 50px; height: 50px; }
             h1 { font-size: 1.4rem; }
         }
     </style>
@@ -197,7 +194,7 @@
     </div>
 
     <div class="title-header">
-        <h1>محاكي موظف قطاع التربية</h1>
+        <h1>محاكي الترقية لموظفي قطاع التربية</h1>
     </div>
 
     <div class="designer-credit">من تصميم الأستاذ حميدي بشير 2026</div>
@@ -236,12 +233,14 @@
         <div class="section-card welcome-section">
             <h3>توجيهات هامة للمترشحين</h3>
             <p style="color: #166534; font-weight: 500;">
-                أهلاً بك في محاكي موظف قطاع التربية. يوضح هذا القسم طريقة حساب الأقدمية، حيث يتم جمع الأقدمية بين الرتبة الحالية والرتبة السابقة وذلك بشرط الإدماج في الرتبة الحالية. يرجى إدخال بياناتك بدقة للحصول على نتيجة مطابقة للنصوص القانونية.
+                أهلاً بك في محاكي الترقية لموظفي قطاع التربية. يوضح هذا القسم طريقة حساب الأقدمية، حيث يتم جمع الأقدمية بين الرتبة الحالية والرتبة السابقة وذلك بشرط الإدماج في الرتبة الحالية. يرجى إدخال بياناتك بدقة للحصول على نتيجة مطابقة للنصوص القانونية.
             </p>
 
             <div class="golden-rule-box">
                 <span style="font-size: 1.2rem;">🌟 معيار احتساب الجمع في الأقدمية:</span><br>
-                (كل من له أقدمية قبل 11 جويلية 2021 يكون قد أتم 5 سنوات باحتساب رتبة الإدماج، أعيد وأذكر بشرط الإدماج في الرتبة الحالية بتاريخ 01 جانفي 2025، ومن لم يُدمج في الرتبة الحالية لا تشمله الترقية بحسب المرسوم الخاص لقطاع التربية).
+                <div style="text-align: justify; margin-top: 10px;">
+                    كل من له أقدمية قبل <strong>11 جويلية 2021</strong> يكون قد أتم 5 سنوات باحتساب رتبة الإدماج.<br>
+                </div>
                 
                 <hr style="border: none; border-top: 1px dashed #b45309; margin: 12px 0;">
                 
@@ -378,7 +377,7 @@
                 <div class="ig-step">
                     <span class="ig-icon">🌐</span>
                     <span class="ig-text">1. الدخول للمنصة</span>
-                    <span class="ig-subtext">mowadaf.education.dz</span>
+                    <span class="ig-subtext">www.mowadaf.education.dz</span>
                 </div>
                 <div class="ig-arrow">⟵</div>
                 <div class="ig-step accent">
@@ -425,13 +424,13 @@
                 <div class="ig-step" style="border-style: dashed;">
                     <span class="ig-icon">📥</span>
                     <span class="ig-text">مرحلة الإدخال</span>
-                    <span class="ig-subtext">الرتبة + تاريخ التعيين + الولاية</span>
+                    <span class="ig-subtext">الرتبة + تاريخ التعيين + الولاية + فترات الخصم</span>
                 </div>
                 <div class="ig-arrow" style="color: var(--primary);">⟵</div>
                 <div class="ig-step primary" style="transform: scale(1.05); z-index: 2;">
                     <span class="ig-icon">🧠</span>
                     <span class="ig-text">المعالجة الذكية</span>
-                    <span class="ig-subtext" style="color: var(--text-main); font-weight:bold;">الأقدمية الأساسية<br>+<br>فترات الخدمة الوطنية<br>+<br>زيادات الجنوب/الهضاب<br>+<br>قاعدة الإدماج (المادة 63)</span>
+                    <span class="ig-subtext" style="color: var(--text-main); font-weight:bold;">الأقدمية الأساسية<br>+<br>فترات الخدمة الوطنية<br>+<br>زيادات الجنوب/الهضاب<br>+<br>قاعدة الإدماج (المادة 63)<br>-<br>فترات الخصم والانقطاع</span>
                 </div>
                 <div class="ig-arrow" style="color: var(--primary);">⟵</div>
                 <div class="ig-step accent" style="border-style: dashed;">
@@ -458,7 +457,7 @@
                             <option value="أستاذ التعليم الابتدائي">أستاذ التعليم الابتدائي</option>
                             <option value="أستاذ التعليم الابتدائي قسم أول">أستاذ التعليم الابتدائي قسم أول</option>
                             <option value="أستاذ التعليم الابتدائي قسم ثان">أستاذ التعليم الابتدائي قسم ثان</option>
-                            <option value="أستاذ مميز في التعليم الابتدائي">أستاذ مميز في التعليم الابتدائي</option>
+                            <option value="أست مميز في التعليم الابتدائي">أستاذ مميز في التعليم الابتدائي</option>
                             <option value="ناظر في التعليم الابتدائي">ناظر في التعليم الابتدائي</option>
                             <option value="مدير مدرسة ابتدائية">مدير مدرسة ابتدائية</option>
                         </optgroup>
@@ -611,11 +610,27 @@
         </div>
     
         <div class="section-card">
-            <h3>3. فترات الخدمة الوطنية / الاستبقاء</h3>
-            <div class="grid-3">
-                <div><label>سنوات:</label><input type="number" id="nsYears" min="0" value="0"></div>
-                <div><label>أشهر:</label><input type="number" id="nsMonths" min="0" value="0"></div>
-                <div><label>أيام:</label><input type="number" id="nsDays" min="0" value="0"></div>
+            <h3>3. فترات الخدمة الوطنية وفترات الخصم</h3>
+            
+            <div style="margin-bottom: 20px;">
+                <span style="color: var(--primary); font-weight: bold; font-size: 0.95rem;">فترات الخدمة الوطنية / الاستبقاء (تُضاف للأقدمية):</span>
+                <div class="grid-3" style="margin-top: 5px;">
+                    <div><label>سنوات:</label><input type="number" id="nsYears" min="0" value="0"></div>
+                    <div><label>أشهر:</label><input type="number" id="nsMonths" min="0" value="0"></div>
+                    <div><label>أيام:</label><input type="number" id="nsDays" min="0" value="0"></div>
+                </div>
+            </div>
+            
+            <hr style="border: 0; border-top: 1px dashed var(--danger); margin: 15px 0;">
+            
+            <div>
+                <span style="color: var(--danger); font-weight: bold; font-size: 0.95rem;">فترات الخصم والانقطاع (تُطرح من الأقدمية):</span>
+                <span class="help-text" style="margin-bottom: 8px;">مثل: الإحالة على الاستيداع، التوقيف المؤقت، العطل المرضية طويلة الأمد... الخ.</span>
+                <div class="grid-3">
+                    <div><label style="color: var(--danger);">سنوات:</label><input type="number" id="deductYears" min="0" value="0"></div>
+                    <div><label style="color: var(--danger);">أشهر:</label><input type="number" id="deductMonths" min="0" value="0"></div>
+                    <div><label style="color: var(--danger);">أيام:</label><input type="number" id="deductDays" min="0" value="0"></div>
+                </div>
             </div>
         </div>
     
@@ -854,6 +869,20 @@
         return { y, m, d };
     }
 
+    function subtractDates(total, deduct) {
+        let y = total.y - deduct.y;
+        let m = total.m - deduct.m;
+        let d = total.d - deduct.d;
+
+        if (d < 0) { d += 30; m -= 1; }
+        if (m < 0) { m += 12; y -= 1; }
+        
+        // منع القيم السالبة في النتيجة النهائية
+        if (y < 0) return {y:0, m:0, d:0};
+
+        return { y, m, d };
+    }
+
     function normalize(y, m, d) {
         if (d >= 30) { m += Math.floor(d / 30); d = d % 30; }
         if (m >= 12) { y += Math.floor(m / 12); m = m % 12; }
@@ -881,13 +910,13 @@
         const targetRankName = selectedOption.getAttribute('data-name');
         let reqYears = promoType === 'exam' ? parseInt(selectedOption.value) : parseInt(selectedOption.getAttribute('data-qualif'));
 
+        // 1. حساب المدة الأساسية
         let base = calcDateDiff(startDate, examDate);
         let bonus = {y:0, m:0, d:0};
         const wilayaSelect = document.getElementById('wilayaSelect').value;
 
-        // حساب الزيادة حسب طبيعة المسار
+        // 2. حساب الزيادة حسب طبيعة المسار
         if (wilayaSelect === '2' || wilayaSelect === '1') {
-            // كل المسار في نفس المنطقة
             let multiplier = parseFloat(wilayaSelect);
             let totalSouthMonths = (base.y * 12) + base.m + (base.d / 30);
             let earnedBonusMonths = totalSouthMonths * (multiplier / 12);
@@ -897,7 +926,6 @@
             bonus = normalize(0, bonus.m, bonus.d);
             
         } else if (wilayaSelect === 'mixed') {
-            // مسار مختلط
             let fsY = parseInt(document.getElementById('fsYears').value) || 0;
             let fsM = parseInt(document.getElementById('fsMonths').value) || 0;
             let fsD = parseInt(document.getElementById('fsDays').value) || 0;
@@ -918,18 +946,29 @@
             bonus = normalize(0, bonus.m, bonus.d);
         }
 
+        // 3. فترات الخدمة الوطنية
         let ns = {
             y: parseInt(document.getElementById('nsYears').value) || 0,
             m: parseInt(document.getElementById('nsMonths').value) || 0,
             d: parseInt(document.getElementById('nsDays').value) || 0
         };
 
-        let total = normalize(base.y + bonus.y + ns.y, base.m + bonus.m + ns.m, base.d + bonus.d + ns.d);
+        // 4. فترات الخصم
+        let deduct = {
+            y: parseInt(document.getElementById('deductYears').value) || 0,
+            m: parseInt(document.getElementById('deductMonths').value) || 0,
+            d: parseInt(document.getElementById('deductDays').value) || 0
+        };
 
+        // 5. الحساب النهائي: (الأساسي + الزيادات + الخدمة الوطنية) - (الخصم)
+        let totalBeforeDeduct = normalize(base.y + bonus.y + ns.y, base.m + bonus.m + ns.m, base.d + bonus.d + ns.d);
+        let finalTotal = subtractDates(totalBeforeDeduct, deduct);
+
+        // واجهة النتيجة
         const panel = document.getElementById('resultPanel');
         const badge = document.getElementById('statusBadge');
 
-        document.getElementById('finalResult').innerText = `${total.y} سنة، و ${total.m} شهر، و ${total.d} يوم`;
+        document.getElementById('finalResult').innerText = `${finalTotal.y} سنة، و ${finalTotal.m} شهر، و ${finalTotal.d} يوم`;
 
         let integrationText = isIntegrated ? "نعم (تم جمع الرتبة الأصلية ورتبة الإدماج)" : "لا";
         let promoTypeText = promoType === 'exam' ? "امتحان مهني" : "التسجيل على قوائم التأهيل";
@@ -945,8 +984,10 @@
             detailsHTML += `<strong>زيادة منطقة العمل (مسار مختلط):</strong> ${bonus.y}س، ${bonus.m}ش، ${bonus.d}ي<br>`;
         }
         
-        if (ns.y>0 || ns.m>0 || ns.d>0) detailsHTML += `<strong>الخدمة الوطنية:</strong> ${ns.y}س، ${ns.m}ش، ${ns.d}ي<br>`;
-        detailsHTML += `<hr style="border:0; border-top:1px dashed var(--border); margin:12px 0;"><strong style="color:var(--primary)">الأقدمية القانونية المشترطة: ${reqYears} سنوات.</strong>`;
+        if (ns.y>0 || ns.m>0 || ns.d>0) detailsHTML += `<strong>الخدمة الوطنية (تضاف):</strong> ${ns.y}س، ${ns.m}ش، ${ns.d}ي<br>`;
+        if (deduct.y>0 || deduct.m>0 || deduct.d>0) detailsHTML += `<strong style="color: var(--danger);">فترات الانقطاع (تُخصم):</strong> ${deduct.y}س، ${deduct.m}ش، ${deduct.d}ي<br>`;
+        
+        detailsHTML += `<hr style="border:0; border-top:1px dashed var(--border); margin:12px 0;"><strong style="color:var(--primary)">الأقدمية القانونية المشترطة (خدمة فعلية): ${reqYears} سنوات.</strong>`;
         
         let legalTexts = ["- المرسوم التنفيذي 25-54 المتضمن القانون الأساسي الخاص بالموظفين المنتمين للأسلاك الخاصة بالتربية الوطنية."];
         if (isIntegrated) legalTexts.push("- التعليمة الوزارية المشتركة رقم 01 لعام 2026 والمادة 63 من المرسوم 25-54.");
@@ -959,7 +1000,7 @@
         document.getElementById('detailsResult').innerHTML = detailsHTML + legalHTML;
 
         panel.classList.remove('accepted', 'rejected');
-        if (total.y >= reqYears) {
+        if (finalTotal.y >= reqYears) {
             panel.classList.add('accepted'); badge.innerText = "✓ مقبـــول";
         } else {
             panel.classList.add('rejected'); badge.innerText = "✗ مرفـــوض";
