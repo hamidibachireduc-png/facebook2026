@@ -22,35 +22,66 @@
             line-height: 1.8;
             margin: 0;
             padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
         }
 
         header {
             background: linear-gradient(135deg, var(--primary-red), var(--secondary-red));
             color: var(--white);
-            padding: 25px 0;
-            text-align: center;
+            padding: 20px 0;
             position: sticky;
             top: 0;
             z-index: 1000;
             box-shadow: 0 4px 12px rgba(0,0,0,0.15);
         }
 
+        /* تنسيق الجزء العلوي من الترويسة (الشعارات والعنوان) */
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .header-titles {
+            flex-grow: 1;
+            text-align: center;
+        }
+
         header h1 {
             margin: 0;
-            font-size: 26px;
+            font-size: 28px;
             font-weight: 700;
             letter-spacing: 0.5px;
         }
 
+        .logo {
+            height: 75px;
+            width: 75px;
+            object-fit: contain;
+            background-color: var(--white);
+            border-radius: 50%;
+            padding: 5px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
         nav {
-            margin-top: 15px;
+            margin-top: 20px;
             display: flex;
             justify-content: center;
             flex-wrap: wrap;
             gap: 15px;
         }
 
-        /* تنسيق أزرار التنقل */
         nav a {
             color: var(--white);
             text-decoration: none;
@@ -71,6 +102,7 @@
 
         .search-container {
             margin-top: 20px;
+            text-align: center;
         }
 
         #searchInput {
@@ -91,19 +123,22 @@
         }
 
         .container {
+            flex: 1; /* لجعل المحتوى يتمدد ودفع الفوتر للأسفل */
             max-width: 1000px;
+            width: 100%;
             margin: 40px auto;
             padding: 0 20px;
+            box-sizing: border-box;
         }
 
         /* تنسيق الأقسام والشاشات المنفصلة */
         .tab-content {
-            display: none; /* إخفاء جميع الأقسام افتراضياً */
+            display: none;
             animation: fadeIn 0.4s ease;
         }
 
         .tab-content.active {
-            display: block; /* إظهار القسم النشط فقط */
+            display: block;
         }
 
         @keyframes fadeIn {
@@ -115,7 +150,6 @@
             background-color: var(--white);
             border-radius: 12px;
             padding: 30px;
-            margin-bottom: 40px;
             box-shadow: 0 5px 15px rgba(0,0,0,0.05);
             border-top: 6px solid var(--primary-red);
         }
@@ -174,6 +208,31 @@
             display: none !important;
         }
 
+        /* تنسيق تذييل الصفحة (Footer) */
+        footer {
+            background-color: var(--dark-gray);
+            color: var(--white);
+            text-align: center;
+            padding: 25px 20px;
+            margin-top: auto;
+            border-top: 4px solid var(--primary-red);
+        }
+
+        footer p {
+            margin: 0;
+            font-size: 16px;
+            font-weight: 600;
+            line-height: 1.6;
+        }
+
+        footer span {
+            display: block;
+            font-size: 14px;
+            font-weight: 400;
+            color: #bdc3c7;
+            margin-top: 5px;
+        }
+
         @media (max-width: 768px) {
             .container {
                 margin: 20px auto;
@@ -181,8 +240,15 @@
             .chapter-section {
                 padding: 20px;
             }
+            .logo {
+                height: 50px;
+                width: 50px;
+            }
             header h1 {
                 font-size: 20px;
+            }
+            .header-titles div {
+                font-size: 12px !important;
             }
             nav {
                 flex-direction: row;
@@ -199,8 +265,14 @@
 <body>
 
     <header>
-        <h1>القانون الأساسي والنظام الداخلي</h1>
-        <div style="font-size: 14px; margin-top: 5px; opacity: 0.9;">النقابة الوطنية لعمال التربية (S.N.T.E)</div>
+        <div class="header-top">
+            <img src="https://c.top4top.io/p_3793h57541.png" alt="شعار يمين" class="logo">
+            <div class="header-titles">
+                <h1>القانون الأساسي</h1>
+                <div style="font-size: 14px; margin-top: 5px; opacity: 0.9;">النقابة الوطنية لعمال التربية (S.N.T.E)</div>
+            </div>
+            <img src="https://c.top4top.io/p_3793h57541.png" alt="شعار يسار" class="logo">
+        </div>
         
         <nav>
             <a data-target="preamble" class="active">الديباجة</a>
@@ -711,37 +783,36 @@
         
     </div>
 
+    <footer>
+        <p>جميع الحقوق محفوظة &copy; 2026</p>
+        <span>اللجنة الوطنية لتحضير المؤتمر السادس الاستثنائي</span>
+    </footer>
+
     <script>
         const navLinks = document.querySelectorAll('nav a');
         const tabContents = document.querySelectorAll('.tab-content');
         const searchInput = document.getElementById('searchInput');
-        let currentActiveTab = 'preamble'; // القسم الافتراضي النشط
+        let currentActiveTab = 'preamble';
 
-        // دالة التبديل بين الأقسام
         function switchTab(targetId) {
-            // إزالة الصنف active من جميع الأقسام والروابط
             tabContents.forEach(tab => tab.classList.remove('active'));
             navLinks.forEach(link => link.classList.remove('active'));
             
-            // إضافة الصنف active للقسم المستهدف
             const targetTab = document.getElementById(targetId);
             if(targetTab) {
                 targetTab.classList.add('active');
                 currentActiveTab = targetId;
             }
             
-            // إضافة الصنف active للرابط المطابق
             const targetLink = document.querySelector(`nav a[data-target="${targetId}"]`);
             if(targetLink) {
                 targetLink.classList.add('active');
             }
 
-            // مسح حقل البحث عند التبديل
             searchInput.value = '';
             resetSearch();
         }
 
-        // إضافة أحداث النقر للروابط
         navLinks.forEach(link => {
             link.addEventListener('click', function(e) {
                 e.preventDefault();
@@ -750,12 +821,10 @@
             });
         });
 
-        // دالة إعادة تعيين البحث (إظهار كل العناصر المخفية)
         function resetSearch() {
             document.querySelectorAll('.article, h3, .chapter-section').forEach(el => {
                 el.classList.remove('hidden');
             });
-            // استعادة الشاشة النشطة فقط
             tabContents.forEach(tab => {
                 if(tab.id !== currentActiveTab) {
                     tab.classList.remove('active');
@@ -765,7 +834,6 @@
             });
         }
 
-        // نظام البحث الشامل والذكي
         searchInput.addEventListener('keyup', function() {
             let filter = this.value.toLowerCase();
             
@@ -774,14 +842,12 @@
                 return;
             }
 
-            // أثناء البحث: إزالة الصنف active لفرض نظام العرض المتعدد
             navLinks.forEach(link => link.classList.remove('active'));
 
             tabContents.forEach(function(chapter) {
                 let articles = chapter.querySelectorAll('.article');
                 let chapterHasVisibleArticle = false;
                 
-                // البحث داخل المواد
                 articles.forEach(function(article) {
                     let text = article.textContent || article.innerText;
                     if (text.toLowerCase().indexOf(filter) > -1) {
@@ -792,7 +858,6 @@
                     }
                 });
 
-                // إخفاء/إظهار العناوين الفرعية
                 let subsections = chapter.querySelectorAll('.subsection');
                 subsections.forEach(function(sub) {
                     let visibleArticlesInSub = sub.querySelectorAll('.article:not(.hidden)').length;
@@ -808,11 +873,9 @@
 
                 let chapterTitleText = chapter.querySelector('h2').textContent.toLowerCase();
                 
-                // إظهار القسم بأكمله إذا كان به نتيجة، أو إخفاؤه
                 if (chapterHasVisibleArticle || chapterTitleText.indexOf(filter) > -1) {
-                    chapter.classList.add('active'); // إظهار القسم
+                    chapter.classList.add('active');
                     chapter.classList.remove('hidden');
-                    // إذا تطابق عنوان الباب، أظهر كل المواد تحته
                     if(chapterTitleText.indexOf(filter) > -1 && !chapterHasVisibleArticle) {
                         articles.forEach(a => a.classList.remove('hidden'));
                         subsections.forEach(sub => {
@@ -821,7 +884,7 @@
                         });
                     }
                 } else {
-                    chapter.classList.remove('active'); // إخفاء القسم لعدم وجود نتائج
+                    chapter.classList.remove('active');
                 }
             });
         });
