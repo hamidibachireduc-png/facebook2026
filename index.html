@@ -37,7 +37,6 @@
             box-shadow: 0 4px 12px rgba(0,0,0,0.15);
         }
 
-        /* تنسيق الجزء العلوي من الترويسة (الشعارات والعنوان) */
         .header-top {
             display: flex;
             justify-content: space-between;
@@ -123,7 +122,7 @@
         }
 
         .container {
-            flex: 1; /* لجعل المحتوى يتمدد ودفع الفوتر للأسفل */
+            flex: 1;
             max-width: 1000px;
             width: 100%;
             margin: 40px auto;
@@ -131,7 +130,6 @@
             box-sizing: border-box;
         }
 
-        /* تنسيق الأقسام والشاشات المنفصلة */
         .tab-content {
             display: none;
             animation: fadeIn 0.4s ease;
@@ -208,7 +206,36 @@
             display: none !important;
         }
 
-        /* تنسيق تذييل الصفحة (Footer) */
+        /* تنسيق شبكة أعضاء اللجنة */
+        .members-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 15px;
+        }
+        
+        .member-card ul {
+            list-style: none;
+            padding: 0;
+            margin: 10px 0 0 0;
+        }
+        
+        .member-card li {
+            font-size: 14px;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .committee-header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 15px;
+            background-color: var(--light-gray);
+            border-radius: 8px;
+            border: 1px dashed var(--primary-red);
+        }
+
         footer {
             background-color: var(--dark-gray);
             color: var(--white);
@@ -275,7 +302,8 @@
         </div>
         
         <nav>
-            <a data-target="preamble" class="active">الديباجة</a>
+            <a data-target="committee" class="active">اللجنة الوطنية</a>
+            <a data-target="preamble">الديباجة</a>
             <a data-target="part1">الباب الأول</a>
             <a data-target="part2">الباب الثاني</a>
             <a data-target="part3">الباب الثالث</a>
@@ -289,8 +317,139 @@
     </header>
 
     <div class="container" id="contentContainer">
+
+        <section class="chapter-section tab-content active" id="committee">
+            <h2>نبذة عن اللجنة الوطنية لتحضير المؤتمر 6 الاستثنائي</h2>
+            
+            <div class="committee-header">
+                <strong style="color: var(--primary-red); font-size: 20px;">النقابة الوطنية لعمال التربية</strong><br>
+                <span style="font-size: 16px;">💠 قائمة أعضاء اللجنة الوطنية لتحضير المؤتمر 6 الاستثنائي</span>
+            </div>
+
+            <div class="subsection">
+                <h3>🚩 ولايات الوسط</h3>
+                <div class="members-grid">
+                    <div class="article member-card">
+                        <span class="article-num">👈 فريد لمناجلية</span>
+                        <ul>
+                            <li>☎️ هاتف: <span dir="ltr">0556477879</span></li>
+                            <li>📫 بريد الكتروني: - </li>
+                        </ul>
+                    </div>
+                    <div class="article member-card">
+                        <span class="article-num">👈 تامي نورين لخضر</span>
+                        <ul>
+                            <li>☎️ هاتف: <span dir="ltr">0675998222</span></li>
+                            <li>📫 بريد الكتروني: <a href="mailto:taminourinelakhdar@gmail.com">taminourinelakhdar@gmail.com</a></li>
+                        </ul>
+                    </div>
+                    <div class="article member-card">
+                        <span class="article-num">👈 عبد الرحيم سعيد</span>
+                        <ul>
+                            <li>☎️ هاتف: <span dir="ltr">0556850930</span></li>
+                            <li>📫 بريد الكتروني: <a href="mailto:saidsnte@gmail.com">saidsnte@gmail.com</a></li>
+                        </ul>
+                    </div>
+                    <div class="article member-card">
+                        <span class="article-num">👈 جبري عبد الجليل</span>
+                        <ul>
+                            <li>☎️ هاتف: - </li>
+                            <li>📫 بريد الكتروني: - </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>🚩 ولايات الجنوب</h3>
+                <div class="members-grid">
+                    <div class="article member-card">
+                        <span class="article-num">👈 بن يحي مصطفى</span>
+                        <ul>
+                            <li>☎️ هاتف: <span dir="ltr">0663664686</span></li>
+                            <li>📫 بريد الكتروني: <a href="mailto:gourarasnte@gmail.com">gourarasnte@gmail.com</a></li>
+                        </ul>
+                    </div>
+                    <div class="article member-card">
+                        <span class="article-num">👈 عبد الحي رمضان</span>
+                        <ul>
+                            <li>☎️ هاتف: <span dir="ltr">0663112987</span></li>
+                            <li>📫 بريد الكتروني: <a href="mailto:ramadhan063@gmail.com">ramadhan063@gmail.com</a></li>
+                        </ul>
+                    </div>
+                    <div class="article member-card">
+                        <span class="article-num">👈 معطالله عبد النبي</span>
+                        <ul>
+                            <li>☎️ هاتف: <span dir="ltr">0671327711</span></li>
+                            <li>📫 بريد الكتروني: <a href="mailto:belhadjbelhoy314@gmail.com">belhadjbelhoy314@gmail.com</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>🚩 ولايات الغرب</h3>
+                <div class="members-grid">
+                    <div class="article member-card">
+                        <span class="article-num">👈 مجاطي علي</span>
+                        <ul>
+                            <li>☎️ هاتف: <span dir="ltr">0771242455</span> - <span dir="ltr">0556454007</span></li>
+                            <li>📫 بريد الكتروني: <a href="mailto:alimedjatio@gmail.com">alimedjatio@gmail.com</a></li>
+                        </ul>
+                    </div>
+                    <div class="article member-card">
+                        <span class="article-num">👈 بن علو توفيق</span>
+                        <ul>
+                            <li>☎️ هاتف: <span dir="ltr">0663241117</span> - <span dir="ltr">0550362130</span></li>
+                            <li>📫 بريد الكتروني: - </li>
+                        </ul>
+                    </div>
+                    <div class="article member-card">
+                        <span class="article-num">👈 راشدي الهواري</span>
+                        <ul>
+                            <li>☎️ هاتف: <span dir="ltr">0776484477</span></li>
+                            <li>📫 بريد الكتروني: <a href="mailto:baghdadaichouche14@gmail.com">baghdadaichouche14@gmail.com</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3>🚩 ولايات الشرق</h3>
+                <div class="members-grid">
+                    <div class="article member-card">
+                        <span class="article-num">👈 كرميش بايزيد</span>
+                        <ul>
+                            <li>☎️ هاتف: <span dir="ltr">0656192113</span></li>
+                            <li>📫 بريد الكتروني: <a href="mailto:keribrahim25@gmail.com">keribrahim25@gmail.com</a></li>
+                        </ul>
+                    </div>
+                    <div class="article member-card">
+                        <span class="article-num">👈 جعفري عبد الرحمان</span>
+                        <ul>
+                            <li>☎️ هاتف: <span dir="ltr">0775586559</span></li>
+                            <li>📫 بريد الكتروني: <a href="mailto:adberrahmanedjafri@yahoo.fr">adberrahmanedjafri@yahoo.fr</a></li>
+                        </ul>
+                    </div>
+                    <div class="article member-card">
+                        <span class="article-num">👈 بوقطوف توفيق</span>
+                        <ul>
+                            <li>☎️ هاتف: <span dir="ltr">0697797528</span></li>
+                            <li>📫 بريد الكتروني: <a href="mailto:tarekaouaichiasnte12@gmail.com">tarekaouaichiasnte12@gmail.com</a></li>
+                        </ul>
+                    </div>
+                    <div class="article member-card">
+                        <span class="article-num">👈 حجازي خالد</span>
+                        <ul>
+                            <li>☎️ هاتف: <span dir="ltr">0663915534</span></li>
+                            <li>📫 بريد الكتروني: <a href="mailto:ramzi.bounekhel@gmail.com">ramzi.bounekhel@gmail.com</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
         
-        <section class="chapter-section tab-content active" id="preamble">
+        <section class="chapter-section tab-content" id="preamble">
             <h2>الديباجة</h2>
             <div class="article">
                 <p>النقابة الوطنية لعمال التربية تنظيم ديمقراطي دائم لعمال قطاع التربية ينخرطون فيه بشكل طوعي ويسيرونه بأنفسهم من أجل الدفاع عن مصالحهم بالوسائل المشروعة التي يحددونها في اطار القانون.</p>
@@ -792,7 +951,7 @@
         const navLinks = document.querySelectorAll('nav a');
         const tabContents = document.querySelectorAll('.tab-content');
         const searchInput = document.getElementById('searchInput');
-        let currentActiveTab = 'preamble';
+        let currentActiveTab = 'committee';
 
         function switchTab(targetId) {
             tabContents.forEach(tab => tab.classList.remove('active'));
