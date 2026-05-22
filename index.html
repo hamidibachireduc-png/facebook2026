@@ -13,6 +13,7 @@
             --light-gray: #f5f7fa;
             --border-color: #e0e0e0;
             --white: #ffffff;
+            --whatsapp-color: #25D366; /* لون الواتساب */
         }
         
         body {
@@ -206,7 +207,7 @@
             display: none !important;
         }
 
-        /* تنسيق شبكة أعضاء اللجنة */
+        /* تنسيق شبكة أعضاء اللجنة والروابط */
         .members-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -221,10 +222,32 @@
         
         .member-card li {
             font-size: 14px;
-            margin-bottom: 5px;
+            margin-bottom: 8px;
             display: flex;
             align-items: center;
             gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .member-card a {
+            color: var(--primary-red);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+
+        .member-card a:hover {
+            text-decoration: underline;
+            color: var(--secondary-red);
+        }
+
+        .member-card .wa-link {
+            color: var(--whatsapp-color);
+            font-weight: bold;
+        }
+
+        .member-card .wa-link:hover {
+            color: #1DA851;
         }
         
         .committee-header {
@@ -332,29 +355,29 @@
                     <div class="article member-card">
                         <span class="article-num">👈 فريد لمناجلية</span>
                         <ul>
-                            <li>☎️ هاتف: <span dir="ltr">0556477879</span></li>
-                            <li>📫 بريد الكتروني: - </li>
+                            <li>☎️ هاتف / واتساب : <span dir="ltr"><a href="https://wa.me/213556477879" class="wa-link" target="_blank">0556477879</a></span></li>
+                            <li>📫 بريد الكتروني: <a href="mailto:blidasnte@hotmail.fr">blidasnte@hotmail.fr</a></li>
                         </ul>
                     </div>
                     <div class="article member-card">
                         <span class="article-num">👈 تامي نورين لخضر</span>
                         <ul>
-                            <li>☎️ هاتف: <span dir="ltr">0675998222</span></li>
+                            <li>☎️ هاتف / واتساب : <span dir="ltr"><a href="https://wa.me/213675998222" class="wa-link" target="_blank">0675998222</a></span></li>
                             <li>📫 بريد الكتروني: <a href="mailto:taminourinelakhdar@gmail.com">taminourinelakhdar@gmail.com</a></li>
                         </ul>
                     </div>
                     <div class="article member-card">
                         <span class="article-num">👈 عبد الرحيم سعيد</span>
                         <ul>
-                            <li>☎️ هاتف: <span dir="ltr">0556850930</span></li>
+                            <li>☎️ هاتف / واتساب : <span dir="ltr"><a href="https://wa.me/213556850930" class="wa-link" target="_blank">0556850930</a></span></li>
                             <li>📫 بريد الكتروني: <a href="mailto:saidsnte@gmail.com">saidsnte@gmail.com</a></li>
                         </ul>
                     </div>
                     <div class="article member-card">
                         <span class="article-num">👈 جبري عبد الجليل</span>
                         <ul>
-                            <li>☎️ هاتف: - </li>
-                            <li>📫 بريد الكتروني: - </li>
+                            <li>☎️ هاتف / واتساب : <span dir="ltr"><a href="https://wa.me/213561546898" class="wa-link" target="_blank">0561546898</a></span></li>
+                            <li>📫 بريد الكتروني: <a href="mailto:djebriabdeldjallil@gmail.com">djebriabdeldjallil@gmail.com</a></li>
                         </ul>
                     </div>
                 </div>
@@ -366,21 +389,21 @@
                     <div class="article member-card">
                         <span class="article-num">👈 بن يحي مصطفى</span>
                         <ul>
-                            <li>☎️ هاتف: <span dir="ltr">0663664686</span></li>
+                            <li>☎️ هاتف / واتساب : <span dir="ltr"><a href="https://wa.me/213663664686" class="wa-link" target="_blank">0663664686</a></span></li>
                             <li>📫 بريد الكتروني: <a href="mailto:gourarasnte@gmail.com">gourarasnte@gmail.com</a></li>
                         </ul>
                     </div>
                     <div class="article member-card">
                         <span class="article-num">👈 عبد الحي رمضان</span>
                         <ul>
-                            <li>☎️ هاتف: <span dir="ltr">0663112987</span></li>
+                            <li>☎️ هاتف / واتساب : <span dir="ltr"><a href="https://wa.me/213663112987" class="wa-link" target="_blank">0663112987</a></span></li>
                             <li>📫 بريد الكتروني: <a href="mailto:ramadhan063@gmail.com">ramadhan063@gmail.com</a></li>
                         </ul>
                     </div>
                     <div class="article member-card">
                         <span class="article-num">👈 معطالله عبد النبي</span>
                         <ul>
-                            <li>☎️ هاتف: <span dir="ltr">0671327711</span></li>
+                            <li>☎️ هاتف / واتساب : <span dir="ltr"><a href="https://wa.me/213671327711" class="wa-link" target="_blank">0671327711</a></span></li>
                             <li>📫 بريد الكتروني: <a href="mailto:belhadjbelhoy314@gmail.com">belhadjbelhoy314@gmail.com</a></li>
                         </ul>
                     </div>
@@ -393,21 +416,21 @@
                     <div class="article member-card">
                         <span class="article-num">👈 مجاطي علي</span>
                         <ul>
-                            <li>☎️ هاتف: <span dir="ltr">0771242455</span> - <span dir="ltr">0556454007</span></li>
+                            <li>☎️ هاتف / واتساب : <span dir="ltr"><a href="https://wa.me/213771242455" class="wa-link" target="_blank">0771242455</a></span> - <span dir="ltr"><a href="https://wa.me/213556454007" class="wa-link" target="_blank">0556454007</a></span></li>
                             <li>📫 بريد الكتروني: <a href="mailto:alimedjatio@gmail.com">alimedjatio@gmail.com</a></li>
                         </ul>
                     </div>
                     <div class="article member-card">
                         <span class="article-num">👈 بن علو توفيق</span>
                         <ul>
-                            <li>☎️ هاتف: <span dir="ltr">0663241117</span> - <span dir="ltr">0550362130</span></li>
-                            <li>📫 بريد الكتروني: - </li>
+                            <li>☎️ هاتف / واتساب : <span dir="ltr"><a href="https://wa.me/213663241117" class="wa-link" target="_blank">0663241117</a></span> - <span dir="ltr"><a href="https://wa.me/213550362130" class="wa-link" target="_blank">0550362130</a></span></li>
+                            <li>📫 بريد الكتروني: <a href="mailto:benalloudem@gmail.com">benalloudem@gmail.com</a></li>
                         </ul>
                     </div>
                     <div class="article member-card">
                         <span class="article-num">👈 راشدي الهواري</span>
                         <ul>
-                            <li>☎️ هاتف: <span dir="ltr">0776484477</span></li>
+                            <li>☎️ هاتف / واتساب : <span dir="ltr"><a href="https://wa.me/213776484477" class="wa-link" target="_blank">0776484477</a></span></li>
                             <li>📫 بريد الكتروني: <a href="mailto:baghdadaichouche14@gmail.com">baghdadaichouche14@gmail.com</a></li>
                         </ul>
                     </div>
@@ -420,29 +443,29 @@
                     <div class="article member-card">
                         <span class="article-num">👈 كرميش بايزيد</span>
                         <ul>
-                            <li>☎️ هاتف: <span dir="ltr">0656192113</span></li>
+                            <li>☎️ هاتف / واتساب : <span dir="ltr"><a href="https://wa.me/213656192113" class="wa-link" target="_blank">0656192113</a></span></li>
                             <li>📫 بريد الكتروني: <a href="mailto:keribrahim25@gmail.com">keribrahim25@gmail.com</a></li>
                         </ul>
                     </div>
                     <div class="article member-card">
                         <span class="article-num">👈 جعفري عبد الرحمان</span>
                         <ul>
-                            <li>☎️ هاتف: <span dir="ltr">0775586559</span></li>
+                            <li>☎️ هاتف / واتساب : <span dir="ltr"><a href="https://wa.me/213775586559" class="wa-link" target="_blank">0775586559</a></span></li>
                             <li>📫 بريد الكتروني: <a href="mailto:adberrahmanedjafri@yahoo.fr">adberrahmanedjafri@yahoo.fr</a></li>
                         </ul>
                     </div>
                     <div class="article member-card">
                         <span class="article-num">👈 بوقطوف توفيق</span>
                         <ul>
-                            <li>☎️ هاتف: <span dir="ltr">0697797528</span></li>
+                            <li>☎️ هاتف / واتساب : <span dir="ltr"><a href="https://wa.me/213697797528" class="wa-link" target="_blank">0697797528</a></span></li>
                             <li>📫 بريد الكتروني: <a href="mailto:tarekaouaichiasnte12@gmail.com">tarekaouaichiasnte12@gmail.com</a></li>
                         </ul>
                     </div>
                     <div class="article member-card">
                         <span class="article-num">👈 حجازي خالد</span>
                         <ul>
-                            <li>☎️ هاتف: <span dir="ltr">0663915534</span></li>
-                            <li>📫 بريد الكتروني: <a href="mailto:ramzi.bounekhel@gmail.com">ramzi.bounekhel@gmail.com</a></li>
+                            <li>☎️ هاتف / واتساب : <span dir="ltr"><a href="https://wa.me/213663915534" class="wa-link" target="_blank">0663915534</a></span></li>
+                            <li>📫 بريد الكتروني: <a href="mailto:sntebatna@gmail.com">sntebatna@gmail.com</a></li>
                         </ul>
                     </div>
                 </div>
