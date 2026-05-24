@@ -101,12 +101,13 @@
         .download-card.order-06-03 { border-top-color: #2980b9; }
         .download-card:hover { transform: translateY(-5px); box-shadow: 0 8px 15px rgba(0,0,0,0.1); }
         .download-icon { font-size: 3.5rem; margin-bottom: 10px; }
-        .download-card h3 { color: var(--text-dark); margin-bottom: 10px; font-size: 1.25rem; }
+        .download-card h3 { color: var(--text-dark); margin-bottom: 10px; font-size: 1.25rem; font-weight: 700; }
         .download-card p { color: #7f8c8d; margin-bottom: 20px; font-size: 0.9rem; flex-grow: 1; }
-        .btn-download { display: inline-block; background-color: var(--secondary-green); color: white; text-decoration: none; padding: 10px 20px; border-radius: 25px; font-weight: bold; font-size: 0.95rem; }
+        .btn-download { display: inline-block; background-color: var(--secondary-green); color: white; text-decoration: none; padding: 10px 20px; border-radius: 25px; font-weight: bold; transition: background 0.3s; font-size: 0.95rem; }
         .download-card.law-23-02 .btn-download { background-color: var(--danger-red); }
         .download-card.law-23-08 .btn-download { background-color: #d35400; }
         .download-card.order-06-03 .btn-download { background-color: #2980b9; }
+        .btn-download:hover { filter: brightness(1.1); }
 
         /* Form Styling & Dynamic Items */
         .form-row { display: flex; gap: 20px; }
@@ -250,22 +251,44 @@
 
         <div id="laws" class="tab-content">
             <h2 class="section-title">الوثائق والنصوص المرجعية</h2>
+            <p style="text-align: center; color: var(--text-dark); font-size: 1.1rem; margin-bottom: 20px;">
+                يرجى الاطلاع على النصوص التشريعية والتنظيمية أدناه قبل تقديم أي مقترح لضمان المطابقة والتوافق.
+            </p>
             <div class="downloads-grid">
                 <div class="download-card">
-                    <div><div class="download-icon">📖</div><h3>القانون الأساسي</h3><p>مسودة القانون الأساسي الحالي.</p></div>
-                    <a href="https://drive.google.com/file/d/1Wb693JzLidD8aSiTQ3J72HF8Dhw8k3Vm/view?usp=drive_link" target="_blank" class="btn-download">تحميل 📥</a>
+                    <div>
+                        <div class="download-icon">📖</div>
+                        <h3>القانون الأساسي للنقابة</h3>
+                        <p>مسودة القانون الأساسي الحالي لنقابة S.N.T.E للتقييم والمراجعة.</p>
+                    </div>
+                    <a href="https://drive.google.com/file/d/1Wb693JzLidD8aSiTQ3J72HF8Dhw8k3Vm/view?usp=drive_link" target="_blank" class="btn-download">عرض وتحميل الملف 📥</a>
                 </div>
+
                 <div class="download-card law-23-02">
-                    <div><div class="download-icon">⚖️</div><h3>القانون 23-02</h3><p>ممارسة الحق النقابي.</p></div>
-                    <a href="https://drive.google.com/file/d/1gWGJsb_pABHEyrKskeogHLJFi28XX2Gr/view?usp=drive_link" target="_blank" class="btn-download">تحميل 📥</a>
+                    <div>
+                        <div class="download-icon">⚖️</div>
+                        <h3>القانون 23-02</h3>
+                        <p>المتعلق بكيفيات ممارسة الحق النقابي وضمان استقلالية المنظمات.</p>
+                    </div>
+                    <a href="https://drive.google.com/file/d/1gWGJsb_pABHEyrKskeogHLJFi28XX2Gr/view?usp=drive_link" target="_blank" class="btn-download">عرض وتحميل الملف 📥</a>
                 </div>
+
                 <div class="download-card law-23-08">
-                    <div><div class="download-icon">🛑</div><h3>القانون 23-08</h3><p>النزاعات وحق الإضراب.</p></div>
-                    <a href="https://drive.google.com/file/d/1At7pubkTLWo-DC5h8jNATXx108aq3rnK/view?usp=drive_link" target="_blank" class="btn-download">تحميل 📥</a>
+                    <div>
+                        <div class="download-icon">🛑</div>
+                        <h3>القانون 23-08</h3>
+                        <p>المتعلق بالوقاية من النزاعات الجماعية للعمل وتسويتها وممارسة حق الإضراب.</p>
+                    </div>
+                    <a href="https://drive.google.com/file/d/1At7pubkTLWo-DC5h8jNATXx108aq3rnK/view?usp=drive_link" target="_blank" class="btn-download">عرض وتحميل الملف 📥</a>
                 </div>
+
                 <div class="download-card order-06-03">
-                    <div><div class="download-icon">🏢</div><h3>الأمر 06-03</h3><p>قانون الوظيفة العمومية.</p></div>
-                    <a href="https://drive.google.com/file/d/0B1ZcCEA55aNgYWdNd2NtTlczbUU/view?usp=sharing&resourcekey=0-NpzwqBvR-zqOfEU7qXXF9w" target="_blank" class="btn-download">تحميل 📥</a>
+                    <div>
+                        <div class="download-icon">🏢</div>
+                        <h3>الأمر 06-03</h3>
+                        <p>المتضمن القانون الأساسي العام للوظيفة العمومية والقواعد المطبقة على الموظفين.</p>
+                    </div>
+                    <a href="https://drive.google.com/file/d/0B1ZcCEA55aNgYWdNd2NtTlczbUU/view?usp=sharing&resourcekey=0-NpzwqBvR-zqOfEU7qXXF9w" target="_blank" class="btn-download">عرض وتحميل الملف 📥</a>
                 </div>
             </div>
         </div>
@@ -306,6 +329,7 @@
     </div>
 
     <script>
+        // التبديل بين التبويبات
         function openTab(evt, tabName) {
             let tabContent = document.getElementsByClassName("tab-content");
             for (let i = 0; i < tabContent.length; i++) tabContent[i].style.display = "none";
@@ -317,6 +341,7 @@
 
         let articleCount = 0;
 
+        // إضافة قالب مقترح جديد
         function addArticleBlock(data = null) {
             articleCount++;
             const container = document.getElementById('articlesContainer');
@@ -343,11 +368,13 @@
             attachAutoSaveListeners();
         }
 
+        // حذف مقترح
         function removeArticleBlock(id) {
             document.getElementById(id).remove();
             saveDataToLocal();
         }
 
+        // الحفظ التلقائي
         function attachAutoSaveListeners() {
             document.querySelectorAll('.auto-save').forEach(input => {
                 input.removeEventListener('input', saveDataToLocal); 
@@ -397,6 +424,7 @@
             }
         }
 
+        // تجميع البيانات للنصوص والإيميل
         function buildProposalString() {
             let name = document.getElementById('fullName').value || 'غير محدد';
             let wilaya = document.getElementById('wilaya').value || 'غير محدد';
@@ -429,13 +457,20 @@
             link.click();
         }
 
+        // إرسال الإيميل مع تجاوز مشكلة متصفح فيسبوك
         function sendEmail() {
             const emailTo = "Kouidery@ymail.com";
             const subject = encodeURIComponent("مقترحات تعديل القانون الأساسي - " + document.getElementById('fullName').value);
             const body = encodeURIComponent(buildProposalString());
+            const mailtoLink = "mailto:" + emailTo + "?subject=" + subject + "&body=" + body;
             
-            window.location.href = "mailto:" + emailTo + "?subject=" + subject + "&body=" + body;
-            alert("سيتم فتح تطبيق البريد الخاص بك. تأكد من تحميل نسخة نصية إذا كان المقترح طويلاً جداً تحسباً لأي مشكلة في متصفح البريد.");
+            alert("سيتم تحويلك الآن لتطبيق البريد (مثل Gmail).\n\n⚠️ ملاحظة هامة: إذا ظهرت لك صفحة خطأ، فهذا لأنك تتصفح من داخل تطبيق (فيسبوك). يرجى الضغط على النقاط الثلاث بالأعلى واختيار 'فتح في المتصفح' (Chrome).");
+
+            const a = document.createElement('a');
+            a.href = mailtoLink;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
         }
 
         window.onload = function() {
