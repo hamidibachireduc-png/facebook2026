@@ -3,1073 +3,464 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>القانون الأساسي - النقابة الوطنية لعمال التربية (SNTE)</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+    <title>البوابة الاستشارية - S.N.T.E</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary-red: #b30000;
-            --secondary-red: #d32f2f;
-            --dark-gray: #333333;
-            --light-gray: #f5f7fa;
+            --primary-green: #145a32;
+            --secondary-green: #1e8449;
+            --accent-gold: #d4af37;
+            --danger-red: #c0392b;
+            --bg-light: #f4f6f7;
+            --text-dark: #2c3e50;
             --border-color: #e0e0e0;
-            --white: #ffffff;
-            --whatsapp-color: #25D366; /* لون الواتساب */
+        }
+
+        * { box-sizing: border-box; font-family: 'Tajawal', sans-serif; margin: 0; padding: 0; }
+        body { background-color: var(--bg-light); color: var(--text-dark); line-height: 1.6; }
+
+        /* Header Styling with Logos */
+        header {
+            background: linear-gradient(135deg, var(--primary-green), var(--secondary-green));
+            color: white; 
+            padding: 1.5rem 1rem;
+            border-bottom: 5px solid var(--accent-gold);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
         }
         
-        body {
-            font-family: 'Cairo', 'Segoe UI', Tahoma, sans-serif;
-            background-color: var(--light-gray);
-            color: var(--dark-gray);
-            line-height: 1.8;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-
-        header {
-            background: linear-gradient(135deg, var(--primary-red), var(--secondary-red));
-            color: var(--white);
-            padding: 20px 0;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-        }
-
-        .header-top {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        .header-titles {
-            flex-grow: 1;
-            text-align: center;
-        }
-
-        header h1 {
-            margin: 0;
-            font-size: 28px;
-            font-weight: 700;
-            letter-spacing: 0.5px;
-        }
-
-        .logo {
-            height: 75px;
-            width: 75px;
-            object-fit: contain;
-            background-color: var(--white);
-            border-radius: 50%;
-            padding: 5px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        .header-logo {
+            width: 110px; /* حجم الشعار */
+            height: auto;
+            filter: drop-shadow(0px 4px 6px rgba(0,0,0,0.4)); /* ظل للشعار لكي يبرز */
             transition: transform 0.3s ease;
         }
-
-        .logo:hover {
+        
+        .header-logo:hover {
             transform: scale(1.05);
         }
 
-        nav {
-            margin-top: 20px;
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 15px;
-        }
-
-        nav a {
-            color: var(--white);
-            text-decoration: none;
-            font-size: 15px;
-            font-weight: 600;
-            padding: 5px 15px;
-            border-radius: 20px;
-            background-color: rgba(255, 255, 255, 0.1);
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-
-        nav a:hover, nav a.active {
-            background-color: var(--white);
-            color: var(--primary-red);
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-        }
-
-        .search-container {
-            margin-top: 20px;
+        .header-content {
+            flex: 1;
             text-align: center;
         }
 
-        #searchInput {
-            padding: 12px 20px;
-            width: 85%;
-            max-width: 500px;
-            border: 2px solid transparent;
-            border-radius: 30px;
-            outline: none;
-            font-family: inherit;
-            font-size: 15px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            transition: border 0.3s;
+        header h1 { font-size: 2.2rem; margin-bottom: 10px; text-shadow: 1px 1px 3px rgba(0,0,0,0.3); }
+        header h2 { font-size: 1.4rem; color: var(--accent-gold); margin-bottom: 15px; }
+        .slogan {
+            background-color: var(--danger-red); display: inline-block;
+            padding: 5px 20px; border-radius: 25px; font-weight: bold; font-size: 1rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
         }
 
-        #searchInput:focus {
-            border: 2px solid #ffcccc;
+        /* Responsive Header for Mobile */
+        @media (max-width: 768px) {
+            .header-logo { width: 60px; }
+            header h1 { font-size: 1.5rem; }
+            header h2 { font-size: 1.1rem; }
+            .slogan { font-size: 0.85rem; padding: 5px 10px; }
         }
 
-        .container {
-            flex: 1;
-            max-width: 1000px;
-            width: 100%;
-            margin: 40px auto;
-            padding: 0 20px;
-            box-sizing: border-box;
+        .container { max-width: 1200px; margin: 20px auto; padding: 0 15px; }
+
+        /* Tabs */
+        .tabs {
+            display: flex; flex-wrap: wrap; background: white; border-radius: 10px;
+            overflow: hidden; box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+            margin-bottom: 20px; border: 1px solid var(--border-color);
         }
+        .tab-btn {
+            flex: 1; background: none; border: none; padding: 15px 10px;
+            font-size: 1.1rem; font-weight: bold; color: var(--text-dark);
+            cursor: pointer; transition: all 0.3s ease; border-bottom: 4px solid transparent;
+        }
+        .tab-btn:hover { background-color: #f9f9f9; color: var(--primary-green); }
+        .tab-btn.active { color: var(--primary-green); border-bottom-color: var(--danger-red); background-color: #fdfdfd; }
+        @media (max-width: 768px) { .tab-btn { flex: 1 1 100%; font-size: 1rem; border-bottom: 1px solid var(--border-color); } }
 
         .tab-content {
-            display: none;
-            animation: fadeIn 0.4s ease;
+            display: none; background: white; padding: 30px; border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05); border: 1px solid var(--border-color);
+            animation: fadeIn 0.4s;
         }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .section-title { color: var(--primary-green); margin-bottom: 25px; text-align: center; font-size: 1.8rem; border-bottom: 2px dashed var(--border-color); padding-bottom: 15px; }
 
-        .tab-content.active {
-            display: block;
-        }
+        /* Committee & Downloads */
+        .committee-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
+        .region-card { border: 1px solid var(--border-color); border-radius: 10px; padding: 20px; text-align: center; background: #fff; border-top: 4px solid var(--accent-gold); box-shadow: 0 2px 5px rgba(0,0,0,0.05);}
+        .region-card h4 { color: var(--primary-green); margin-bottom: 15px; font-size: 1.3rem; padding-bottom: 10px; border-bottom: 1px solid #eee; }
+        .member { margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px dashed #eee; font-size: 1.05rem; }
+        .member:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
+        .member strong { color: var(--text-dark); display: block; margin-bottom: 5px; font-size: 1.1rem;}
+        .member span.phone { color: var(--danger-red); display: block; direction: ltr; font-weight: bold; margin-bottom: 3px; font-size: 1rem;}
+        .member span.phone a { color: #27ae60; text-decoration: none; transition: color 0.3s ease; }
+        .member span.phone a:hover { color: var(--primary-green); text-decoration: underline; }
+        .member span.email { color: #2980b9; display: block; direction: ltr; font-size: 0.9rem; word-break: break-all;}
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        .downloads-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-top: 20px; }
+        .download-card { background: #fafafa; border: 1px solid var(--border-color); border-radius: 10px; padding: 25px 15px; text-align: center; transition: transform 0.3s ease; border-top: 5px solid var(--primary-green); display: flex; flex-direction: column; justify-content: space-between; }
+        .download-card.law-23-02 { border-top-color: var(--danger-red); }
+        .download-card.law-23-08 { border-top-color: var(--accent-gold); }
+        .download-card.order-06-03 { border-top-color: #2980b9; }
+        .download-card:hover { transform: translateY(-5px); box-shadow: 0 8px 15px rgba(0,0,0,0.1); }
+        .download-icon { font-size: 3.5rem; margin-bottom: 10px; }
+        .download-card h3 { color: var(--text-dark); margin-bottom: 10px; font-size: 1.25rem; }
+        .download-card p { color: #7f8c8d; margin-bottom: 20px; font-size: 0.9rem; flex-grow: 1; }
+        .btn-download { display: inline-block; background-color: var(--secondary-green); color: white; text-decoration: none; padding: 10px 20px; border-radius: 25px; font-weight: bold; font-size: 0.95rem; }
+        .download-card.law-23-02 .btn-download { background-color: var(--danger-red); }
+        .download-card.law-23-08 .btn-download { background-color: #d35400; }
+        .download-card.order-06-03 .btn-download { background-color: #2980b9; }
 
-        .chapter-section {
-            background-color: var(--white);
-            border-radius: 12px;
-            padding: 30px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-            border-top: 6px solid var(--primary-red);
-        }
-
-        h2 {
-            color: var(--primary-red);
-            font-size: 24px;
-            margin-top: 0;
-            padding-bottom: 15px;
-            border-bottom: 2px solid var(--light-gray);
-            display: flex;
-            align-items: center;
-        }
-
-        h3 {
-            color: #555;
-            font-size: 18px;
-            margin-top: 25px;
-            margin-bottom: 15px;
-            padding-right: 10px;
-            border-right: 4px solid var(--secondary-red);
-        }
-
-        .article {
-            background: #fdfdfd;
-            border: 1px solid var(--border-color);
-            padding: 20px;
-            margin-bottom: 15px;
-            border-radius: 8px;
-            transition: background 0.3s, border-color 0.3s;
-        }
-
-        .article:hover {
-            background: #fffafa;
-            border-color: #ffb3b3;
-        }
-
-        .article-num {
-            font-weight: 700;
-            color: var(--primary-red);
-            font-size: 16px;
-            display: inline-block;
-            margin-bottom: 5px;
-        }
-
-        ul, ol {
-            padding-right: 25px;
-            margin: 10px 0 0 0;
-        }
-
-        li {
-            margin-bottom: 10px;
-        }
+        /* Form Styling & Dynamic Items */
+        .form-row { display: flex; gap: 20px; }
+        .form-group { margin-bottom: 20px; flex: 1; }
+        @media (max-width: 768px) { .form-row { flex-direction: column; gap: 0; } }
+        .form-group label { display: block; margin-bottom: 8px; font-weight: bold; color: var(--primary-green); }
+        .form-control { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 5px; font-size: 1rem; }
+        .form-control:focus { outline: none; border-color: var(--secondary-green); }
+        textarea.form-control { resize: vertical; min-height: 100px; }
         
-        .hidden {
-            display: none !important;
-        }
-
-        /* تنسيق شبكة أعضاء اللجنة والروابط */
-        .members-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 15px;
-        }
+        .article-block { background: #fdfdfd; border: 1px solid #dcdde1; border-radius: 8px; padding: 20px; margin-bottom: 20px; position: relative; border-right: 5px solid var(--accent-gold);}
+        .remove-btn { position: absolute; top: 15px; left: 15px; background: var(--danger-red); color: white; border: none; border-radius: 50%; width: 30px; height: 30px; cursor: pointer; font-weight: bold; }
+        .add-article-btn { background: #ecf0f1; color: var(--text-dark); border: 2px dashed #bdc3c7; padding: 15px; width: 100%; font-size: 1.1rem; border-radius: 8px; cursor: pointer; margin-bottom: 20px; font-weight: bold; transition: 0.3s;}
+        .add-article-btn:hover { background: #e0e6ed; border-color: var(--secondary-green); color: var(--primary-green); }
         
-        .member-card ul {
-            list-style: none;
-            padding: 0;
-            margin: 10px 0 0 0;
-        }
+        .actions-group { display: flex; gap: 15px; flex-wrap: wrap; margin-top: 30px; border-top: 2px solid #eee; padding-top: 20px;}
+        .btn-action { flex: 1; padding: 15px; font-size: 1.1rem; border-radius: 5px; cursor: pointer; font-weight: bold; border: none; color: white; transition: 0.3s; min-width: 200px;}
+        .btn-submit { background-color: var(--primary-green); }
+        .btn-submit:hover { background-color: #0e4425; }
+        .btn-save { background-color: #2980b9; }
+        .btn-print { background-color: #8e44ad; }
         
-        .member-card li {
-            font-size: 14px;
-            margin-bottom: 8px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
+        .notice-msg { background: #fff3cd; color: #856404; padding: 10px; border-radius: 5px; font-size: 0.9rem; margin-bottom: 20px; border: 1px solid #ffeeba; text-align: justify;}
 
-        .member-card a {
-            color: var(--primary-red);
-            text-decoration: none;
-            font-weight: 600;
-            transition: color 0.3s;
-        }
-
-        .member-card a:hover {
-            text-decoration: underline;
-            color: var(--secondary-red);
-        }
-
-        .member-card .wa-link {
-            color: var(--whatsapp-color);
-            font-weight: bold;
-        }
-
-        .member-card .wa-link:hover {
-            color: #1DA851;
-        }
-        
-        .committee-header {
-            text-align: center;
-            margin-bottom: 30px;
-            padding: 15px;
-            background-color: var(--light-gray);
-            border-radius: 8px;
-            border: 1px dashed var(--primary-red);
-        }
-
-        footer {
-            background-color: var(--dark-gray);
-            color: var(--white);
-            text-align: center;
-            padding: 25px 20px;
-            margin-top: auto;
-            border-top: 4px solid var(--primary-red);
-        }
-
-        footer p {
-            margin: 0;
-            font-size: 16px;
-            font-weight: 600;
-            line-height: 1.6;
-        }
-
-        footer span {
-            display: block;
-            font-size: 14px;
-            font-weight: 400;
-            color: #bdc3c7;
-            margin-top: 5px;
-        }
-
-        @media (max-width: 768px) {
-            .container {
-                margin: 20px auto;
-            }
-            .chapter-section {
-                padding: 20px;
-            }
-            .logo {
-                height: 50px;
-                width: 50px;
-            }
-            header h1 {
-                font-size: 20px;
-            }
-            .header-titles div {
-                font-size: 12px !important;
-            }
-            nav {
-                flex-direction: row;
-                justify-content: center;
-                gap: 8px;
-            }
-            nav a {
-                font-size: 13px;
-                padding: 5px 10px;
-            }
+        @media print {
+            header, .tabs, .add-article-btn, .actions-group, .remove-btn, .notice-msg { display: none !important; }
+            .tab-content { display: block !important; box-shadow: none; border: none; }
+            #committee, #laws { display: none !important; }
+            body { background: white; }
+            .article-block { border: 1px solid #000; page-break-inside: avoid; }
         }
     </style>
 </head>
 <body>
 
     <header>
-        <div class="header-top">
-            <img src="https://c.top4top.io/p_3793h57541.png" alt="شعار يمين" class="logo">
-            <div class="header-titles">
-                <h1>القانون الأساسي</h1>
-                <div style="font-size: 14px; margin-top: 5px; opacity: 0.9;">النقابة الوطنية لعمال التربية (S.N.T.E)</div>
-            </div>
-            <img src="https://c.top4top.io/p_3793h57541.png" alt="شعار يسار" class="logo">
+        <img src="https://c.top4top.io/p_3793h57541.png" alt="شعار لجنة التحضير" class="header-logo">
+        
+        <div class="header-content">
+            <h1>النقابة الوطنية لعمال التربية (S.N.T.E)</h1>
+            <h2>البوابة الإلكترونية الاستشارية للمؤتمر السادس الاستثنائي</h2>
+            <div class="slogan">تخطيط .. تنظيم .. وعمل مستمر لضمان نجاح المؤتمر الاستثنائي</div>
         </div>
         
-        <nav>
-            <a data-target="committee" class="active">اللجنة الوطنية</a>
-            <a data-target="preamble">الديباجة</a>
-            <a data-target="part1">الباب الأول</a>
-            <a data-target="part2">الباب الثاني</a>
-            <a data-target="part3">الباب الثالث</a>
-            <a data-target="part4">الباب الرابع</a>
-            <a data-target="part5">الباب الخامس</a>
-        </nav>
-
-        <div class="search-container">
-            <input type="text" id="searchInput" placeholder="🔍 ابحث عن مادة، فصل، أو كلمة مفتاحية (يبحث في كل الأبواب)...">
-        </div>
+        <img src="https://c.top4top.io/p_3793h57541.png" alt="شعار لجنة التحضير" class="header-logo">
     </header>
 
-    <div class="container" id="contentContainer">
-
-        <section class="chapter-section tab-content active" id="committee">
-            <h2>نبذة عن اللجنة الوطنية لتحضير المؤتمر 6 الاستثنائي</h2>
-            
-            <div class="committee-header">
-                <strong style="color: var(--primary-red); font-size: 20px;">النقابة الوطنية لعمال التربية</strong><br>
-                <span style="font-size: 16px;">💠 قائمة أعضاء اللجنة الوطنية لتحضير المؤتمر 6 الاستثنائي</span>
-            </div>
-
-            <div class="subsection">
-                <h3>🚩 ولايات الوسط</h3>
-                <div class="members-grid">
-                    <div class="article member-card">
-                        <span class="article-num">👈 فريد لمناجلية</span>
-                        <ul>
-                            <li>☎️ هاتف / واتساب : <span dir="ltr"><a href="https://wa.me/213556477879" class="wa-link" target="_blank">0556477879</a></span></li>
-                            <li>📫 بريد الكتروني: <a href="mailto:blidasnte@hotmail.fr">blidasnte@hotmail.fr</a></li>
-                        </ul>
-                    </div>
-                    <div class="article member-card">
-                        <span class="article-num">👈 تامي نورين لخضر</span>
-                        <ul>
-                            <li>☎️ هاتف / واتساب : <span dir="ltr"><a href="https://wa.me/213675998222" class="wa-link" target="_blank">0675998222</a></span></li>
-                            <li>📫 بريد الكتروني: <a href="mailto:taminourinelakhdar@gmail.com">taminourinelakhdar@gmail.com</a></li>
-                        </ul>
-                    </div>
-                    <div class="article member-card">
-                        <span class="article-num">👈 عبد الرحيم سعيد</span>
-                        <ul>
-                            <li>☎️ هاتف / واتساب : <span dir="ltr"><a href="https://wa.me/213556850930" class="wa-link" target="_blank">0556850930</a></span></li>
-                            <li>📫 بريد الكتروني: <a href="mailto:saidsnte@gmail.com">saidsnte@gmail.com</a></li>
-                        </ul>
-                    </div>
-                    <div class="article member-card">
-                        <span class="article-num">👈 جبري عبد الجليل</span>
-                        <ul>
-                            <li>☎️ هاتف / واتساب : <span dir="ltr"><a href="https://wa.me/213561546898" class="wa-link" target="_blank">0561546898</a></span></li>
-                            <li>📫 بريد الكتروني: <a href="mailto:djebriabdeldjallil@gmail.com">djebriabdeldjallil@gmail.com</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <div class="subsection">
-                <h3>🚩 ولايات الجنوب</h3>
-                <div class="members-grid">
-                    <div class="article member-card">
-                        <span class="article-num">👈 بن يحي مصطفى</span>
-                        <ul>
-                            <li>☎️ هاتف / واتساب : <span dir="ltr"><a href="https://wa.me/213663664686" class="wa-link" target="_blank">0663664686</a></span></li>
-                            <li>📫 بريد الكتروني: <a href="mailto:gourarasnte@gmail.com">gourarasnte@gmail.com</a></li>
-                        </ul>
-                    </div>
-                    <div class="article member-card">
-                        <span class="article-num">👈 عبد الحي رمضان</span>
-                        <ul>
-                            <li>☎️ هاتف / واتساب : <span dir="ltr"><a href="https://wa.me/213663112987" class="wa-link" target="_blank">0663112987</a></span></li>
-                            <li>📫 بريد الكتروني: <a href="mailto:ramadhan063@gmail.com">ramadhan063@gmail.com</a></li>
-                        </ul>
-                    </div>
-                    <div class="article member-card">
-                        <span class="article-num">👈 معطالله عبد النبي</span>
-                        <ul>
-                            <li>☎️ هاتف / واتساب : <span dir="ltr"><a href="https://wa.me/213671327711" class="wa-link" target="_blank">0671327711</a></span></li>
-                            <li>📫 بريد الكتروني: <a href="mailto:belhajbelhaj314@gmail.com">belhajbelhaj314@gmail.com</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <div class="subsection">
-                <h3>🚩 ولايات الغرب</h3>
-                <div class="members-grid">
-                    <div class="article member-card">
-                        <span class="article-num">👈 مجاطي علي</span>
-                        <ul>
-                            <li>☎️ هاتف: <span dir="ltr"><a href="tel:0771242455">0771242455</a></span> - <span dir="ltr"><a href="tel:0556454007">0556454007</a></span></li>
-                            <li>📫 بريد الكتروني: <a href="mailto:alimedjatio@gmail.com">alimedjatio@gmail.com</a></li>
-                        </ul>
-                    </div>
-                    <div class="article member-card">
-                        <span class="article-num">👈 بن علو توفيق</span>
-                        <ul>
-                            <li>☎️ هاتف: <span dir="ltr"><a href="tel:0663241117">0663241117</a></span> - <span dir="ltr"><a href="tel:0550362130">0550362130</a></span></li>
-                            <li>📫 بريد الكتروني: <a href="mailto:benalloudem@gmail.com">benalloudem@gmail.com</a></li>
-                        </ul>
-                    </div>
-                    <div class="article member-card">
-                        <span class="article-num">👈 راشدي الهواري</span>
-                        <ul>
-                            <li>☎️ هاتف / واتساب : <span dir="ltr"><a href="https://wa.me/213776484477" class="wa-link" target="_blank">0776484477</a></span></li>
-                            <li>📫 بريد الكتروني: <a href="mailto:sntemosta@gmail.com">sntemosta@gmail.com</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <div class="subsection">
-                <h3>🚩 ولايات الشرق</h3>
-                <div class="members-grid">
-                    <div class="article member-card">
-                        <span class="article-num">👈 كرميش بايزيد</span>
-                        <ul>
-                            <li>☎️ هاتف / واتساب : <span dir="ltr"><a href="https://wa.me/213656192113" class="wa-link" target="_blank">0656192113</a></span></li>
-                            <li>📫 بريد الكتروني: <a href="mailto:keribrahim25@gmail.com">keribrahim25@gmail.com</a></li>
-                        </ul>
-                    </div>
-                    <div class="article member-card">
-                        <span class="article-num">👈 جعفري عبد الرحمان</span>
-                        <ul>
-                            <li>☎️ هاتف / واتساب : <span dir="ltr"><a href="https://wa.me/213775586559" class="wa-link" target="_blank">0775586559</a></span></li>
-                            <li>📫 بريد الكتروني: <a href="mailto:adberrahmanedjafri@yahoo.fr">adberrahmanedjafri@yahoo.fr</a></li>
-                        </ul>
-                    </div>
-                    <div class="article member-card">
-                        <span class="article-num">👈 بوقطوف توفيق</span>
-                        <ul>
-                            <li>☎️ هاتف / واتساب : <span dir="ltr"><a href="https://wa.me/213697797528" class="wa-link" target="_blank">0697797528</a></span></li>
-                            <li>📫 بريد الكتروني: <a href="mailto:tarekaouaichiasnte12@gmail.com">tarekaouaichiasnte12@gmail.com</a></li>
-                        </ul>
-                    </div>
-                    <div class="article member-card">
-                        <span class="article-num">👈 حجازي خالد</span>
-                        <ul>
-                            <li>☎️ هاتف / واتساب : <span dir="ltr"><a href="https://wa.me/213663915534" class="wa-link" target="_blank">0663915534</a></span></li>
-                            <li>📫 بريد الكتروني: <a href="mailto:sntebatna@gmail.com">sntebatna@gmail.com</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </section>
+    <div class="container">
         
-        <section class="chapter-section tab-content" id="preamble">
-            <h2>الديباجة</h2>
-            <div class="article">
-                <p>النقابة الوطنية لعمال التربية تنظيم ديمقراطي دائم لعمال قطاع التربية ينخرطون فيه بشكل طوعي ويسيرونه بأنفسهم من أجل الدفاع عن مصالحهم بالوسائل المشروعة التي يحددونها في اطار القانون.</p>
-                <p>و من أجل هذا تأسست بين موظفي قطاع التربية بالجزائر بمختلف فئاتهم نقابة مستقلة ديمقراطية تحت اسم النقابة الوطنية لعمال التربية Syndicat National des Travailleurs de l'Education (SNTE)</p>
-                <p>وذلك في المؤتمر التأسيسي بتاريـخ 02 نوفمبر 1998 بالمركز الثقافي بالمدنية ولاية الجزائر وفق رؤية نقابية تعبر عن خصوصياتنا و تنطلق من واقعنا تتضمن مبادئ النقابة السبع (الديمقراطية ، الوحدة ، الاستقلالية ، الأصالة، الحوار، الالتزام، المسؤولية)</p>
-            </div>
-        </section>
+        <div class="tabs">
+            <button class="tab-btn active" onclick="openTab(event, 'committee')">👥 اللجنة الوطنية</button>
+            <button class="tab-btn" onclick="openTab(event, 'laws')">📚 النصوص القانونية</button>
+            <button class="tab-btn" onclick="openTab(event, 'proposal')">💡 تقديم مقترح (متعدد)</button>
+        </div>
 
-        <section class="chapter-section tab-content" id="part1">
-            <h2>الباب الأول: (التعريف، المدة، المقر، الأهداف)</h2>
+        <div id="committee" class="tab-content" style="display: block;">
+            <h2 class="section-title">اللجنة الوطنية لتحضير المؤتمر 6 الاستثنائي</h2>
+            <div class="notice-msg" style="text-align: center; background: #e8f8f5; color: #27ae60; border-color: #a3e4d7;">
+                <strong>💬 تواصل مباشر:</strong> اضغط على رقم الهاتف لفتح محادثة واتساب مع العضو مباشرة.
+            </div>
+            <div class="committee-grid">
+                <div class="region-card">
+                    <h4>🚩 ولايات الوسط</h4>
+                    <div class="member">
+                        <strong>👈 فريد لمناجلية</strong>
+                        <span class="phone">☎️ <a href="https://wa.me/213556477879" target="_blank">0556477879</a></span>
+                        <span class="email">📫 blidasnte@hotmail.fr</span>
+                    </div>
+                    <div class="member">
+                        <strong>👈 تامي نورين لخضر</strong>
+                        <span class="phone">☎️ <a href="https://wa.me/213675998222" target="_blank">0675998222</a></span>
+                        <span class="email">📫 taminourinelakhdar@gmail.com</span>
+                    </div>
+                    <div class="member">
+                        <strong>👈 عبد الرحيم سعيد</strong>
+                        <span class="phone">☎️ <a href="https://wa.me/213556850930" target="_blank">0556850930</a></span>
+                        <span class="email">📫 saidsnte@gmail.com</span>
+                    </div>
+                    <div class="member">
+                        <strong>👈 جبري عبد الجليل</strong>
+                        <span class="phone">☎️ <a href="https://wa.me/213561546898" target="_blank">0561546898</a></span>
+                        <span class="email">📫 djebriabdeldjallil@gmail.com</span>
+                    </div>
+                </div>
+                <div class="region-card">
+                    <h4>🚩 ولايات الشرق</h4>
+                    <div class="member">
+                        <strong>👈 كرميش بايزيد</strong>
+                        <span class="phone">☎️ <a href="https://wa.me/213656192113" target="_blank">0656192113</a></span>
+                        <span class="email">📫 keribrahim25@gmail.com</span>
+                    </div>
+                    <div class="member">
+                        <strong>👈 جعفري عبد الرحمان</strong>
+                        <span class="phone">☎️ <a href="https://wa.me/213775586559" target="_blank">0775586559</a></span>
+                        <span class="email">📫 adberrahmanedjafri@yahoo.fr</span>
+                    </div>
+                    <div class="member">
+                        <strong>👈 بوقطوف توفيق</strong>
+                        <span class="phone">☎️ <a href="https://wa.me/213697797528" target="_blank">0697797528</a></span>
+                        <span class="email">📫 tarekaouaichiasnte12@gmail.com</span>
+                    </div>
+                    <div class="member">
+                        <strong>👈 حجازي خالد</strong>
+                        <span class="phone">☎️ <a href="https://wa.me/213663915534" target="_blank">0663915534</a></span>
+                        <span class="email">📫 sntebatna@gmail.com</span>
+                    </div>
+                </div>
+                <div class="region-card">
+                    <h4>🚩 ولايات الغرب</h4>
+                    <div class="member">
+                        <strong>👈 مجاطي علي</strong>
+                        <span class="phone">☎️ <a href="https://wa.me/213771242455" target="_blank">0771242455</a> / <a href="https://wa.me/213556454007" target="_blank">0556454007</a></span>
+                        <span class="email">📫 alimedjatio@gmail.com</span>
+                    </div>
+                    <div class="member">
+                        <strong>👈 بن علو توفيق</strong>
+                        <span class="phone">☎️ <a href="https://wa.me/213663241117" target="_blank">0663241117</a> / <a href="https://wa.me/213550362130" target="_blank">0550362130</a></span>
+                        <span class="email">📫 benalloudem@gmail.com</span>
+                    </div>
+                    <div class="member">
+                        <strong>👈 راشدي الهواري</strong>
+                        <span class="phone">☎️ <a href="https://wa.me/213776484477" target="_blank">0776484477</a></span>
+                        <span class="email">📫 sntemosta@gmail.com</span>
+                    </div>
+                </div>
+                <div class="region-card">
+                    <h4>🚩 ولايات الجنوب</h4>
+                    <div class="member">
+                        <strong>👈 بن يحي مصطفى</strong>
+                        <span class="phone">☎️ <a href="https://wa.me/213663664686" target="_blank">0663664686</a></span>
+                        <span class="email">📫 gourarasnte@gmail.com</span>
+                    </div>
+                    <div class="member">
+                        <strong>👈 عبد الحي رمضان</strong>
+                        <span class="phone">☎️ <a href="https://wa.me/213663112987" target="_blank">0663112987</a></span>
+                        <span class="email">📫 ramadhan063@gmail.com</span>
+                    </div>
+                    <div class="member">
+                        <strong>👈 معطالله عبد النبي</strong>
+                        <span class="phone">☎️ <a href="https://wa.me/213671327711" target="_blank">0671327711</a></span>
+                        <span class="email">📫 belhajbelhaj314@gmail.com</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="laws" class="tab-content">
+            <h2 class="section-title">الوثائق والنصوص المرجعية</h2>
+            <div class="downloads-grid">
+                <div class="download-card">
+                    <div><div class="download-icon">📖</div><h3>القانون الأساسي</h3><p>مسودة القانون الأساسي الحالي.</p></div>
+                    <a href="https://drive.google.com/file/d/1Wb693JzLidD8aSiTQ3J72HF8Dhw8k3Vm/view?usp=drive_link" target="_blank" class="btn-download">تحميل 📥</a>
+                </div>
+                <div class="download-card law-23-02">
+                    <div><div class="download-icon">⚖️</div><h3>القانون 23-02</h3><p>ممارسة الحق النقابي.</p></div>
+                    <a href="https://drive.google.com/file/d/1gWGJsb_pABHEyrKskeogHLJFi28XX2Gr/view?usp=drive_link" target="_blank" class="btn-download">تحميل 📥</a>
+                </div>
+                <div class="download-card law-23-08">
+                    <div><div class="download-icon">🛑</div><h3>القانون 23-08</h3><p>النزاعات وحق الإضراب.</p></div>
+                    <a href="https://drive.google.com/file/d/1At7pubkTLWo-DC5h8jNATXx108aq3rnK/view?usp=drive_link" target="_blank" class="btn-download">تحميل 📥</a>
+                </div>
+                <div class="download-card order-06-03">
+                    <div><div class="download-icon">🏢</div><h3>الأمر 06-03</h3><p>قانون الوظيفة العمومية.</p></div>
+                    <a href="https://drive.google.com/file/d/0B1ZcCEA55aNgYWdNd2NtTlczbUU/view?usp=sharing&resourcekey=0-NpzwqBvR-zqOfEU7qXXF9w" target="_blank" class="btn-download">تحميل 📥</a>
+                </div>
+            </div>
+        </div>
+
+        <div id="proposal" class="tab-content">
+            <h2 class="section-title">تقديم مقترح تعديل القانون الأساسي</h2>
             
-            <div class="subsection">
-                <h3>1- التعريف</h3>
-                <div class="article">
-                    <span class="article-num">المادة 01:</span> النقابة الوطنية لعمال التربية تجمع مهني مستقل ديمقراطي مطلبي غير حكومي لا يتبنى أية أيديولوجية سياسية و لا يخضع لأي وصاية حزبية أو إدارية يعمل في أطر الجمهورية بخضوعه للدستور والتزامه باحترام قوانين الدولة، يضم كل فئات عمال قطاع التربية الوطنية العاملين المرسمين والمتربصين والمتعاقدين والموقوفين تحفظيا، يرمز إليها بالحروف العربية (ن.و.ع.ت) و بالحروف الامازيغية ( ⵙ.ⵍ.ⵜ.ⴻ) و بالحروف اللاتينية ( S.N.T.E)
-                </div>
-                <div class="article">
-                    <span class="article-num">المادة 02:</span> تتمتع النقابة الوطنية لعمال التربية (S.N.T.E) بالشخصية المعنوية والاستقلالية المادية.
-                </div>
-                <div class="article">
-                    <span class="article-num">المادة 03:</span> تمارس النقابة الوطنية لعمال التربية (S.N.T.E) نشاطها في قطاع التربية الوطنية عبر كامل التراب الوطني و في الخارج بما تسمح به قوانين الجمهورية الجزائرية.
-                </div>
-                <div class="article">
-                    <span class="article-num">المادة 04:</span> تستمد النقابة الوطنية لعمال التربية (S.N.T.E) قوتها من تجنيد منخرطيها من اجل تحقيق العدالة الاجتماعية.
-                </div>
-                <div class="article">
-                    <span class="article-num">المادة 05:</span> تلتزم النقابة الوطنية لعمال التربية (S.N.T.E) بالدفاع عن الثوابت الأساسية للوطن بحمايتها والعمل على احترام الحريات الأساسية الفردية والجماعية.
-                </div>
+            <div class="notice-msg">
+                <strong>💡 ملاحظة:</strong> يتم حفظ ما تكتبه تلقائياً في متصفحك لضمان عدم ضياع مجهودك. يمكنك إضافة مقترحات لعدة مواد، ثم تحميلها كملف، أو إرسالها مباشرة بالبريد.
             </div>
 
-            <div class="subsection">
-                <h3>2- المدة</h3>
-                <div class="article">
-                    <span class="article-num">المادة 06:</span> مـدة النقابة الوطنية لعمال التربية (S.N.T.E) غيـر محـدودة.
+            <form id="proposalForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>الاسم واللقب</label>
+                        <input type="text" id="fullName" class="form-control auto-save" required placeholder="أدخل اسمك الكامل">
+                    </div>
+                    <div class="form-group">
+                        <label>الولاية / الفرع النقابي</label>
+                        <input type="text" id="wilaya" class="form-control auto-save" required placeholder="مثال: الجلفة">
+                    </div>
                 </div>
-            </div>
 
-            <div class="subsection">
-                <h3>3- المقر</h3>
-                <div class="article">
-                    <span class="article-num">المادة 07:</span> المقر المركزي للنقابة يكون بالجزائر العاصمـة؛ ويمكن نقله إلى جهة أخرى من الوطن بقرار من المجلس الوطني للنقابة وباتفاق ثلثي أعضائه في اجتماع عادى أو بأغلبية الحاضرين منه في اجتماع استثنائي.
-                </div>
-            </div>
+                <div id="articlesContainer">
+                    </div>
 
-            <div class="subsection">
-                <h3>4- الأهداف</h3>
-                <div class="article">
-                    <span class="article-num">المادة 08:</span> تعمل النقابة بكل الوسائل القانونية و الفكرية و المادية من أجل تحقيق الأهداف التالية:
-                    <ul>
-                        <li>دعم الديمقراطية ودولة القانون وحقوق الإنسان.</li>
-                        <li>الإسهام على الصعيد المحلي والوطني ثقافيا واجتماعيا وفكريا للرفع من مستوى التنمية في البلاد.</li>
-                        <li>نشر الفكر المؤسساتي النقابي المدافع عن المصلحة العامة.</li>
-                        <li>الدفاع عن الحقوق النقابية للمنخرطين والعمل على تمثيلهم في جميع المؤسسات المعنية بالتربية والتعليم.</li>
-                        <li>الدفاع عن حقوق المنخرطين المادية والمعنوية والمهنية والاجتماعية والثقافية في إطار القوانين الجزائرية والدولية الجاري بها العمل.</li>
-                        <li>العمل على بناء مدرسة جزائريـة تجسـد ثوابت الأمــة وتساير التقدم العلمي والتكنولوجي في إطار وطني تذوب فيه كل الفوارق الاجتماعية تكريسا لمكتسبات ديمقراطية تعميم التعليم ومجانتيه.</li>
-                        <li>الإسهام في الرقي بمنظومة التربية والتعليم والرفع من جودة مردوديتها بما يحقق طموحات الشعب الجزائري.</li>
-                        <li>تأطير وتكوين المنخرطين بما يحقق لديهم الوعي بحقوقهم وواجباتهم، وبما يحقق تنمية قطاعهم وتخصصهم ماديا ومعنويا.</li>
-                        <li>ممارسة الأنشطة الثقافية والاجتماعية والفنية للمساهمة في تمتين الروابط الاجتماعية بين منخرطي النقابة.</li>
-                        <li>ضمان تمثيـل العمال لـدى الهيئات العمومية والسلطات المحلية والمركزية.</li>
-                        <li>السعي لتشكيل كونفدراليات آو تكتلات نقابية والانضمام إليها على ألا يكون ذلك على حساب ثوابت الأمـة وقوانين الدولة الجزائرية.</li>
-                        <li>إنشاء تعاضديات وتعاونيات استهلاكية غير تجارية وغير ربحية في إطار خدمات اجتماعية لفائدة منخرطي النقابة الوطنية لعمال التربية.</li>
-                    </ul>
-                </div>
-            </div>
-        </section>
+                <button type="button" class="add-article-btn" onclick="addArticleBlock()">➕ إضافة مادة أخرى للتعديل</button>
 
-        <section class="chapter-section tab-content" id="part2">
-            <h2>الباب الثاني: (المبادئ العامة للتسيير، الانخراط والعضويـة، الحقوق الواجبات، التـرشـح والانتخاب، الانضباط)</h2>
-            
-            <div class="subsection">
-                <h3>1- المبادئ العامة للتسيير</h3>
-                <div class="article">
-                    <span class="article-num">المادة 09:</span> حرية التعبير وإبداء الرأي مضمونان ومحترمان داخل هيئات وهياكل النقابة الوطنية لعمال التربية.
+                <div class="actions-group">
+                    <button type="button" class="btn-action btn-save" onclick="downloadTxt()">📥 تحميل نسخة (ملف نصي TXT)</button>
+                    <button type="button" class="btn-action btn-print" onclick="window.print()">🖨️ طباعة / حفظ كـ PDF</button>
+                    <button type="button" class="btn-action btn-submit" onclick="sendEmail()">📧 إرسال المقترح للجنة الوطنية</button>
+                    <button type="button" class="btn-action" style="background:#7f8c8d; min-width: 100px;" onclick="clearDraft()">🗑️ مسح الكل</button>
                 </div>
-                <div class="article">
-                    <span class="article-num">المادة 10:</span> تتخذ القرارات في النقابة الوطنية لعمال التربية (S.N.T.E) بالأغلبية البسيطة ( 50 %+1 ) تحدد في النظام الداخلي.
-                </div>
-                <div class="article">
-                    <span class="article-num">المادة 11:</span> تتخذ القرارات المصيرية داخل هياكل النقابة بثلثي الأعضاء 2/3 على ضوء اقتراحات القاعدة. تعقد الاجتماعات التنظيمية على جميع المستويات عند اكتمال النصاب وترتكز على مبدأ الجماعية في المداولات والأغلبية في القرار وفق شروط يحددها النظام الداخلي للنقابة.
-                </div>
-                <div class="article">
-                    <span class="article-num">المادة 12:</span> تتمتع النقابة الوطنية لعمال التربية (S.N.T.E) باستقلالية التسيير والتسيير المالي والأهلية المدنية و بالشخصية المعنوية.
-                    <ul>
-                        <li>لغة التعامل داخل النقابة هي اللغة الوطنية.</li>
-                        <li>العمل بالاتفاقيات الدولية التي صادقت عليها الدولة الجزائرية والمتعلقة بحقوق الإنسان والحريات النقابية، وتفعيلها وتطويرها وملاءمتها حسب معطيات واقعنا الوطني الجزائري.</li>
-                    </ul>
-                </div>
-                <div class="article">
-                    <span class="article-num">المادة 13:</span> يمكن للنقابة الوطنية لعمال التربية (SNTE) أن تقوم بـ:
-                    <ul>
-                        <li>التقاضي وممارسة الحقوق المخصصة للطرف المدني لدى الجهات القضائية المختصة عقب وقائع لها علاقة بهدفها وألحقت أضرار بمصالح أعضائها الفردية أو الجماعية، المادية والمعنوية.</li>
-                        <li>إبرام أي عقد أو اتفاقية أو اتفاق له علاقة بهدفها.</li>
-                        <li>اقتناء أملاك منقولة أو عقارية، مجانا أو بمقابل، لممارسة النشاطات المنصوص عليها في قانونها الأساسي ونظامها الداخلي.</li>
-                        <li>نشر وإصدار نشريات ومجلات ووثائق إعلامية ونشرات لها علاقة بهدفها.</li>
-                        <li>التعامل مع المنظمات الوطنية والدولية، ومختلف القطاعات العمومية والخاصة في إطار الشراكة، وتبادل الخبرات والمشاورات والتنسيق بما يخدم أهداف النقابة ولا يتعارض وقوانين الدولة الجزائرية, يحدد النظام الداخلي كيفيات ذلك.</li>
-                        <li>تنظيم مؤتمرات وملتقيات ومحاضرات وندوات وأيام إعلامية وتوعوية.</li>
-                    </ul>
-                </div>
-                <div class="article">
-                    <span class="article-num">المادة 14:</span> تكتتب النقابة الوطنية لعمال التربية تأمينا يضمن التبعات المرتبطة بمسؤوليتها المدنية، وتؤمن هيئاتها التنفيذية اثناء أداء مهامها.
-                </div>
-            </div>
+            </form>
+        </div>
 
-            <div class="subsection">
-                <h3>2- الانخراط والعضويـة</h3>
-                <div class="article">
-                    <span class="article-num">المادة 15:</span> تكتسب العضوية بالانخراط ويحق لجميع فئات عمال القطاع العاملين المرسمين والمتربصين والمتعاقدين والموقوفين تحفظيا، الانخراط في صفوف النقابة مع مراعاة أحكام النظام الداخلي، وهم ملزمون بالتقيد بأهداف ومبادئ النقابة.
-                </div>
-                <div class="article">
-                    <span class="article-num">المادة 16:</span> تفقد العضوية في النقابة الوطنية لعمال التربية (S.N.T.E) بأحد الأسباب التالية:
-                    <ul>
-                        <li>الوفــــاة.</li>
-                        <li>الاستقالة.</li>
-                        <li>المساس بثوابت الأمـة.</li>
-                        <li>الانتقال إلى قطاع آخـر.</li>
-                        <li>المساس بأخلاقيات المهنة.</li>
-                        <li>عدم الوفـاء بالاشتراكات.</li>
-                        <li>الانخراط في نقابة أخرى.</li>
-                        <li>الجمع بين عهدة عضو في هيئة قيادة النقابة وممارسة عهدة في الهيئات القيادية لحزب سياسي.</li>
-                        <li>عدم الالتزام بالحياد والامتناع عن التصريح بمساندة الأحزاب السياسية ولأي شخصية سياسية لقياديين في هيئات النقابة العمودية والافقية يحدد النظام الداخلي كيفيات ذلك.</li>
-                        <li>عـدم الالتزام بأحكام القانون الأساسي والنظام الداخلي.</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="subsection">
-                <h3>3- الحقــــوق والواجبـات</h3>
-                <div class="article">
-                    <span class="article-num">المادة 17 (الحقوق):</span> يتمتع المنخرط في النقابة الوطنية لعمال التربية (S.N.T.E) بما يلي:
-                    <ul>
-                        <li>الحق في الانتخاب والترشح في جميع هيئات النقابة، يحدد النظام الداخلي ذلك.</li>
-                        <li>الحق في المشاركة في مشاريع النقابة.</li>
-                        <li>الحق في اكتساب صفة العضوية في النقابة بتوقيع المنخرط على استمارة الانخراط والحصول على بطاقة المنخرط.</li>
-                        <li>الحق في الحماية للممثل النقابي أثناء أداء مهامه النقابية من طرف الهيئات النقابية العليا.</li>
-                        <li>الحق في الإعلام والتكوين النقابي والتكوين التسييري.</li>
-                        <li>حق النقد على أساس الحوار السلمي والبناء.</li>
-                        <li>حق الطعن في القرارات الصادرة ضده.</li>
-                        <li>الحق في التعاضديات والتعاونيات الاستهلاكية ( الغير تجارية والغير ربحية ) وفق القانون.</li>
-                        <li>الحق في الاستقالة.</li>
-                    </ul>
-                </div>
-                <div class="article">
-                    <span class="article-num">المادة 18 (الواجبات):</span> على المنخرط في النقابـة الالتزام بما يلـي:
-                    <ul>
-                        <li>أهـداف ومبادئ النقابـة المحددة في هذا القانـون الأساسي والنظام الداخلـي.</li>
-                        <li>تطبيـق قرارات النقابة والقيـام بالمهام المسنـدة إليه.</li>
-                        <li>المواظبة على الحضـور في هيئـات النقابة التي يستدعـى إليهـا.</li>
-                        <li>العمل على وحـدة عمال القطـاع ومحاربة أوجه الانشقاق.</li>
-                        <li>مبدأ الجماعية والمداولات والأغلبية في اتخاذ القرارات مع الوحدة في التنفيذ.</li>
-                        <li>إبـداء الـرأي وتقديـم النصيحـة.</li>
-                        <li>الالتزام بدفـع الاشتراكات بانتظــام.</li>
-                        <li>احترام القانون الأساسي والنظام الداخلي للنقابة.</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="subsection">
-                <h3>4- التـرشـح والانتخاب</h3>
-                <div class="article">
-                    <span class="article-num">المادة 19:</span> تضمن النقابة الترشح لكافة منخرطيها البالغين سن 21 سنة فما فوق ويكون ذلك باعتمـاد القائمة المفتوحة يحدد النظام الداخلي كيفية ذلك.
-                </div>
-                <div class="article">
-                    <span class="article-num">المادة 20:</span> يكـون الاقتراع سريا و تعلـن النتائج مباشرة بعد الانتخاب.
-                </div>
-                <div class="article">
-                    <span class="article-num">المادة 21:</span> يمكن الانتخاب بتفويض.
-                </div>
-                <div class="article">
-                    <span class="article-num">المادة 22:</span> يشترط حضور المترشح يوم الترشح والناخب أو موكله يوم الانتخاب.
-                </div>
-                <div class="article">
-                    <span class="article-num">المادة 23:</span> يجب أن تتوفـر في المترشح الشروط التاليــة:
-                    <ul>
-                        <li>الجنسية الجزائرية الأصلية أو المكتسبة منذ عشر (10) سنوات على الأقل.</li>
-                        <li>أن يكون منخرطا في صفوف النقابة الوطنية لعمال التربية يحدد النظام الداخلي كيفية ذلك.</li>
-                        <li>أن يتمتع بحقوقه المدنية والوطنية ولم يتعرض لعقوبة جنائية.</li>
-                        <li>ان يكون بالغا سن 21 سنة كاملة.</li>
-                        <li>ألا يكون قد تعرض لعقوبات من الدرجة الثالثة من طرف هيئات النقابـة.</li>
-                    </ul>
-                </div>
-                <div class="article">
-                    <span class="article-num">المادة 24:</span> يحدد النظام الداخلي شروط الترشح للمسؤوليات في هيئات النقابة وتشكيل اللجان الانتخابية.
-                </div>
-            </div>
-
-            <div class="subsection">
-                <h3>5- الانضبــــاط</h3>
-                <div class="article">
-                    <span class="article-num">المادة 25:</span> تشكل لجنة تسمى لجنة الانضباط، يترأسها أمين و طني، يحدد النظام الداخلي كيفيات ذلك.
-                </div>
-                <div class="article">
-                    <span class="article-num">المادة 26:</span> يحال على لجنة الانضباط كل عضو منتخب لم يلتزم بأحكام القانون الأساسي أو النظام الداخلي. يحدد النظام الداخلي إجراءات الإحالة على لجنة الانضباط ومدة الطعن على أن يراعي الأحكام الآتية:
-                    <ul>
-                        <li>تطبيق إجـراءات الانضباط على جميـع المنخرطين في النقابة مهما كانت مراتبهـم.</li>
-                        <li>على هيئة الانضباط أن تمكن العضو المتهم من الطعن والاطلاع على ملفه والدفـاع عن نفسه أو اختيار من يدافع عنه.</li>
-                    </ul>
-                </div>
-                <div class="article">
-                    <span class="article-num">المادة 27:</span> تتمثل العقوبات التي يمكن تطبيقهـا حسب خطورتها في:
-                    <ol>
-                        <li>التوقيف النهائي مع المتابعة القضائية.</li>
-                        <li>التوقيف النهائي.</li>
-                        <li>التوقيف المؤقت بعد الإنذار الكتابي الثاني.</li>
-                        <li>الإنذار الكتابي: بعد لفت الانتباه الثاني.</li>
-                        <li>لفت الانتباه أو التنبيه.</li>
-                    </ol>
-                </div>
-            </div>
-        </section>
-
-        <section class="chapter-section tab-content" id="part3">
-            <h2>الباب الثالث: الهيكلة</h2>
-            
-            <div class="subsection">
-                <h3>1- هيئـات وهياكـل النقابــة</h3>
-                <div class="article">
-                    <span class="article-num">المادة 28:</span> يتم التمثيل في هيئات و هياكل النقابة عن طريق الانتخاب من القاعدة إلى القمة مع مراعاة أحكام القانون الأساسي و النظام الداخلي.
-                </div>
-                <div class="article">
-                    <span class="article-num">المادة 29:</span> يكون الهيكل التنظيمي للنقابة الوطنية لعمال التربية كالآتي:
-                    <ul>
-                        <li>على مستوى الوطن: المؤتمـر الوطني، المجلس الوطني، الأمانة الوطنية.</li>
-                        <li>على مستوى الولاية: الجمعية العامة الانتخابية للولاية، المجلس الولائي، الأمانة الولائية.</li>
-                        <li>على مستوى البلدية: الجمعية العامة الانتخابية البلدية، المجلس البلدي، الأمانة البلدية.</li>
-                        <li>على مستوى المؤسسة: الجمعية العامة الانتخابية للمؤسسة، أمانة الفرع النقابي للمؤسسة.</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="subsection">
-                <h3>2- هيئات النقابة على مستوى الوطن</h3>
-                <div class="article">
-                    <span class="article-num">المادة 30:</span> تتمثل هيئات النقابة على مستوى الوطن من المؤتمر الوطني، المجلس الوطني والأمانة الوطنية.
-                </div>
-                <div class="article">
-                    <span class="article-num">المادة 31:</span> المؤتمر الوطني هو أعلى هيئة على مستوى النقابة الوطنية لعمال التربية، ينعقد كل خمس (05) سنوات في دورة عادية، و ينعقد في دورة استثنائية بطلب من ثلثي ( 2/3 ) أعضاء المجلس الوطني أو بطلب من الأمين العام الوطني.
-                </div>
-                <div class="article">
-                    <span class="article-num">المادة 32:</span> يضم المؤتمر الوطني أعضاء المجلس الوطني السابق، أعضاء الأمانة الوطنية السابقة والأمناء العامون للولايات ورؤساء التنسيقيات الوطنية الممثلة لفئات القطاع والمندوبين المنتخبين على مستوى المجالس الولائية.
-                </div>
-                <div class="article">
-                    <span class="article-num">المادة 33:</span> المجلس الوطني هو الهيئة العليا للنقابة الوطنية لعمال التربية على مستوى الوطن بين المؤتمرين الوطنيين، يتكون من (90) إلى (135) عضو، ينعقد كل سنة (01) واحدة في دورة عادية، ويمكن أن ينعقد في دورة استثنائية بطلب من ثلثي 2/3 أعضاء المجلس الوطني أو بطلب من الأمين العام (للبت في القضايا المصيرية).
-                </div>
-                <div class="article">
-                    <span class="article-num">المادة 34:</span> يتكون المجلس الوطني من:
-                    <ol>
-                        <li>قدماء الأعضاء المنخرطين الذين لهم 20 سنة وأكثر من الانخراط في صفوف النقابة بدون انقطاع.</li>
-                        <li>الأمين العام الوطني للعهدة الانتخابية السابقة.</li>
-                        <li>أعضاء الأمانة الوطنية المنصبة بعد المؤتمر.</li>
-                        <li>رؤساء التنسيقيات الوطنية المنصبة بعد المؤتمر.</li>
-                        <li>المنسقين الوطنيين للجهة المنصبين بعد المؤتمر.</li>
-                        <li>الأمناء العامون للولايات المنصبون بعد المؤتمر.</li>
-                        <li>من بين المندوبون المنتخبون عن الجمعيات الانتخابية للولايات.</li>
-                        <li>في حدود (30) عضو (ثلث الحد الأدنى لأعضاء المجلس) ويتم تعيينهم من طرف الأمين العام الوطني المنتخب , وفق المادة 82 ادناه .  ( وفق شروط يحددها النظام الداخلي ) .</li>
-                    </ol>
-                </div>
-                <div class="article">
-                    <span class="article-num">المادة 35:</span> عضوية المجلس الوطني دائمة أثناء العهدة وتخول لصاحبها مهاما وطنية.
-                </div>
-                <div class="article">
-                    <span class="article-num">المادة 36:</span> بإمكان أعضاء من المجلس الوطني حضور اجتماعات المكتب الوطني بعنوان استشاري بعد توجيه الدعوة لهم.
-                </div>
-                <div class="article">
-                    <span class="article-num">المادة 37:</span> تتم مداولات المجلس الوطني بحضور (2/3) أعضائه، وفي حالة عدم توفر النصاب يحدد النظام الداخلي مدة تأجيل المجلس وعدد المشاركين.
-                </div>
-                <div class="article">
-                    <span class="article-num">المادة 38:</span> ينشئ المجلس الوطني لجانا تابعة له، وتنسيقيات وطنية ممثلة لفئات القطاع.
-                </div>
-                <div class="article">
-                    <span class="article-num">المادة 39:</span> يحدد النظام الداخلي تشكيلة ومهام وصلاحيات المؤتمر الوطني، المجلس الوطني ولجانه وتنسيقياته والأمانة الوطنية والأمناء الوطنيين عددهم ومهامهم.
-                </div>
-                <div class="article">
-                    <span class="article-num">المادة 40:</span> الأمانة الوطنية هي الهيئة التنفيذية للنقابة الوطنية لعمال التربية على مستوى الوطن وهي مسؤولة أمام أمينها العام. تعقد الأمانة الوطنية اجتماعاتها الدورية العادية والاستثنائية وفق شروط يحددها النظام الداخلي.
-                </div>
-                <div class="article">
-                    <span class="article-num">المادة 41:</span> تتكون الأمانة الوطنية من الأمين العام وعشر (10) أعضاء بصفة أمين وطني يحدد النظام الداخلي صلاحياتها ومهام أعضائها.
-                </div>
-                <div class="article">
-                    <span class="article-num">المادة 42:</span> الأمين العام مسؤول أمام المجلس الوطني المنتخب، يُنتخب من المجلس الوطني المنتخب، يعين أعضاء أمانته من بين أعضاء المجلس الوطني ويسمون الأمناء الوطنيون ويوزع مهامهم في مدة لا تتجاوز ستين (60) يوما التي تلي المؤتمر الوطني كحد أقصى بعد انتخابه، هو المسؤول ايضا عن تعيين المنسق الوطني للرتبة أو السلك الممثلة لفئات القطاع او المنسق الوطني للجهة، يحدد النظام الداخلي الكيفيات والإجراءات لذلك.
-                </div>
-                <div class="article">
-                    <span class="article-num">المادة 43:</span> الأمناء الوطنيون هم أعضاء الأمانة الوطنية المعينون من طرف الأمين العام في ظرف ستون (60) يوما كحد أقصى بعد انتخابه، وهم مسؤولون أمام الأمين العام.
-                </div>
-                <div class="article">
-                    <span class="article-num">المادة 44:</span> تعقد الأمانة الوطنية اجتماعات دورة عادية كل ثلاث (03) أشهر يحدد رزنامتها الأمين العام.
-                </div>
-                <div class="article">
-                    <span class="article-num">المادة 45:</span> يسهر الأمين العام على تنفيذ قرارات وتوصيات المجلس الوطني.
-                </div>
-                <div class="article">
-                    <span class="article-num">المادة 46:</span> لأتداول الأمانة الوطنية قانونا إلا بحضور أغلبية أعضائها، إذا لم يتوفر النصاب القانوني تجتمع من جديد في اجل أقصاه ثلاثة (03) أيام، وتداول مهما كان عدد الحاضرين.
-                </div>
-            </div>
-
-            <div class="subsection">
-                <h3>3- هيئات النقابة على مستوى الولاية</h3>
-                <div class="article">
-                    <span class="article-num">المادة 47:</span> تتمثل هيئات النقابة على مستوى الولاية من الجمعية العامة الانتخابية للولاية، المجلس الولائي، الأمانة الولائية.
-                </div>
-                <div class="article">
-                    <span class="article-num">المادة 48:</span> الجمعية العامة الانتخابية للولاية هي أعلى هيئة على مستوى الولاية، تنعقد كل خمس (05) سنوات في دورة عادية، وتنعقد في دورة استثنائية بطلب من ثلثي (2/3) أعضاء المجلس الولائي أو بطلب من الأمين العام الوطني.
-                </div>
-                <div class="article">
-                    <span class="article-num">المادة 49:</span> المجلس الولائي هو الهيئة العليا للنقابة الوطنية لعمال التربية على مستوى الولاية بين الجمعيتين العامتين الانتخابيتين للولاية، يتكون من (25) إلى (100) عضو ينعقد كل سنة (01) واحدة في دورة عادية، ويمكن أن ينعقد في دورة غير عادية يوضحها النظام الداخلي.
-                </div>
-                <div class="article">
-                    <span class="article-num">المادة 50:</span> يحدد النظام الداخلي تشكيلة ومهام وصلاحيات الجمعية العامة الانتخابية للولاية، المجلس الولائي، الأمانة الولائية.
-                </div>
-                <div class="article">
-                    <span class="article-num">المادة 51:</span> الأمانة الولائية هي الهيئة التنفيذية للنقابة الوطنية لعمال التربية على مستوى الولاية، وهي مسؤولة أمام أمينها العام. تعقد الأمانة الولائية اجتماعاتها الدورية العادية والاستثنائية وفق شروط يحددها النظام الداخلي.
-                </div>
-                <div class="article">
-                    <span class="article-num">المادة 52:</span> تتكون الأمانة الولائية من الأمين العام للولاية وثمان (08 ) أعضاء بصفة أمين ولائي.
-                </div>
-                <div class="article">
-                    <span class="article-num">المادة 53:</span> الأمين العام للولاية مسؤول أمام المجلس الولائي، يُنتخب من المجلس الولائي. يحدد النظام الداخلي صلاحيات الأمين العام للولاية.
-                </div>
-                <div class="article">
-                    <span class="article-num">المادة 54:</span> الأمناء الولائيون هم أعضاء الأمانة الولائية الذين أقرهم الأمين العام الوطني للنقابة بعد اقتراحهم من طرف الأمين العام للولاية, من بين أعضاء المجلس الولائي.
-                </div>
-                <div class="article">
-                    <span class="article-num">المادة 55:</span> يحدد النظام الداخلي مهام وصلاحيات الجمعية العامة الانتخابية للولاية ، المجلس الولائي ولجانه والأمانة الولائية وعدد ومهام أمناء الولاية.
-                </div>
-            </div>
-
-            <div class="subsection">
-                <h3>4- هيئات النقابة على مستوى البلدية</h3>
-                <div class="article">
-                    <span class="article-num">المادة 56:</span> تتمثل هيئات النقابة على مستوى البلدية من الجمعية العامة الانتخابية البلدية، المجلس البلدي، الأمانة البلدية وأمانات الفروع النقابية للمؤسسات.
-                </div>
-                <div class="article">
-                    <span class="article-num">المادة 57:</span> المجلس البلدي هو الهيئة العليا للنقابة الوطنية لعمال التربية على مستوى البلدية بين الجمعيتين العامتين الانتخابيتين للبلدية، يتكون من (20) إلى (50) عضو.
-                </div>
-                <div class="article">
-                    <span class="article-num">المادة 58:</span> الأمانة البلدية هي الهيئة التنفيذية للنقابة على مستوى البلدية تتكون من خمسة (05) إلى سبعة (07) أعضاء وهي مسؤولة أمام الجمعية العامة للبلدية. (يحدد النظام الداخلي تشكيلة ومهام وصلاحيات الجمعية العامة الانتخابية البلدية والمجلس البلدي والأمانة البلدية).
-                </div>
-            </div>
-
-            <div class="subsection">
-                <h3>5- هيئات النقابة على مستوى المؤسسة</h3>
-                <div class="article">
-                    <span class="article-num">المادة 59:</span> تتمثل هيئات النقابة على مستوى المؤسسة من الجمعية العامة للمؤسسة وأمانة الفرع النقابي للمؤسسة.
-                </div>
-                <div class="article">
-                    <span class="article-num">المادة 60:</span> أمانـة الفرع النقابي للمؤسسة هي الهيئة التنفيذية القاعدية للنقابة. و أمين الفرع النقابي هو المسؤول أمام الجمعية العامة للمؤسسة.
-                </div>
-                <div class="article">
-                    <span class="article-num">المادة 61:</span> ترسل تقارير دورية لنشاطات أمانة الفرع النقابي للمؤسسة إلى الهيئة العليا مع احترام السلم الإداري. ( يحدد النظام الداخلي تشكيلة ومهام الجمعية العامة و أمانة الفرع النقابي للمؤسسة و عدد أعضائه ).
-                </div>
-            </div>
-        </section>
-
-        <section class="chapter-section tab-content" id="part4">
-            <h2>الباب الرابع : موارد ومصاريف النقابة</h2>
-            
-            <div class="subsection">
-                <div class="article">
-                    <span class="article-num">المادة 62:</span> تتكـون الموارد الماليـة للنقابـة من:
-                    <ul>
-                        <li>اشتراكـات المنخرطين.</li>
-                        <li>حاصـل النشاطـات الثقافية والاجتماعية.</li>
-                        <li>الهبـات والوصايـا.</li>
-                        <li>إعانـات الدولـة المحتملـة.</li>
-                        <li>الإعانات الوطنية أو الدولية المحتملة.</li>
-                    </ul>
-                </div>
-                <div class="article">
-                    <span class="article-num">المادة 63:</span> يشرح النظام الداخلي التسيير المالي لكل هيئة تابعة للنقابة.
-                </div>
-                <div class="article">
-                    <span class="article-num">المادة 64:</span> تدفـع موارد النقابـة الماليـة وجوبـا إلى الحسـاب البنكـي أو البريدي الخاص بها.
-                </div>
-                <div class="article">
-                    <span class="article-num">المادة 65:</span> يحدد النظـام الداخلي كيفيـة استعمال هـذا الحسـاب وكـذا عمليـات السحب.
-                </div>
-                <div class="article">
-                    <span class="article-num">المادة 66:</span> توزيع الاشتراكات على مستـوى كل هيئات النقابة يحددها المجلـس الوطنـي.
-                </div>
-                <div class="article">
-                    <span class="article-num">المادة 67:</span> الأمانة الوطنية ملزمة بإعداد مشروع ميزانية سنوية يصادق عليه المجلس الوطني.
-                </div>
-                <div class="article">
-                    <span class="article-num">المادة 68:</span> يستفيد أعضاء الهيئات الوطنية والولائية من مصاريف المهام وفق مقياس يحدده النظام الداخلي.
-                </div>
-                <div class="article">
-                    <span class="article-num">المادة 69:</span> ترسل نسخة من التقارير المالية الولائية إلى الأمانة الوطنية سنويا.
-                </div>
-                <div class="article">
-                    <span class="article-num">المادة 70:</span> يفتح وجوبا حساب مالي بنكي أو بريدي للهيئات التنفيذية الوطنية والولائية للنقابة.
-                </div>
-            </div>
-        </section>
-
-        <section class="chapter-section tab-content" id="part5">
-            <h2>الباب الخامس: أحكام عامة</h2>
-            
-            <div class="subsection">
-                <div class="article">
-                    <span class="article-num">المادة 71:</span> يضع المجلس الوطني نظاما داخليا يتمم ويوضح مقتضيات القانون الأساسي ويضبط اختصاصات الأجهزة التقريرية والتنفيذية سواء على المستوى الوطني أو المحلي، يراجعه ويصادق عليه كلما دعت الضرورة ذلك، وهو بهذه الصفة ملزم لجميع الأعضاء.
-                </div>
-                <div class="article">
-                    <span class="article-num">المادة 72:</span> للمؤتمر الوطني حق تعديل القانون الأساسي، وللمكتب الوطني والمجلس الوطني حق اقتراح تعديلات على المؤتمر الوطني.
-                </div>
-                <div class="article">
-                    <span class="article-num">المادة 72 مكرر 1:</span> للمجلس الوطني حق تعديل بعض مواد القانون الأساسي للنقابة استثناء وللضرورة القصوى وبحضور محضر قضائي وجوبا وللتكيف مع أي قانون يتعلق بممارسة الحق النقابي والذي يصدر بين مؤتمرين.
-                </div>
-                <div class="article">
-                    <span class="article-num">المادة 72 مكرر 2:</span> لا يمكن باي حال من الأحوال تعديل أي مادة في القانون الأساسي في دورة المجلس الوطني الاستثنائي بناء على المادة 72 مكرر 1 الا المواد التي تكون غير متطابقة مع قانون ممارسة الحق النقابي الجديد الصادر بين مؤتمرين.
-                </div>
-                <div class="article">
-                    <span class="article-num">المادة 73:</span> يمكن للنقابة الوطنية لعمال التربية أن تنخرط في المنظمات الدولية والقارية والجهوية وفق التوصيات المؤتمر وقرارات المجلس الوطني بين مؤتمرين واعلام السلطة الإدارية المختصة (وزارة العمل) بذلك في أجل 15 يوم على الأكثر وفق القانون.
-                </div>
-                <div class="article">
-                    <span class="article-num">المادة 74:</span> يمنع تولي المسؤولية في أكثر من هيئة تنفيذية واحدة في النقابة.
-                </div>
-                <div class="article">
-                    <span class="article-num">المادة 75:</span> يمنع الجمع بين عهدة عضو في هيئة قيادة للنقابة وممارسة عهدة في الهيئات القيادية لحزب سياسي غير ان أعضاء النقابة يتمتعون بحرية الانضمام الفردي الى أي حزب سياسي، كما يمنع الجمع بين المسؤولية في النقابة وبين المسؤولية الإدارية في نفس المؤسسة يحدد النظام الداخلي للنقابة كيفية ذلك.
-                </div>
-                <div class="article">
-                    <span class="article-num">المادة 76:</span> تمارس هيئات النقابـة المؤقتة نشاطها مدة (12) شهرا قابلة للتجديد مرة واحدة فقط.
-                </div>
-                <div class="article">
-                    <span class="article-num">المادة 77:</span> لا تعقد الجمعيات العامة الانتخابية للولايات إلا برخصة من الأمين العام الوطني.
-                </div>
-                <div class="article">
-                    <span class="article-num">المادة 78:</span> في حالة تساوي المرشحين في عدد الأصوات المحصل عليها تعطى الأولوية لأقدمهم في النقابة ثم لأكبرهم سنا على الترتيب.
-                </div>
-                <div class="article">
-                    <span class="article-num">المادة 79:</span> يحدد مبلغ الانخراط بـ 200 دج سنويا.
-                </div>
-                <div class="article">
-                    <span class="article-num">المادة 79 مكرر:</span> وجوب مراسلة السلطة الإدارية المختصة (وزارة العمل) كل 03 سنوات بمؤشرات إحصائية تسمح بتحديد تعداد المنخرطين وفق القانون, يحدد النظام الداخلي للنقابة كيفية ذلك.
-                </div>
-                <div class="article">
-                    <span class="article-num">المادة 80:</span> تجرى أشغال المؤتمر الوطني او أي تعديل استثنائي للقانون الأساسي بمحضر قضائي وجوبا.
-                </div>
-                <div class="article">
-                    <span class="article-num">المادة 81:</span> يوقع الأمين العام الوطني والأمين المكلف بالمالية والوسائل الوثائق المتعلقة بشراء أو بيع أو كراء العقارات والممتلكات المنقولة وغير المنقولة للنقابة بعد موافقة جميع أعضاء مكتب الأمانة الوطنية.
-                </div>
-                <div class="article">
-                    <span class="article-num">المادة 82:</span> الأمين العام الوطني يقوم بتعيين إطارات نقابية في المجلس الوطني من الشباب والنساء المنخرطين في النقابة كأعضاء دائمين في حدود (30) عضوا؛ ويمكنه أيضا تعيين أعضاء شرفيين من متقاعدي القطاع في حدود (10) أعضاء على الأكثر. النظام الداخلي يحدد كيفية وشروط ومهام الأعضاء الدائمين والشرفيين المعينين.
-                </div>
-                <div class="article">
-                    <span class="article-num">المادة 82 مكرر:</span> في كل الأحوال لا يجب ان يقل عدد النساء والشباب في كل هياكل النقابة الافقية والعمودية عن الثلث.
-                </div>
-                <div class="article">
-                    <span class="article-num">المادة 83:</span> في حالة شغور منصب الأمين العام الوطني يتولى شؤون النقابة مسؤول التنظيم في الأمانة الوطنية إلى غاية انعقاد الدورة الاستثنائية للمؤتمر الوطني في أجل أقصاه (90) يوما، حيث ينتخب الأمين العام الوطني لملأ الشغور.
-                </div>
-                <div class="article">
-                    <span class="article-num">المادة 83 مكرر:</span> وفي حال رفض الأمين الوطني المكلف بالتنظيم تولى تسيير شؤون النقابة في المرحلة الانتقالية لشغور منصب الأمين العام الوطني يجتمع أعضاء المكتب الوطني لتعيين او انتخاب عضو من الأمانة الوطنية يتولى تسيير شؤون النقابة الى غاية انعقاد الدورة الاستثنائية للمؤتمر الوطني في اجل أقصاه (90) يوم حيث ينتخب الأمين العام الوطني لملأ الشغور.
-                </div>
-                <div class="article">
-                    <span class="article-num">المادة 84:</span> في حالة وجود فراغ قانوني، يحق للمجلس الوطني إصدار مقتضيات أخرى، شريطة عدم تناقضها مع روح القانون الأساسي للنقابة أو القانون العام؛ ويبقى للمؤتمر الوطني القادم حق الإبقاء عليها أو إلغائها.
-                </div>
-                <div class="article">
-                    <span class="article-num">المادة 85:</span> تسري أحكام هذا القانون على جميع هياكل وهيئات النقابـة.
-                </div>
-                <div class="article">
-                    <span class="article-num">المادة 86:</span> يراعي في تشكيل هياكل وهيئات النقابة المحلية ظروف كل ولاية وطبيعتها الجغرافية.
-                </div>
-                <div class="article">
-                    <span class="article-num">المادة 87:</span> تنشأ الأمانة الوطنية:
-                    <ul>
-                        <li>الموقع الرسمي للنقابة على صفحة الويب.</li>
-                        <li>الخلية الوطنية للإعلام والتنظيم على موقع التواصل الاجتماعي.</li>
-                    </ul>
-                    ويعتبران لسان الحال للأمانة الوطنية تشكيلهما والاشراف عليهما يحددها النظام الداخلي.
-                </div>
-                <div class="article">
-                    <span class="article-num">المادة 88:</span> تحدد المدة القانونية للعهدة الانتخابية بخمس (05) سنوات.
-                </div>
-                <div class="article">
-                    <span class="article-num">المادة 89:</span> الأمانة العامة للنقابة عبر كل هياكلها تسمح بعهدتين على الأكثر، يحدد النظام الداخلي للنقابة كيفية ذلك.
-                </div>
-                <div class="article">
-                    <span class="article-num">المادة 90:</span> يضع المجلس الوطني ويُعد ويصادق على ميثاق اخلاقيات يتعلق بالنشاط الممارس من طرف المنخرطين الذي لا يمكن مخالفته.
-                </div>
-                <div class="article">
-                    <span class="article-num">المادة 91:</span> حل هـذه النقابة طوعيا من صلاحيـة المؤتمر الاستثنائي باتفاق ثلثي أعضائه، ويتم تحويل ممتلكاتها المختلفة بعد تصفيتها من قبل لجنة ينتخبها المؤتمر الوطني الاستثنائي لهذا الغرض إلى جهة نظيرة أو خيرية أو جهة عامة أو تحبس على عمل خيري ذي طبيعة تربوية.
-                </div>
-                <div class="article">
-                    <span class="article-num">المادة 92:</span> تلغى كافة البنود المخالفة لهدا القانون، مع اخطار السلطة الإدارية المختصة ( وزارة العمل ) في غضون 30 يوم عمل التي تلي القرارات المتخذة , بكل التعديلات التي طرأت على القانون الأساسي والمعاينة من طرف محضر قضائي.
-                </div>
-            </div>
-            
-            <div style="margin-top: 30px; padding: 20px; background-color: #fce4e4; border-right: 4px solid var(--primary-red); border-radius: 5px;">
-                <p style="margin: 0; font-weight: bold;">ملاحظة: تمت المصادقة على تعديل القانون الاساسي للنقابة في الدورة الاستثنائية للمؤتمر الوطني يومي 20 / 21 أكتوبر 2023, عملا بأحكام المادة 159 من القانون 23-02 المتعلق بكيفيات ممارسة الحق النقابي لاسيما احكام المادة 38 منه، وذلك بـثانوية الشيخ النعيم النعيمي بالجلفة.</p>
-            </div>
-        </section>
-        
     </div>
 
-    <footer>
-        <p>جميع الحقوق محفوظة &copy; 2026</p>
-        <span>اللجنة الوطنية لتحضير المؤتمر السادس الاستثنائي</span>
-    </footer>
-
     <script>
-        const navLinks = document.querySelectorAll('nav a');
-        const tabContents = document.querySelectorAll('.tab-content');
-        const searchInput = document.getElementById('searchInput');
-        let currentActiveTab = 'committee';
-
-        function switchTab(targetId) {
-            tabContents.forEach(tab => tab.classList.remove('active'));
-            navLinks.forEach(link => link.classList.remove('active'));
-            
-            const targetTab = document.getElementById(targetId);
-            if(targetTab) {
-                targetTab.classList.add('active');
-                currentActiveTab = targetId;
-            }
-            
-            const targetLink = document.querySelector(`nav a[data-target="${targetId}"]`);
-            if(targetLink) {
-                targetLink.classList.add('active');
-            }
-
-            searchInput.value = '';
-            resetSearch();
+        // التبديل بين التبويبات
+        function openTab(evt, tabName) {
+            let tabContent = document.getElementsByClassName("tab-content");
+            for (let i = 0; i < tabContent.length; i++) tabContent[i].style.display = "none";
+            let tabBtns = document.getElementsByClassName("tab-btn");
+            for (let i = 0; i < tabBtns.length; i++) tabBtns[i].className = tabBtns[i].className.replace(" active", "");
+            document.getElementById(tabName).style.display = "block";
+            evt.currentTarget.className += " active";
         }
 
-        navLinks.forEach(link => {
-            link.addEventListener('click', function(e) {
-                e.preventDefault();
-                const targetId = this.getAttribute('data-target');
-                switchTab(targetId);
-            });
-        });
+        let articleCount = 0;
 
-        function resetSearch() {
-            document.querySelectorAll('.article, h3, .chapter-section').forEach(el => {
-                el.classList.remove('hidden');
-            });
-            tabContents.forEach(tab => {
-                if(tab.id !== currentActiveTab) {
-                    tab.classList.remove('active');
-                } else {
-                    tab.classList.add('active');
-                }
+        // إضافة قالب مقترح جديد
+        function addArticleBlock(data = null) {
+            articleCount++;
+            const container = document.getElementById('articlesContainer');
+            const block = document.createElement('div');
+            block.className = 'article-block';
+            block.id = 'article_block_' + articleCount;
+            
+            block.innerHTML = `
+                ${articleCount > 1 ? `<button type="button" class="remove-btn" onclick="removeArticleBlock('${block.id}')">X</button>` : ''}
+                <div class="form-group">
+                    <label>رقم المادة المستهدفة بالتعديل أو الإضافة</label>
+                    <input type="text" class="form-control art-num auto-save" placeholder="مثال: المادة 34 أو اقتراح مادة جديدة" value="${data ? data.num : ''}">
+                </div>
+                <div class="form-group">
+                    <label>النص المقترح للمادة</label>
+                    <textarea class="form-control art-text auto-save" placeholder="اكتب صياغتك الدقيقة للمادة...">${data ? data.text : ''}</textarea>
+                </div>
+                <div class="form-group">
+                    <label>السند القانوني أو التبرير</label>
+                    <textarea class="form-control art-just auto-save" placeholder="اشرح لماذا تقترح هذا التعديل (القانون 23-02...الخ)">${data ? data.just : ''}</textarea>
+                </div>
+            `;
+            container.appendChild(block);
+            attachAutoSaveListeners();
+        }
+
+        // حذف مقترح
+        function removeArticleBlock(id) {
+            document.getElementById(id).remove();
+            saveDataToLocal();
+        }
+
+        // ---- نظام الحفظ التلقائي (Auto-Save) ----
+        function attachAutoSaveListeners() {
+            document.querySelectorAll('.auto-save').forEach(input => {
+                input.removeEventListener('input', saveDataToLocal); 
+                input.addEventListener('input', saveDataToLocal);
             });
         }
 
-        searchInput.addEventListener('keyup', function() {
-            let filter = this.value.toLowerCase();
-            
-            if (filter === '') {
-                resetSearch();
-                return;
-            }
-
-            navLinks.forEach(link => link.classList.remove('active'));
-
-            tabContents.forEach(function(chapter) {
-                let articles = chapter.querySelectorAll('.article');
-                let chapterHasVisibleArticle = false;
-                
-                articles.forEach(function(article) {
-                    let text = article.textContent || article.innerText;
-                    if (text.toLowerCase().indexOf(filter) > -1) {
-                        article.classList.remove('hidden');
-                        chapterHasVisibleArticle = true;
-                    } else {
-                        article.classList.add('hidden');
-                    }
+        function saveDataToLocal() {
+            const data = {
+                fullName: document.getElementById('fullName').value,
+                wilaya: document.getElementById('wilaya').value,
+                articles: []
+            };
+            document.querySelectorAll('.article-block').forEach(block => {
+                data.articles.push({
+                    num: block.querySelector('.art-num').value,
+                    text: block.querySelector('.art-text').value,
+                    just: block.querySelector('.art-just').value
                 });
-
-                let subsections = chapter.querySelectorAll('.subsection');
-                subsections.forEach(function(sub) {
-                    let visibleArticlesInSub = sub.querySelectorAll('.article:not(.hidden)').length;
-                    let heading = sub.querySelector('h3');
-                    if(heading) {
-                        if(visibleArticlesInSub === 0) {
-                            heading.classList.add('hidden');
-                        } else {
-                            heading.classList.remove('hidden');
-                        }
-                    }
-                });
-
-                let chapterTitleText = chapter.querySelector('h2').textContent.toLowerCase();
-                
-                if (chapterHasVisibleArticle || chapterTitleText.indexOf(filter) > -1) {
-                    chapter.classList.add('active');
-                    chapter.classList.remove('hidden');
-                    if(chapterTitleText.indexOf(filter) > -1 && !chapterHasVisibleArticle) {
-                        articles.forEach(a => a.classList.remove('hidden'));
-                        subsections.forEach(sub => {
-                            let h = sub.querySelector('h3');
-                            if(h) h.classList.remove('hidden');
-                        });
-                    }
-                } else {
-                    chapter.classList.remove('active');
-                }
             });
-        });
+            localStorage.setItem('snte_proposal_draft', JSON.stringify(data));
+        }
+
+        function loadDraft() {
+            const draft = JSON.parse(localStorage.getItem('snte_proposal_draft'));
+            if (draft) {
+                document.getElementById('fullName').value = draft.fullName || '';
+                document.getElementById('wilaya').value = draft.wilaya || '';
+                if (draft.articles && draft.articles.length > 0) {
+                    draft.articles.forEach(art => addArticleBlock(art));
+                } else {
+                    addArticleBlock();
+                }
+            } else {
+                addArticleBlock(); 
+            }
+        }
+
+        function clearDraft() {
+            if(confirm('هل أنت متأكد أنك تريد مسح كل المقترحات؟')) {
+                localStorage.removeItem('snte_proposal_draft');
+                document.getElementById('fullName').value = '';
+                document.getElementById('wilaya').value = '';
+                document.getElementById('articlesContainer').innerHTML = '';
+                articleCount = 0;
+                addArticleBlock();
+            }
+        }
+
+        // ---- تجميع البيانات للنصوص والإيميل ----
+        function buildProposalString() {
+            let name = document.getElementById('fullName').value || 'غير محدد';
+            let wilaya = document.getElementById('wilaya').value || 'غير محدد';
+            
+            let content = `مقترحات تعديل القانون الأساسي (S.N.T.E)\n`;
+            content += `==========================================\n`;
+            content += `مقدم المقترح: ${name}\nالولاية / الفرع: ${wilaya}\n`;
+            content += `==========================================\n\n`;
+
+            document.querySelectorAll('.article-block').forEach((block, index) => {
+                let num = block.querySelector('.art-num').value || 'غير محدد';
+                let text = block.querySelector('.art-text').value || 'فارغ';
+                let just = block.querySelector('.art-just').value || 'فارغ';
+
+                content += `[ المقترح رقم ${index + 1} ]\n`;
+                content += `- المادة المستهدفة: ${num}\n`;
+                content += `- النص المقترح:\n${text}\n\n`;
+                content += `- السند / التبرير:\n${just}\n`;
+                content += `------------------------------------------\n\n`;
+            });
+            return content;
+        }
+
+        // 1. تحميل كملف نصي (TXT)
+        function downloadTxt() {
+            const content = buildProposalString();
+            const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = `مقترحات_أسنتيو_${document.getElementById('fullName').value || 'جديد'}.txt`;
+            link.click();
+        }
+
+        // 2. إرسال عبر البريد
+        function sendEmail() {
+            const emailTo = "Kouidery@ymail.com";
+            const subject = encodeURIComponent("مقترحات تعديل القانون الأساسي - " + document.getElementById('fullName').value);
+            const body = encodeURIComponent(buildProposalString());
+            
+            window.location.href = "mailto:" + emailTo + "?subject=" + subject + "&body=" + body;
+            alert("سيتم فتح تطبيق البريد الخاص بك. تأكد من تحميل نسخة نصية إذا كان المقترح طويلاً جداً تحسباً لأي مشكلة في متصفح البريد.");
+        }
+
+        // عند تحميل الصفحة
+        window.onload = function() {
+            loadDraft();
+        };
     </script>
 </body>
 </html>
