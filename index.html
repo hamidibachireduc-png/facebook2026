@@ -89,10 +89,12 @@
         .btn-download:hover { filter: brightness(1.1); }
 
         /* Form */
+        .form-section-title { font-size: 1.3rem; color: var(--primary-green); margin-top: 20px; margin-bottom: 15px; border-bottom: 1px solid #ccc; padding-bottom: 5px;}
         .form-row { display: flex; gap: 20px; }
         .form-group { margin-bottom: 20px; flex: 1; }
         @media (max-width: 768px) { .form-row { flex-direction: column; gap: 0; } }
-        .form-group label { display: block; margin-bottom: 8px; font-weight: bold; color: var(--primary-green); }
+        .form-group label { display: block; margin-bottom: 8px; font-weight: bold; color: var(--text-dark); }
+        .required-star { color: var(--danger-red); margin-right: 3px; font-weight: bold;}
         .form-control { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 5px; font-size: 1rem; }
         .form-control:focus { outline: none; border-color: var(--secondary-green); }
         textarea.form-control { resize: vertical; min-height: 100px; }
@@ -155,6 +157,9 @@
 
         <div id="committee" class="tab-content" style="display: block;">
             <h2 class="section-title">اللجنة الوطنية لتحضير المؤتمر 6 الاستثنائي</h2>
+            <div style="text-align: center; background: #e8f8f5; color: #27ae60; padding: 10px; border-radius: 5px; margin-bottom: 20px;">
+                <strong>💬 تواصل مباشر:</strong> اضغط على رقم الهاتف لفتح محادثة واتساب مع العضو مباشرة.
+            </div>
             <div class="committee-grid">
                 <div class="region-card">
                     <h4>🚩 ولايات الوسط</h4>
@@ -238,9 +243,12 @@
 
         <div id="laws" class="tab-content">
             <h2 class="section-title">الوثائق والنصوص المرجعية</h2>
+            <p style="text-align: center; color: var(--text-dark); font-size: 1.1rem; margin-bottom: 20px;">
+                يرجى الاطلاع على النصوص التشريعية والتنظيمية أدناه قبل تقديم أي مقترح لضمان المطابقة والتوافق.
+            </p>
             <div class="downloads-grid">
                 <div class="download-card">
-                    <div><div class="download-icon">📖</div><h3>القانون الأساسي</h3><p>مسودة القانون الأساسي الحالي.</p></div>
+                    <div><div class="download-icon">📖</div><h3>القانون الأساسي للنقابة</h3><p>مسودة القانون الأساسي الحالي للتقييم.</p></div>
                     <a href="https://drive.google.com/file/d/1Wb693JzLidD8aSiTQ3J72HF8Dhw8k3Vm/view?usp=drive_link" target="_blank" class="btn-download">تحميل 📥</a>
                 </div>
                 <div class="download-card law-23-02">
@@ -260,17 +268,45 @@
 
         <div id="proposal" class="tab-content">
             <h2 class="section-title">تقديم مقترح تعديل القانون الأساسي</h2>
+            
             <form id="proposalForm">
+                
+                <h3 class="form-section-title">📝 بيانات المرسل</h3>
+                
                 <div class="form-row">
                     <div class="form-group">
-                        <label>الاسم واللقب</label>
+                        <label>الاسم واللقب <span class="required-star">*</span></label>
                         <input type="text" id="fullName" class="form-control auto-save" required placeholder="أدخل اسمك الكامل">
                     </div>
                     <div class="form-group">
-                        <label>الولاية / الفرع النقابي</label>
-                        <input type="text" id="wilaya" class="form-control auto-save" required placeholder="مثال: الجلفة">
+                        <label>البريد الإلكتروني</label>
+                        <input type="email" id="email" class="form-control auto-save" placeholder="اختياري (مثال: name@gmail.com)">
                     </div>
                 </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>الرتبة <span class="required-star">*</span></label>
+                        <input type="text" id="rank" class="form-control auto-save" required placeholder="مثال: أستاذ تعليم متوسط">
+                    </div>
+                    <div class="form-group">
+                        <label>مكان العمل <span class="required-star">*</span></label>
+                        <input type="text" id="workplace" class="form-control auto-save" required placeholder="المؤسسة أو الولاية">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>رقم الهاتف <span class="required-star">*</span></label>
+                        <input type="tel" id="phoneNum" class="form-control auto-save" required placeholder="أدخل رقم هاتفك">
+                    </div>
+                    <div class="form-group">
+                        <label>الصفة النقابية <span class="required-star">*</span></label>
+                        <input type="text" id="unionStatus" class="form-control auto-save" required placeholder="مثال: منخرط، عضو مكتب ولائي...">
+                    </div>
+                </div>
+
+                <h3 class="form-section-title" style="margin-top: 30px;">📑 تفاصيل المقترح</h3>
 
                 <div id="articlesContainer">
                     </div>
@@ -323,7 +359,7 @@
                     <option value="213671327711">معطالله عبد النبي</option>
                 </optgroup>
             </select>
-            <button class="email-btn btn-whatsapp" onclick="sendVia('whatsapp')">إرسال للمسؤول المحدد عبر الواتساب</button>
+            <button class="email-btn btn-whatsapp" onclick="sendVia('whatsapp')">إرسال عبر الواتساب للمسؤول المحدد</button>
             
             <button class="close-modal" onclick="closeEmailModal()">إلغاء وإغلاق النافذة</button>
         </div>
@@ -351,16 +387,16 @@
             block.innerHTML = `
                 ${articleCount > 1 ? `<button type="button" class="remove-btn" onclick="removeArticleBlock('${block.id}')">X</button>` : ''}
                 <div class="form-group">
-                    <label>رقم المادة المستهدفة بالتعديل أو الإضافة</label>
-                    <input type="text" class="form-control art-num auto-save" placeholder="مثال: المادة 34 أو اقتراح مادة جديدة" value="${data ? data.num : ''}">
+                    <label>رقم المادة المستهدفة بالتعديل أو الإضافة <span class="required-star">*</span></label>
+                    <input type="text" class="form-control art-num auto-save" required placeholder="مثال: المادة 34 أو اقتراح مادة جديدة" value="${data ? data.num : ''}">
                 </div>
                 <div class="form-group">
-                    <label>النص المقترح للمادة</label>
-                    <textarea class="form-control art-text auto-save" placeholder="اكتب صياغتك الدقيقة للمادة...">${data ? data.text : ''}</textarea>
+                    <label>النص المقترح للمادة <span class="required-star">*</span></label>
+                    <textarea class="form-control art-text auto-save" required placeholder="اكتب صياغتك الدقيقة للمادة...">${data ? data.text : ''}</textarea>
                 </div>
                 <div class="form-group">
-                    <label>السند القانوني أو التبرير</label>
-                    <textarea class="form-control art-just auto-save" placeholder="اشرح لماذا تقترح هذا التعديل (القانون 23-02...الخ)">${data ? data.just : ''}</textarea>
+                    <label>السند القانوني أو التبرير <span class="required-star">*</span></label>
+                    <textarea class="form-control art-just auto-save" required placeholder="اشرح لماذا تقترح هذا التعديل (القانون 23-02...الخ)">${data ? data.just : ''}</textarea>
                 </div>
             `;
             container.appendChild(block);
@@ -382,7 +418,11 @@
         function saveDataToLocal() {
             const data = {
                 fullName: document.getElementById('fullName').value,
-                wilaya: document.getElementById('wilaya').value,
+                email: document.getElementById('email').value,
+                rank: document.getElementById('rank').value,
+                workplace: document.getElementById('workplace').value,
+                phoneNum: document.getElementById('phoneNum').value,
+                unionStatus: document.getElementById('unionStatus').value,
                 articles: []
             };
             document.querySelectorAll('.article-block').forEach(block => {
@@ -399,7 +439,11 @@
             const draft = JSON.parse(localStorage.getItem('snte_proposal_draft'));
             if (draft) {
                 document.getElementById('fullName').value = draft.fullName || '';
-                document.getElementById('wilaya').value = draft.wilaya || '';
+                document.getElementById('email').value = draft.email || '';
+                document.getElementById('rank').value = draft.rank || '';
+                document.getElementById('workplace').value = draft.workplace || '';
+                document.getElementById('phoneNum').value = draft.phoneNum || '';
+                document.getElementById('unionStatus').value = draft.unionStatus || '';
                 if (draft.articles && draft.articles.length > 0) {
                     draft.articles.forEach(art => addArticleBlock(art));
                 } else {
@@ -411,10 +455,14 @@
         }
 
         function clearDraft() {
-            if(confirm('هل أنت متأكد أنك تريد مسح كل المقترحات؟')) {
+            if(confirm('هل أنت متأكد أنك تريد مسح كل البيانات والمقترحات؟')) {
                 localStorage.removeItem('snte_proposal_draft');
                 document.getElementById('fullName').value = '';
-                document.getElementById('wilaya').value = '';
+                document.getElementById('email').value = '';
+                document.getElementById('rank').value = '';
+                document.getElementById('workplace').value = '';
+                document.getElementById('phoneNum').value = '';
+                document.getElementById('unionStatus').value = '';
                 document.getElementById('articlesContainer').innerHTML = '';
                 articleCount = 0;
                 addArticleBlock();
@@ -423,11 +471,21 @@
 
         function buildProposalString() {
             let name = document.getElementById('fullName').value || 'غير محدد';
-            let wilaya = document.getElementById('wilaya').value || 'غير محدد';
+            let email = document.getElementById('email').value || 'لم يتم التقديم';
+            let rank = document.getElementById('rank').value || 'غير محدد';
+            let workplace = document.getElementById('workplace').value || 'غير محدد';
+            let phoneNum = document.getElementById('phoneNum').value || 'غير محدد';
+            let unionStatus = document.getElementById('unionStatus').value || 'غير محدد';
             
             let content = `مقترحات تعديل القانون الأساسي (S.N.T.E)\n`;
             content += `==========================================\n`;
-            content += `مقدم المقترح: ${name}\nالولاية / الفرع: ${wilaya}\n`;
+            content += `[ بيانات المرسل ]\n`;
+            content += `- الاسم واللقب: ${name}\n`;
+            content += `- الرتبة: ${rank}\n`;
+            content += `- مكان العمل: ${workplace}\n`;
+            content += `- رقم الهاتف: ${phoneNum}\n`;
+            content += `- الصفة النقابية: ${unionStatus}\n`;
+            content += `- البريد الإلكتروني: ${email}\n`;
             content += `==========================================\n\n`;
 
             document.querySelectorAll('.article-block').forEach((block, index) => {
@@ -444,7 +502,19 @@
             return content;
         }
 
+        // دالة التحقق من صحة الحقول (HTML5 Validation)
+        function isFormValid() {
+            const form = document.getElementById('proposalForm');
+            if (!form.checkValidity()) {
+                form.reportValidity();
+                return false;
+            }
+            return true;
+        }
+
         function downloadTxt() {
+            if (!isFormValid()) return; // منع التحميل إذا كانت الحقول الإلزامية فارغة
+            
             const content = buildProposalString();
             const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
             const link = document.createElement('a');
@@ -453,13 +523,8 @@
             link.click();
         }
 
-        // التحكم في النافذة المنبثقة
         function openEmailModal() {
-            const name = document.getElementById('fullName').value;
-            if (!name) {
-                alert("يرجى إدخال 'الاسم واللقب' في الأعلى قبل الإرسال.");
-                return;
-            }
+            if (!isFormValid()) return; // منع فتح النافذة إذا كانت الحقول الإلزامية فارغة
             document.getElementById('emailModal').style.display = 'flex';
         }
 
@@ -467,7 +532,6 @@
             document.getElementById('emailModal').style.display = 'none';
         }
 
-        // دالة التوجيه الذكية (إيميل أو واتساب)
         function sendVia(provider) {
             const emailTo = "Kouidery@ymail.com";
             const subject = encodeURIComponent("مقترحات تعديل القانون الأساسي - " + document.getElementById('fullName').value);
