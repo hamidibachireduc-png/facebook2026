@@ -10,7 +10,6 @@
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f3f4f6; }
         .card-actions a, .card-actions button { transition: all 0.2s ease-in-out; }
         .card-actions a:hover, .card-actions button:hover { transform: scale(1.1); }
-        /* تصميم زر الطي والفتح للجهات */
         details > summary { list-style: none; cursor: pointer; }
         details > summary::-webkit-details-marker { display: none; }
         details[open] summary ~ * { animation: fadeIn 0.3s ease-in-out; }
@@ -24,190 +23,168 @@
         <div class="container mx-auto flex justify-between items-center">
             <h1 class="text-xl font-bold"><i class="fa-solid fa-address-book ml-2"></i> دليل الأمانات الجهوية والولائية</h1>
             <button onclick="openModal()" class="bg-white text-green-700 px-4 py-2 rounded-lg font-bold shadow hover:bg-gray-100 transition">
-                <i class="fa-solid fa-plus"></i> إضافة أمانة ولائية
+                <i class="fa-solid fa-plus"></i> إضافة أمانة
             </button>
         </div>
     </nav>
 
-    <!-- القسم الأول: الأمانات الجهوية (ثابت) -->
+    <!-- القسم الأول: الأمانات الجهوية -->
     <div class="container mx-auto mt-6 px-4">
         <div class="bg-white rounded-xl shadow-md p-5 border-t-4 border-blue-600">
             <h2 class="text-2xl font-bold text-gray-800 mb-4 border-b pb-2"><i class="fa-solid fa-sitemap text-blue-600 ml-2"></i> الأمانات الجهوية للتنسيق</h2>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="regionalContainer">
-                <!-- سيتم تعبئة الجهات عبر JavaScript لتقليل زحمة الكود -->
-            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="regionalContainer"></div>
         </div>
     </div>
 
-    <!-- القسم الثاني: الأمانات الولائية (ديناميكي) -->
+    <!-- القسم الثاني: الأمانات الولائية -->
     <div class="container mx-auto mt-8 px-4">
         <div class="flex items-center justify-between mb-4">
             <h2 class="text-2xl font-bold text-gray-800"><i class="fa-solid fa-list-check text-green-600 ml-2"></i> الأمانات الولائية</h2>
         </div>
-        
-        <!-- شريط البحث -->
         <input type="text" id="searchInput" onkeyup="renderCards()" placeholder="ابحث عن ولاية أو أمين عام ولائي..." class="w-full p-3 rounded-lg shadow-sm border border-gray-300 focus:outline-none focus:border-green-500 mb-6 font-bold text-lg">
-        
-        <!-- شبكة عرض البطاقات الولائية -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="cardsContainer">
-            <!-- سيتم توليد البطاقات هنا -->
-        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="cardsContainer"></div>
     </div>
 
-    <!-- نافذة الإضافة / التعديل والإرسال المدمجة -->
-    <div id="formModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex justify-center items-center z-50 overflow-y-auto">
-        <div class="bg-white rounded-lg p-6 w-11/12 md:w-3/4 lg:w-1/2 my-8 shadow-2xl border-t-4 border-green-600">
-            <h2 id="modalTitle" class="text-2xl font-bold mb-4 text-green-700">إضافة أمانة ولائية جديدة</h2>
-            
-            <form id="dataForm" onsubmit="saveData(event)">
-                <input type="hidden" id="editIndex" value="-1">
+    <!-- نافذة الإضافة / التعديل (تم إصلاح مشكلة اختفاء الجزء العلوي) -->
+    <div id="formModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 overflow-y-auto">
+        <div class="flex min-h-screen items-start justify-center pt-8 pb-16 px-4">
+            <div class="bg-white rounded-lg p-6 w-full md:w-3/4 lg:w-1/2 shadow-2xl border-t-4 border-green-600">
+                <h2 id="modalTitle" class="text-2xl font-bold mb-4 text-green-700">إضافة أمانة ولائية جديدة</h2>
                 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <!-- بيانات الأمانة -->
-                    <div>
-                        <h3 class="font-bold text-gray-700 mb-3 border-b pb-1"><i class="fa-solid fa-file-signature text-green-600"></i> 1. بيانات الأمانة</h3>
-                        
-                        <div class="mb-3">
-                            <label class="block text-sm font-bold mb-1">الولاية (مطلوب)</label>
-                            <select id="wilayaName" required class="w-full p-2 border rounded focus:outline-none focus:border-green-500 bg-white font-bold"></select>
-                        </div>
-                        <div class="mb-3">
-                            <label class="block text-sm font-bold mb-1">اسم الأمين العام (مطلوب)</label>
-                            <input type="text" id="sgName" required class="w-full p-2 border rounded focus:outline-none focus:border-green-500 font-bold">
-                        </div>
-                        <div class="mb-3">
-                            <label class="block text-sm font-bold mb-1">رقم الهاتف (مطلوب)</label>
-                            <input type="tel" id="phone" required class="w-full p-2 border rounded focus:outline-none focus:border-green-500 font-bold" dir="ltr" placeholder="06XXXXXXXX">
-                        </div>
-                        <div class="mb-3">
-                            <label class="block text-sm font-bold mb-1">البريد الإلكتروني (اختياري)</label>
-                            <input type="email" id="email" class="w-full p-2 border rounded focus:outline-none focus:border-green-500" dir="ltr">
-                        </div>
-                        <div class="mb-3">
-                            <label class="block text-sm font-bold mb-1">مقر الأمانة (اختياري)</label>
-                            <input type="text" id="address" class="w-full p-2 border rounded focus:outline-none focus:border-green-500">
-                        </div>
-                        <div class="mb-3">
-                            <label class="block text-sm font-bold mb-1">رابط خرائط جوجل (اختياري)</label>
-                            <input type="url" id="mapsLink" class="w-full p-2 border rounded focus:outline-none focus:border-green-500" dir="ltr">
-                        </div>
-                        <div class="mb-3">
-                            <label class="block text-sm font-bold mb-1">صورة الأمين العام (اختياري)</label>
-                            <input type="file" id="photoInput" accept="image/*" class="w-full p-2 border rounded text-sm bg-gray-50">
-                            <input type="hidden" id="photoBase64">
-                        </div>
-                    </div>
-
-                    <!-- خيارات الإرسال والمحضر -->
-                    <div class="bg-indigo-50 p-4 rounded-lg border border-indigo-100 flex flex-col justify-between">
+                <form id="dataForm" onsubmit="saveData(event)">
+                    <input type="hidden" id="editIndex" value="-1">
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <!-- بيانات الأمانة -->
                         <div>
-                            <h3 class="font-bold text-indigo-800 mb-3 border-b border-indigo-200 pb-1"><i class="fa-solid fa-share-nodes text-indigo-600"></i> 2. خيارات المستلم والمحضر</h3>
+                            <h3 class="font-bold text-gray-700 mb-3 border-b pb-1"><i class="fa-solid fa-file-signature text-green-600"></i> 1. بيانات الأمانة</h3>
                             
-                            <div class="mb-4 bg-white p-3 rounded shadow-sm border border-indigo-200 hover:bg-indigo-100 transition cursor-pointer" onclick="document.getElementById('includeMahdar').click()">
-                                <label class="flex items-center space-x-2 space-x-reverse cursor-pointer">
-                                    <input type="checkbox" id="includeMahdar" class="w-5 h-5 text-indigo-600 rounded focus:ring-indigo-500 border-gray-300">
-                                    <span class="text-sm font-bold text-indigo-900">إرفاق إشعار بتنصيب الأمانة (محضر التنصيب)</span>
-                                </label>
+                            <div class="mb-3">
+                                <label class="block text-sm font-bold mb-1">الولاية (مطلوب)</label>
+                                <select id="wilayaName" required class="w-full p-2 border rounded focus:outline-none focus:border-green-500 bg-white font-bold"></select>
                             </div>
-
-                            <p class="text-xs text-gray-600 mb-4 leading-relaxed">أدخل بيانات الشخص الذي تريد إرسال المعلومات إليه فوراً بعد الحفظ.</p>
-                            
-                            <div class="mb-4">
-                                <label class="block text-sm font-bold mb-1 text-indigo-900">رقم واتساب المستلم</label>
-                                <input type="tel" id="targetWhatsapp" placeholder="0660123456" class="w-full p-2 border rounded focus:outline-none focus:border-indigo-500 font-bold" dir="ltr">
+                            <div class="mb-3">
+                                <label class="block text-sm font-bold mb-1">اسم الأمين العام (مطلوب)</label>
+                                <input type="text" id="sgName" required class="w-full p-2 border rounded focus:outline-none focus:border-green-500 font-bold">
                             </div>
+                            <div class="mb-3">
+                                <label class="block text-sm font-bold mb-1">رقم الهاتف (مطلوب)</label>
+                                <input type="tel" id="phone" required class="w-full p-2 border rounded focus:outline-none focus:border-green-500 font-bold" dir="ltr" placeholder="06XXXXXXXX">
+                            </div>
+                            <div class="mb-3">
+                                <label class="block text-sm font-bold mb-1">البريد الإلكتروني (اختياري)</label>
+                                <input type="email" id="email" class="w-full p-2 border rounded focus:outline-none focus:border-green-500" dir="ltr">
+                            </div>
+                            <div class="mb-3">
+                                <label class="block text-sm font-bold mb-1">مقر الأمانة (اختياري)</label>
+                                <input type="text" id="address" class="w-full p-2 border rounded focus:outline-none focus:border-green-500">
+                            </div>
+                            <div class="mb-3">
+                                <label class="block text-sm font-bold mb-1">رابط خرائط جوجل (اختياري)</label>
+                                <input type="url" id="mapsLink" class="w-full p-2 border rounded focus:outline-none focus:border-green-500" dir="ltr">
+                            </div>
+                            <div class="mb-3">
+                                <label class="block text-sm font-bold mb-1">صورة الأمين العام (اختياري)</label>
+                                <input type="file" id="photoInput" accept="image/*" class="w-full p-2 border rounded text-sm bg-gray-50">
+                                <input type="hidden" id="photoBase64">
+                            </div>
+                        </div>
 
-                            <div class="mb-4">
-                                <label class="block text-sm font-bold mb-1 text-indigo-900">إيميل المستلم</label>
-                                <input type="email" id="targetEmail" placeholder="example@gmail.com" class="w-full p-2 border rounded focus:outline-none focus:border-indigo-500 font-bold" dir="ltr">
+                        <!-- خيارات الإرسال والمحضر -->
+                        <div class="bg-indigo-50 p-4 rounded-lg border border-indigo-100 flex flex-col justify-between">
+                            <div>
+                                <h3 class="font-bold text-indigo-800 mb-3 border-b border-indigo-200 pb-1"><i class="fa-solid fa-share-nodes text-indigo-600"></i> 2. خيارات المستلم والمحضر</h3>
+                                
+                                <div class="mb-4 bg-white p-3 rounded shadow-sm border border-indigo-200">
+                                    <label class="flex items-center space-x-2 space-x-reverse cursor-pointer">
+                                        <input type="checkbox" id="includeMahdar" class="w-5 h-5 text-indigo-600 rounded focus:ring-indigo-500 border-gray-300">
+                                        <span class="text-sm font-bold text-indigo-900">إرفاق إشعار بتنصيب الأمانة (محضر التنصيب)</span>
+                                    </label>
+                                    
+                                    <!-- روابط تحميل المحضر (تمت إضافتها) -->
+                                    <div class="mt-3 flex flex-col gap-2">
+                                        <a href="https://docs.google.com/document/d/1Jno9ij18nbOVNaa36UkZvR74Xgfk-1Jj/edit?usp=drivesdk&ouid=107262215692600027206&rtpof=true&sd=true" target="_blank" class="text-xs font-bold bg-blue-100 text-blue-700 px-3 py-2 rounded hover:bg-blue-200 transition flex items-center gap-2">
+                                            <i class="fa-solid fa-file-word text-lg"></i> نموذج المحضر (Word)
+                                        </a>
+                                        <a href="https://drive.google.com/file/d/1jlNNwiFWxf5XIfAa-W2s54T-Xg3ZT8CU/view?usp=drivesdk" target="_blank" class="text-xs font-bold bg-red-100 text-red-700 px-3 py-2 rounded hover:bg-red-200 transition flex items-center gap-2">
+                                            <i class="fa-solid fa-file-pdf text-lg"></i> نموذج المحضر (PDF)
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <p class="text-xs text-gray-600 mb-4 leading-relaxed">أدخل بيانات الشخص الذي تريد إرسال المعلومات إليه فوراً بعد الحفظ.</p>
+                                
+                                <div class="mb-4">
+                                    <label class="block text-sm font-bold mb-1 text-indigo-900">رقم واتساب المستلم</label>
+                                    <input type="tel" id="targetWhatsapp" placeholder="0660123456" class="w-full p-2 border rounded focus:outline-none focus:border-indigo-500 font-bold" dir="ltr">
+                                </div>
+
+                                <div class="mb-4">
+                                    <label class="block text-sm font-bold mb-1 text-indigo-900">إيميل المستلم</label>
+                                    <input type="email" id="targetEmail" placeholder="example@gmail.com" class="w-full p-2 border rounded focus:outline-none focus:border-indigo-500 font-bold" dir="ltr">
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <!-- أزرار الإجراءات -->
-                <div class="flex flex-col md:flex-row justify-end gap-2 mt-6 pt-4 border-t bg-gray-50 -mx-6 -mb-6 p-4 rounded-b-lg">
-                    <button type="submit" class="bg-green-700 text-white px-4 py-3 md:py-2 rounded shadow hover:bg-green-800 w-full md:w-auto font-bold"><i class="fa-solid fa-floppy-disk"></i> حفظ فقط</button>
-                    <button type="button" onclick="saveAndShare('whatsapp')" class="bg-green-500 text-white px-4 py-3 md:py-2 rounded shadow hover:bg-green-600 w-full md:w-auto font-bold"><i class="fa-brands fa-whatsapp"></i> حفظ وإرسال واتساب</button>
-                    <button type="button" onclick="saveAndShare('email')" class="bg-red-500 text-white px-4 py-3 md:py-2 rounded shadow hover:bg-red-600 w-full md:w-auto font-bold"><i class="fa-solid fa-envelope"></i> حفظ وإرسال إيميل</button>
-                    <button type="button" onclick="closeModal()" class="bg-gray-400 text-white px-4 py-3 md:py-2 rounded shadow hover:bg-gray-500 w-full md:w-auto font-bold">إلغاء</button>
-                </div>
-            </form>
+                    <!-- أزرار الإجراءات -->
+                    <div class="flex flex-col md:flex-row justify-end gap-2 mt-6 pt-4 border-t bg-gray-50 -mx-6 -mb-6 p-4 rounded-b-lg">
+                        <button type="submit" class="bg-green-700 text-white px-4 py-3 md:py-2 rounded shadow hover:bg-green-800 w-full md:w-auto font-bold"><i class="fa-solid fa-floppy-disk"></i> حفظ فقط</button>
+                        <button type="button" onclick="saveAndShare('whatsapp')" class="bg-green-500 text-white px-4 py-3 md:py-2 rounded shadow hover:bg-green-600 w-full md:w-auto font-bold"><i class="fa-brands fa-whatsapp"></i> حفظ وإرسال واتساب</button>
+                        <button type="button" onclick="saveAndShare('email')" class="bg-red-500 text-white px-4 py-3 md:py-2 rounded shadow hover:bg-red-600 w-full md:w-auto font-bold"><i class="fa-solid fa-envelope"></i> حفظ وإرسال إيميل</button>
+                        <button type="button" onclick="closeModal()" class="bg-gray-400 text-white px-4 py-3 md:py-2 rounded shadow hover:bg-gray-500 w-full md:w-auto font-bold">إلغاء</button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 
     <script>
-        // 1. بيانات الأمانات الجهوية الثابتة
         const regionsData = [
             {
                 name: "جهة الشرق", color: "blue", count: 14,
                 coordinator: { name: "جعفري عبد الرحمان (سوق اهراس)", phone: "0775586559", email: "abderrahmanedjafri@yahoo.fr" },
                 wilayas: "باتنة، سطيف، بريكة، تبسة، سوق اهراس، قسنطينة، عنابة، سكيكدة، قالمة، خنشلة، ام البواقي، ميلة، جيجل، الطارف",
-                members: [
-                    { name: "بوقطوف توفيق (تبسة)", phone: "0697797528", email: "sntetoufik12@gmail.com" },
-                    { name: "خالد حجازي (باتنة)", phone: "0663915534", email: "sntebatna@gmail.com" }
-                ]
+                members: [ { name: "بوقطوف توفيق (تبسة)", phone: "0697797528", email: "sntetoufik12@gmail.com" }, { name: "خالد حجازي (باتنة)", phone: "0663915534", email: "sntebatna@gmail.com" } ]
             },
             {
                 name: "جهة الغرب", color: "green", count: 10,
                 coordinator: { name: "راشدي الهواري (مستغانم)", phone: "0776484477", email: "sntemosta@gmail.com" },
                 wilayas: "وهران، الشلف، تلمسان، سيدي بلعباس، مستغانم، معسكر، عين تموشنت، غليزان، تيارت، سعيدة، تيسمسيلت",
-                members: [
-                    { name: "نجيب عيموش (غيليزان)", phone: "0550341143", email: "sntenadjib48@gmail.com" },
-                    { name: "خليفي شريف عبد الهادي (تلمسان)", phone: "0697119072 / 0770292740", email: "khelifiabdelhadi13@gmail.com" }
-                ]
+                members: [ { name: "نجيب عيموش (غيليزان)", phone: "0550341143", email: "sntenadjib48@gmail.com" }, { name: "خليفي شريف عبد الهادي (تلمسان)", phone: "0697119072 / 0770292740", email: "khelifiabdelhadi13@gmail.com" } ]
             },
             {
                 name: "جهة الوسط 01", color: "purple", count: 6,
                 coordinator: { name: "حجلاوي أحمد (عين الدفلى)", phone: "0771291371", email: "hadjlaouiahmed@gmail.com" },
                 wilayas: "الجزائر شرق، الجزائر وسط، الجزائر غرب، تيبازة، المدية، عين الدفلى",
-                members: [
-                    { name: "بوسالم احمد (الجزائر شرق)", phone: "0556145073", email: "demed86@gmail.com" },
-                    { name: "نعمان رابح (تيبازة)", phone: "0659502817 / 0665253410", email: "ens.namane@gmail.com" }
-                ]
+                members: [ { name: "بوسالم احمد (الجزائر شرق)", phone: "0556145073", email: "demed86@gmail.com" }, { name: "نعمان رابح (تيبازة)", phone: "0659502817 / 0665253410", email: "ens.namane@gmail.com" } ]
             },
             {
                 name: "جهة الوسط 02", color: "indigo", count: 6,
                 coordinator: { name: "حسان بلباقي (الجزائر شرق)", phone: "0550402965", email: "hcnblbki@gmail.com" },
                 wilayas: "بومرداس، البليدة، تيزي وزو، برج بوعريريج، البويرة، بجاية",
-                members: [
-                    { name: "عبد الرحيم سعيد (الجزائر شرق)", phone: "0556850930", email: "saidsnte@gmail.com" },
-                    { name: "عزيب عادل (برج بوعريريج)", phone: "0778279290", email: "azibadel9@gmail.com" }
-                ]
+                members: [ { name: "عبد الرحيم سعيد (الجزائر شرق)", phone: "0556850930", email: "saidsnte@gmail.com" }, { name: "عزيب عادل (برج بوعريريج)", phone: "0778279290", email: "azibadel9@gmail.com" } ]
             },
             {
                 name: "جنوب الوسط", color: "yellow", count: 12,
                 coordinator: { name: "قزيم أحمد (الجلفة)", phone: "0673164317", email: "ahmed17goz@gmail.com" },
                 wilayas: "الجلفة، مسعد، الاغواط، بوسعادة، عين وسارة، آفلو، البيض، المسيلة، قصر البخاري، الابيض سيدي الشيخ، أولاد جلال، النعامة، غرداية",
-                members: [
-                    { name: "بن عبد الرجمان عبد الرزاق (غرداية)", phone: "0556850930", email: "abderrazakgeneral@gmail.com" },
-                    { name: "اسامة مزاري (بوسعادة)", phone: "0671391376", email: "oussama77.m@gmail.com" }
-                ]
+                members: [ { name: "بن عبد الرجمان عبد الرزاق (غرداية)", phone: "0556850930", email: "abderrazakgeneral@gmail.com" }, { name: "اسامة مزاري (بوسعادة)", phone: "0671391376", email: "oussama77.m@gmail.com" } ]
             },
             {
                 name: "الجنوب الشرقي", color: "red", count: 7,
                 coordinator: { name: "باي فؤاد (الوادي)", phone: "0772757559 / 0662582595", email: "ademtoursdz@gmail.com" },
                 wilayas: "ورقلة، تقرت، المغيير، الوادي، بسكرة، اليزي، جانت",
-                members: [
-                    { name: "شيخي عامر (اليزي)", phone: "0660396167", email: "chikhiamer@gmail.com" },
-                    { name: "زيدي ليندة (بسكرة)", phone: "0658240995", email: "" }
-                ]
+                members: [ { name: "شيخي عامر (اليزي)", phone: "0660396167", email: "chikhiamer@gmail.com" }, { name: "زيدي ليندة (بسكرة)", phone: "0658240995", email: "" } ]
             },
             {
                 name: "الجنوب الغربي", color: "orange", count: 11,
                 coordinator: { name: "بن يحي مصطفى (تيميمون)", phone: "0663664686", email: "benyahiamustapha49@gmail.com" },
                 wilayas: "بشار، تيندوف، بني عباس، ادرار، تيميمون، المنيعة، عين صالح، تمنراست، المنيعة، برج باجي مختار، عين قزام",
-                members: [
-                    { name: "باعيسى محمد (تمنراست)", phone: "0671644149", email: "" },
-                    { name: "حمة عبد القادر (ادرار)", phone: "0660123586", email: "" },
-                    { name: "محجوبي خليفة (بشار)", phone: "0663796369", email: "" },
-                    { name: "يعيش عبد المومن (بني عباس)", phone: "0655184789", email: "" }
-                ]
+                members: [ { name: "باعيسى محمد (تمنراست)", phone: "0671644149", email: "" }, { name: "حمة عبد القادر (ادرار)", phone: "0660123586", email: "" }, { name: "محجوبي خليفة (بشار)", phone: "0663796369", email: "" }, { name: "يعيش عبد المومن (بني عباس)", phone: "0655184789", email: "" } ]
             }
         ];
 
-        // 2. قائمة الولايات الـ 69
         const wilayasList = [
             "1- الامانة الولائية لولاية ادرار", "2- الامانة الولائية لولاية الشلف", "3- الامانة الولائية لولاية الاغواط", "4- الامانة الولائية لولاية ام البواقي",
             "5- الامانة الولائية لولاية باتنة", "6- الامانة الولائية لولاية بجاية", "7- الامانة الولائية لولاية بسكرة", "8- الامانة الولائية لولاية بشار",
@@ -232,24 +209,20 @@
         let secretariats = [];
         try { secretariats = JSON.parse(localStorage.getItem('secretariats_data')) || []; } catch(e) {}
 
-        // --- دوال مساعدة ---
         function formatWhatsAppNumber(phone) {
             if (!phone) return "";
-            // يأخذ أول رقم يجده في حال وجود رقمين مفصولين بـ / أو -
             let firstPhone = phone.split(/[\/\-]/)[0].trim();
             let cleaned = firstPhone.replace(/\D/g, '');
             if (cleaned.startsWith('0')) cleaned = '213' + cleaned.substring(1);
             return cleaned;
         }
 
-        // بناء بطاقات الجهات (التنسيق الجهوي)
         function renderRegions() {
             const container = document.getElementById('regionalContainer');
             let html = '';
             
             regionsData.forEach(region => {
                 const waCoord = formatWhatsAppNumber(region.coordinator.phone);
-                
                 let membersHtml = '';
                 region.members.forEach(member => {
                     const waMember = formatWhatsAppNumber(member.phone);
@@ -279,11 +252,9 @@
                                     ${region.coordinator.email ? `<a href="mailto:${region.coordinator.email}" class="text-red-600 hover:underline break-all"><i class="fa-solid fa-envelope"></i> ${region.coordinator.email}</a>` : ''}
                                 </div>
                             </div>
-                            
                             <div class="mb-3 bg-red-50 p-2 rounded border border-red-100 text-red-800 text-xs font-bold leading-relaxed">
                                 🔴 <strong>الولايات:</strong> (${region.wilayas})
                             </div>
-
                             <div class="mt-4">
                                 <h4 class="font-bold text-gray-700 border-b pb-1 mb-2">💠 أعضاء الأمانة الجهوية:</h4>
                                 ${membersHtml}
@@ -295,7 +266,6 @@
             container.innerHTML = html;
         }
 
-        // بناء قائمة اختيار الولايات
         function populateWilayas() {
             const select = document.getElementById('wilayaName');
             if (select.options.length <= 1) { 
@@ -304,7 +274,6 @@
             }
         }
 
-        // تحويل الصورة لـ Base64
         document.getElementById('photoInput').addEventListener('change', function(e) {
             const file = e.target.files[0];
             if (file) {
@@ -314,7 +283,6 @@
             }
         });
 
-        // عرض بطاقات الولايات
         function renderCards() {
             const container = document.getElementById('cardsContainer');
             const searchTerm = document.getElementById('searchInput').value.toLowerCase();
@@ -335,7 +303,6 @@
                                     <button onclick="deleteEntry(${index})" class="text-red-300 hover:text-white" title="حذف"><i class="fa-solid fa-trash"></i></button>
                                 </div>
                             </div>
-                            
                             <div class="p-4 flex items-center">
                                 <img src="${avatar}" class="w-16 h-16 rounded-full border-2 border-green-500 ml-4 object-cover shadow">
                                 <div>
@@ -343,7 +310,6 @@
                                     <p class="text-sm text-gray-500 mt-1 line-clamp-2" title="${item.address}">🏦 ${item.address || 'غير محدد'}</p>
                                 </div>
                             </div>
-
                             <div class="bg-gray-50 p-3 border-t flex justify-around card-actions">
                                 <a href="${item.phone ? 'tel:' + item.phone : '#'}" class="text-blue-600 bg-blue-100 p-2 rounded-full w-10 h-10 flex items-center justify-center" title="اتصال"><i class="fa-solid fa-phone"></i></a>
                                 <a href="${waNumber ? 'https://wa.me/' + waNumber : '#'}" target="_blank" class="text-green-600 bg-green-100 p-2 rounded-full w-10 h-10 flex items-center justify-center" title="واتساب"><i class="fa-brands fa-whatsapp text-lg"></i></a>
@@ -356,7 +322,6 @@
             });
         }
 
-        // --- وظائف النافذة (Modal) والإرسال ---
         function openModal() {
             populateWilayas();
             document.getElementById('formModal').classList.remove('hidden');
@@ -397,12 +362,19 @@
             closeModal();
         }
 
+        // بناء الرسالة وإرفاق المحضر في النص عند الطلب
         function buildShareMessage(data, includeMahdar) {
             let msg = `*${data.wilayaName}*\n👨 الأمين العام: ${data.sgName}\n📞 الهاتف: ${data.phone}\n`;
             if (data.email) msg += `📧 البريد: ${data.email}\n`;
             if (data.address) msg += `🏦 المقر: ${data.address}\n`;
             if (data.mapsLink) msg += `📍 الخريطة: ${data.mapsLink}\n`;
-            if (includeMahdar) msg += `\n📄 *إشعار هام:* نعلمكم أنه تم رسمياً تنصيب الأمانة الولائية وإعداد محضر التنصيب الخاص بذلك.`;
+            
+            if (includeMahdar) {
+                msg += `\n📄 *إشعار هام:* نعلمكم أنه تم رسمياً تنصيب الأمانة الولائية وإعداد محضر التنصيب الخاص بذلك.\n\n`;
+                msg += `📥 *لتحميل نموذج المحضر:*\n`;
+                msg += `▪️ بصيغة Word:\nhttps://docs.google.com/document/d/1Jno9ij18nbOVNaa36UkZvR74Xgfk-1Jj/edit?usp=drivesdk&ouid=107262215692600027206&rtpof=true&sd=true\n`;
+                msg += `▪️ بصيغة PDF:\nhttps://drive.google.com/file/d/1jlNNwiFWxf5XIfAa-W2s54T-Xg3ZT8CU/view?usp=drivesdk\n`;
+            }
             return msg;
         }
 
@@ -455,7 +427,6 @@
             }
         }
 
-        // الاستدعاءات الأولية عند فتح الصفحة
         renderRegions();
         populateWilayas();
         renderCards();
