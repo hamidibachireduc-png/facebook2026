@@ -1,40 +1,361 @@
-<!DOCTYPE html>
+   <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>البوابة الاستشارية - S.N.T.E</title>
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <title>دليل الأمانات الولائية</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root {
-            --primary-green: #145a32;
-            --secondary-green: #1e8449;
-            --accent-gold: #d4af37;
-            --danger-red: #c0392b;
-            --bg-light: #f4f6f7;
-            --text-dark: #2c3e50;
-            --border-color: #e0e0e0;
-        }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f3f4f6; }
+        .card-actions a, .card-actions button { transition: all 0.2s ease-in-out; }
+        .card-actions a:hover, .card-actions button:hover { transform: scale(1.1); }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800">
 
-        * { box-sizing: border-box; font-family: 'Tajawal', sans-serif; margin: 0; padding: 0; }
-        body { background-color: var(--bg-light); color: var(--text-dark); line-height: 1.6; }
+    <!-- شريط التنقل -->
+    <nav class="bg-green-700 text-white shadow-lg p-4 sticky top-0 z-50">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-xl font-bold"><i class="fa-solid fa-address-book ml-2"></i> دليل الأمانات الولائية</h1>
+            <button onclick="openModal()" class="bg-white text-green-700 px-4 py-2 rounded-lg font-bold shadow hover:bg-gray-100">
+                <i class="fa-solid fa-plus"></i> إضافة أمانة
+            </button>
+        </div>
+    </nav>
 
-        /* Header Styling with Logos */
-        header {
-            background: linear-gradient(135deg, var(--primary-green), var(--secondary-green));
-            color: white; 
-            padding: 1.5rem 1rem;
-            border-bottom: 5px solid var(--accent-gold);
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 15px;
-        }
+    <!-- شريط البحث -->
+    <div class="container mx-auto mt-6 px-4">
+        <input type="text" id="searchInput" onkeyup="renderCards()" placeholder="ابحث عن ولاية أو أمين عام..." class="w-full p-3 rounded-lg shadow-sm border border-gray-300 focus:outline-none focus:border-green-500">
+    </div>
+
+    <!-- شبكة عرض البطاقات -->
+    <div class="container mx-auto mt-6 px-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="cardsContainer">
+        <!-- سيتم توليد البطاقات هنا -->
+    </div>
+
+    <!-- نافذة الإضافة / التعديل والإرسال المدمجة -->
+    <div id="formModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex justify-center items-center z-50 overflow-y-auto">
+        <div class="bg-white rounded-lg p-6 w-11/12 md:w-3/4 lg:w-1/2 my-8">
+            <h2 id="modalTitle" class="text-2xl font-bold mb-4 text-green-700">إضافة أمانة ولائية جديدة</h2>
+            
+            <form id="dataForm" onsubmit="saveData(event)">
+                <input type="hidden" id="editIndex" value="-1">
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <!-- القسم الأول: بيانات الأمانة -->
+                    <div>
+                        <h3 class="font-bold text-gray-700 mb-3 border-b pb-1"><i class="fa-solid fa-file-signature text-green-600"></i> 1. بيانات الأمانة</h3>
+                        
+                        <div class="mb-3">
+                            <label class="block text-sm font-bold mb-1">الولاية (مطلوب)</label>
+                            <select id="wilayaName" required class="w-full p-2 border rounded focus:outline-none focus:border-green-500 bg-white"></select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="block text-sm font-bold mb-1">اسم الأمين العام (مطلوب)</label>
+                            <input type="text" id="sgName" required class="w-full p-2 border rounded focus:outline-none focus:border-green-500">
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="block text-sm font-bold mb-1">رقم الهاتف (مطلوب)</label>
+                            <input type="tel" id="phone" required class="w-full p-2 border rounded focus:outline-none focus:border-green-500">
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="block text-sm font-bold mb-1">البريد الإلكتروني للأمانة (اختياري)</label>
+                            <input type="email" id="email" class="w-full p-2 border rounded focus:outline-none focus:border-green-500">
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="block text-sm font-bold mb-1">مقر الأمانة (اختياري)</label>
+                            <input type="text" id="address" class="w-full p-2 border rounded focus:outline-none focus:border-green-500">
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="block text-sm font-bold mb-1">رابط خرائط جوجل (اختياري)</label>
+                            <input type="url" id="mapsLink" class="w-full p-2 border rounded focus:outline-none focus:border-green-500">
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="block text-sm font-bold mb-1">صورة الأمين العام (اختياري)</label>
+                            <input type="file" id="photoInput" accept="image/*" class="w-full p-2 border rounded text-sm">
+                            <input type="hidden" id="photoBase64">
+                        </div>
+                    </div>
+
+                    <!-- القسم الثاني: خيارات الإرسال -->
+                    <div class="bg-indigo-50 p-4 rounded-lg border border-indigo-100 flex flex-col justify-between">
+                        <div>
+                            <h3 class="font-bold text-indigo-800 mb-3 border-b border-indigo-200 pb-1"><i class="fa-solid fa-share-nodes text-indigo-600"></i> 2. خيارات المستلم والمحضر</h3>
+                            
+                            <div class="mb-4 bg-white p-3 rounded shadow-sm border border-indigo-200">
+                                <label class="flex items-center space-x-2 space-x-reverse cursor-pointer">
+                                    <input type="checkbox" id="includeMahdar" class="w-5 h-5 text-indigo-600 rounded focus:ring-indigo-500 border-gray-300">
+                                    <span class="text-sm font-bold text-indigo-900">إرفاق إشعار بتنصيب الأمانة (إرسال محضر التنصيب)</span>
+                                </label>
+                            </div>
+
+                            <p class="text-xs text-gray-600 mb-4 leading-relaxed">أدخل رقم أو إيميل الشخص الذي تريد إرسال هذه البيانات إليه مباشرة بعد الحفظ.</p>
+                            
+                            <div class="mb-4">
+                                <label class="block text-sm font-bold mb-1 text-indigo-900">رقم واتساب المستلم</label>
+                                <input type="tel" id="targetWhatsapp" placeholder="مثال: 0660123456" class="w-full p-2 border rounded focus:outline-none focus:border-indigo-500">
+                            </div>
+
+                            <div class="mb-4">
+                                <label class="block text-sm font-bold mb-1 text-indigo-900">إيميل المستلم</label>
+                                <input type="email" id="targetEmail" placeholder="example@gmail.com" class="w-full p-2 border rounded focus:outline-none focus:border-indigo-500">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- أزرار الإجراءات -->
+                <div class="flex flex-col md:flex-row justify-end gap-2 mt-6 pt-4 border-t">
+                    <button type="submit" class="bg-green-700 text-white px-4 py-3 md:py-2 rounded shadow hover:bg-green-800 w-full md:w-auto font-bold"><i class="fa-solid fa-floppy-disk"></i> حفظ البيانات فقط</button>
+                    <button type="button" onclick="saveAndShare('whatsapp')" class="bg-green-500 text-white px-4 py-3 md:py-2 rounded shadow hover:bg-green-600 w-full md:w-auto font-bold"><i class="fa-brands fa-whatsapp"></i> حفظ وإرسال واتساب</button>
+                    <button type="button" onclick="saveAndShare('email')" class="bg-red-500 text-white px-4 py-3 md:py-2 rounded shadow hover:bg-red-600 w-full md:w-auto font-bold"><i class="fa-solid fa-envelope"></i> حفظ وإرسال إيميل</button>
+                    <button type="button" onclick="closeModal()" class="bg-gray-400 text-white px-4 py-3 md:py-2 rounded shadow hover:bg-gray-500 w-full md:w-auto font-bold">إلغاء</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const wilayasList = [
+            "1- الامانة الولائية لولاية ادرار", "2- الامانة الولائية لولاية الشلف", "3- الامانة الولائية لولاية الاغواط", "4- الامانة الولائية لولاية ام البواقي",
+            "5- الامانة الولائية لولاية باتنة", "6- الامانة الولائية لولاية بجاية", "7- الامانة الولائية لولاية بسكرة", "8- الامانة الولائية لولاية بشار",
+            "9- الامانة الولائية لولاية البليدة", "10- الامانة الولائية لولاية البويرة", "11- الامانة الولائية لولاية تمنراست", "12- الامانة الولائية لولاية تبسة",
+            "13- الامانة الولائية لولاية تلمسان", "14- الامانة الولائية لولاية تيارت", "15- الامانة الولائية لولاية تيزي وزو", 
+            "16- الامانة الولائية لولاية الجزائر وسط", "16- الامانة الولائية لولاية الجزائر شرق", "16- الامانة الولائية لولاية الجزائر غرب", 
+            "17- الامانة الولائية لولاية الجلفة", "18- الامانة الولائية لولاية جيجل", "19- الامانة الولائية لولاية سطيف", "20- الامانة الولائية لولاية سعيدة", 
+            "21- الامانة الولائية لولاية سكيكدة", "22- الامانة الولائية لولاية سيدي بلعباس", "23- الامانة الولائية لولاية عنابة", "24- الامانة الولائية لولاية قالمة", 
+            "25- الامانة الولائية لولاية قسنطينة", "26- الامانة الولائية لولاية المدية", "27- الامانة الولائية لولاية مستغانم", "28- الامانة الولائية لولاية المسيلة", 
+            "29- الامانة الولائية لولاية معسكر", "30- الامانة الولائية لولاية ورقلة", "31- الامانة الولائية لولاية وهران", "32- الامانة الولائية لولاية البيض", 
+            "33- الامانة الولائية لولاية اليزي", "34- الامانة الولائية لولاية برج بوعريريج", "35- الامانة الولائية لولاية بومرداس", "36- الامانة الولائية لولاية الطارف", 
+            "37- الامانة الولائية لولاية تيندوف", "38- الامانة الولائية لولاية تيسمسيلت", "39- الامانة الولائية لولاية الوادي", "40- الامانة الولائية لولاية خنشلة", 
+            "41- الامانة الولائية لولاية سوق اهراس", "42- الامانة الولائية لولاية تيبازة", "43- الامانة الولائية لولاية ميلة", "44- الامانة الولائية لولاية عين الدفلى", 
+            "45- الامانة الولائية لولاية النعامة", "46- الامانة الولائية لولاية عين تيموشنت", "47- الامانة الولائية لولاية غارداية", "48- الامانة الولائية لولاية غيليزان", 
+            "49- الامانة الولائية لولاية تيميمون", "50- الامانة الولائية لولاية برج باجي مختار", "51- الامانة الولائية لولاية بني عباس", "52- الامانة الولائية لولاية أولاد جلال", 
+            "53- الامانة الولائية لولاية عين صالح", "54- الامانة الولائية لولاية عين قزام", "55- الامانة الولائية لولاية تقرت", "56- الامانة الولائية لولاية جانت", 
+            "57- الامانة الولائية لولاية المغير", "58- الامانة الولائية لولاية المنيعة", "59- الامانة الولائية لولاية آفلو", "60- الامانة الولائية لولاية بريكة", 
+            "61- الامانة الولائية لولاية القنطرة", "62- الامانة الولائية لولاية بئر العاتر", "63- الامانة الولائية لولاية العريشة", "64- الامانة الولائية لولاية قصر الشلالة", 
+            "65- الامانة الولائية لولاية عين وسارة", "66- الامانة الولائية لولاية مسعد", "67- الامانة الولائية لولاية قصر البخاري", "68- الامانة الولائية لولاية بوسعادة", 
+            "69- الامانة الولائية لولاية الأبيض سيدي الشيخ"
+        ];
+
+        let secretariats = [];
         
-        .header-logo { width: 110px; height: auto; filter: drop-shadow(0px 4px 6px rgba(0,0,0,0.4)); transition: transform 0.3s ease; }
-        .header-logo:hover { transform: scale(1.05); }
-        .header-content { flex: 1; text-align: center; }
+        try {
+            secretariats = JSON.parse(localStorage.getItem('secretariats_data')) || [];
+        } catch(e) {
+            console.warn("التخزين المحلي غير متاح، البيانات مؤقتة.");
+        }
+
+        function populateWilayas() {
+            const select = document.getElementById('wilayaName');
+            if (select.options.length <= 1) { 
+                select.innerHTML = '<option value="" disabled selected>اختر الأمانة الولائية...</option>';
+                wilayasList.forEach(wilaya => {
+                    select.innerHTML += `<option value="${wilaya}">${wilaya}</option>`;
+                });
+            }
+        }
+
+        document.getElementById('photoInput').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    document.getElementById('photoBase64').value = event.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        function formatWhatsAppNumber(phone) {
+            if (!phone) return "";
+            let cleaned = phone.replace(/\D/g, '');
+            if (cleaned.startsWith('0')) cleaned = '213' + cleaned.substring(1);
+            return cleaned;
+        }
+
+        function renderCards() {
+            const container = document.getElementById('cardsContainer');
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            container.innerHTML = '';
+
+            secretariats.forEach((item, index) => {
+                if (item.wilayaName.toLowerCase().includes(searchTerm) || item.sgName.toLowerCase().includes(searchTerm)) {
+                    const waNumber = formatWhatsAppNumber(item.phone);
+                    const defaultAvatar = "https://cdn-icons-png.flaticon.com/512/149/149071.png";
+                    const avatar = item.photo || defaultAvatar;
+
+                    const card = `
+                        <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300 border border-gray-200">
+                            <div class="bg-gray-800 text-white p-3 flex justify-between items-center">
+                                <h3 class="font-bold text-sm truncate w-3/4"><i class="fa-solid fa-location-dot ml-1 text-red-400"></i> ${item.wilayaName}</h3>
+                                <div class="flex space-x-2 space-x-reverse">
+                                    <button onclick="editEntry(${index})" class="text-blue-300 hover:text-blue-100" title="تعديل"><i class="fa-solid fa-pen-to-square"></i></button>
+                                    <button onclick="deleteEntry(${index})" class="text-red-400 hover:text-red-200" title="حذف"><i class="fa-solid fa-trash"></i></button>
+                                </div>
+                            </div>
+                            
+                            <div class="p-4 flex items-center">
+                                <img src="${avatar}" class="w-16 h-16 rounded-full border-2 border-green-500 ml-4 object-cover">
+                                <div>
+                                    <p class="font-bold text-lg text-gray-800">👨 ${item.sgName}</p>
+                                    <p class="text-sm text-gray-500 mt-1 line-clamp-2" title="${item.address}">🏦 ${item.address || 'غير محدد'}</p>
+                                </div>
+                            </div>
+
+                            <div class="bg-gray-50 p-3 border-t flex justify-around card-actions">
+                                <a href="${item.phone ? 'tel:' + item.phone : '#'}" class="text-blue-600" title="اتصال"><i class="fa-solid fa-phone text-xl"></i></a>
+                                <a href="${waNumber ? 'https://wa.me/' + waNumber : '#'}" target="_blank" class="text-green-500" title="مراسلة الأمانة واتساب"><i class="fa-brands fa-whatsapp text-xl"></i></a>
+                                <a href="${item.email ? 'mailto:' + item.email : '#'}" class="${item.email ? 'text-red-500' : 'text-gray-300 pointer-events-none'}" title="إرسال إيميل للأمانة"><i class="fa-solid fa-envelope text-xl"></i></a>
+                                <a href="${item.mapsLink ? item.mapsLink : '#'}" target="_blank" class="${item.mapsLink ? 'text-yellow-500' : 'text-gray-300 pointer-events-none'}" title="الخريطة"><i class="fa-solid fa-map-location-dot text-xl"></i></a>
+                            </div>
+                        </div>
+                    `;
+                    container.innerHTML += card;
+                }
+            });
+        }
+
+        function openModal() {
+            populateWilayas();
+            document.getElementById('formModal').classList.remove('hidden');
+        }
+
+        function closeModal() {
+            document.getElementById('formModal').classList.add('hidden');
+            document.getElementById('dataForm').reset();
+            document.getElementById('editIndex').value = "-1";
+            document.getElementById('photoBase64').value = "";
+            document.getElementById('includeMahdar').checked = false;
+            document.getElementById('modalTitle').innerText = "إضافة أمانة ولائية جديدة";
+        }
+
+        function executeSave() {
+            const index = document.getElementById('editIndex').value;
+            const newData = {
+                wilayaName: document.getElementById('wilayaName').value,
+                sgName: document.getElementById('sgName').value,
+                phone: document.getElementById('phone').value,
+                email: document.getElementById('email').value,
+                address: document.getElementById('address').value,
+                mapsLink: document.getElementById('mapsLink').value,
+                photo: document.getElementById('photoBase64').value
+            };
+
+            if (index === "-1") {
+                secretariats.push(newData);
+            } else {
+                if(!newData.photo) newData.photo = secretariats[index].photo;
+                secretariats[index] = newData;
+            }
+
+            try {
+                localStorage.setItem('secretariats_data', JSON.stringify(secretariats));
+            } catch(e) {}
+            
+            renderCards();
+            return newData;
+        }
+
+        function saveData(event) {
+            event.preventDefault();
+            executeSave();
+            closeModal();
+        }
+
+        // بناء الرسالة مع إضافة خيار المحضر
+        function buildShareMessage(data, includeMahdar) {
+            let msg = `*${data.wilayaName}*\n` +
+                      `👨 الأمين العام: ${data.sgName}\n` +
+                      `📞 الهاتف: ${data.phone}\n`;
+            
+            if (data.email) msg += `📧 البريد: ${data.email}\n`;
+            if (data.address) msg += `🏦 المقر: ${data.address}\n`;
+            if (data.mapsLink) msg += `📍 الخريطة: ${data.mapsLink}\n`;
+
+            if (includeMahdar) {
+                msg += `\n📄 *إشعار هام:* نعلمكم أنه تم رسمياً تنصيب الأمانة الولائية وإعداد محضر التنصيب الخاص بذلك.`;
+            }
+
+            return msg;
+        }
+
+        function saveAndShare(type) {
+            const form = document.getElementById('dataForm');
+            if (!form.checkValidity()) {
+                form.reportValidity();
+                return;
+            }
+
+            const savedData = executeSave();
+            const includeMahdar = document.getElementById('includeMahdar').checked;
+
+            if (type === 'whatsapp') {
+                const targetPhone = document.getElementById('targetWhatsapp').value;
+                if (!targetPhone) { 
+                    alert('يرجى إدخال رقم واتساب المستلم في خيارات الإرسال.'); 
+                    return; 
+                }
+                const waNumber = formatWhatsAppNumber(targetPhone);
+                const msg = encodeURIComponent(buildShareMessage(savedData, includeMahdar));
+                window.open(`https://wa.me/${waNumber}?text=${msg}`, '_blank');
+            } 
+            else if (type === 'email') {
+                const targetEmail = document.getElementById('targetEmail').value;
+                if (!targetEmail) { 
+                    alert('يرجى إدخال إيميل المستلم في خيارات الإرسال.'); 
+                    return; 
+                }
+                const msg = encodeURIComponent(buildShareMessage(savedData, includeMahdar));
+                const subject = encodeURIComponent('بيانات الأمانة الولائية: ' + savedData.wilayaName);
+                window.open(`mailto:${targetEmail}?subject=${subject}&body=${msg}`, '_blank');
+            }
+            
+            closeModal();
+        }
+
+        function editEntry(index) {
+            populateWilayas();
+            const data = secretariats[index];
+            document.getElementById('editIndex').value = index;
+            document.getElementById('wilayaName').value = data.wilayaName;
+            document.getElementById('sgName').value = data.sgName;
+            document.getElementById('phone').value = data.phone;
+            document.getElementById('email').value = data.email || "";
+            document.getElementById('address').value = data.address || "";
+            document.getElementById('mapsLink').value = data.mapsLink || "";
+            document.getElementById('modalTitle').innerText = "تعديل بيانات: " + data.wilayaName;
+            
+            document.getElementById('targetWhatsapp').value = '';
+            document.getElementById('targetEmail').value = '';
+            document.getElementById('includeMahdar').checked = false;
+            
+            document.getElementById('formModal').classList.remove('hidden');
+        }
+
+        function deleteEntry(index) {
+            if (confirm("هل أنت متأكد من حذف هذه البيانات؟")) {
+                secretariats.splice(index, 1);
+                try {
+                    localStorage.setItem('secretariats_data', JSON.stringify(secretariats));
+                } catch(e) {}
+                renderCards();
+            }
+        }
+
+        populateWilayas();
+        renderCards();
+    </script>
+</body>
+</html>
+     .header-content { flex: 1; text-align: center; }
 
         header h1 { font-size: 2.2rem; margin-bottom: 10px; text-shadow: 1px 1px 3px rgba(0,0,0,0.3); }
         header h2 { font-size: 1.4rem; color: var(--accent-gold); margin-bottom: 15px; }
