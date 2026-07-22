@@ -1,15 +1,20 @@
-   <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>دليل الأمانات الولائية</title>
+    <title>دليل الأمانات الولائية والجهوية</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f3f4f6; }
         .card-actions a, .card-actions button { transition: all 0.2s ease-in-out; }
         .card-actions a:hover, .card-actions button:hover { transform: scale(1.1); }
+        /* تصميم زر الطي والفتح للجهات */
+        details > summary { list-style: none; cursor: pointer; }
+        details > summary::-webkit-details-marker { display: none; }
+        details[open] summary ~ * { animation: fadeIn 0.3s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body class="bg-gray-100 text-gray-800">
@@ -17,103 +22,113 @@
     <!-- شريط التنقل -->
     <nav class="bg-green-700 text-white shadow-lg p-4 sticky top-0 z-50">
         <div class="container mx-auto flex justify-between items-center">
-            <h1 class="text-xl font-bold"><i class="fa-solid fa-address-book ml-2"></i> دليل الأمانات الولائية</h1>
-            <button onclick="openModal()" class="bg-white text-green-700 px-4 py-2 rounded-lg font-bold shadow hover:bg-gray-100">
-                <i class="fa-solid fa-plus"></i> إضافة أمانة
+            <h1 class="text-xl font-bold"><i class="fa-solid fa-address-book ml-2"></i> دليل الأمانات الجهوية والولائية</h1>
+            <button onclick="openModal()" class="bg-white text-green-700 px-4 py-2 rounded-lg font-bold shadow hover:bg-gray-100 transition">
+                <i class="fa-solid fa-plus"></i> إضافة أمانة ولائية
             </button>
         </div>
     </nav>
 
-    <!-- شريط البحث -->
+    <!-- القسم الأول: الأمانات الجهوية (ثابت) -->
     <div class="container mx-auto mt-6 px-4">
-        <input type="text" id="searchInput" onkeyup="renderCards()" placeholder="ابحث عن ولاية أو أمين عام..." class="w-full p-3 rounded-lg shadow-sm border border-gray-300 focus:outline-none focus:border-green-500">
+        <div class="bg-white rounded-xl shadow-md p-5 border-t-4 border-blue-600">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4 border-b pb-2"><i class="fa-solid fa-sitemap text-blue-600 ml-2"></i> الأمانات الجهوية للتنسيق</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="regionalContainer">
+                <!-- سيتم تعبئة الجهات عبر JavaScript لتقليل زحمة الكود -->
+            </div>
+        </div>
     </div>
 
-    <!-- شبكة عرض البطاقات -->
-    <div class="container mx-auto mt-6 px-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="cardsContainer">
-        <!-- سيتم توليد البطاقات هنا -->
+    <!-- القسم الثاني: الأمانات الولائية (ديناميكي) -->
+    <div class="container mx-auto mt-8 px-4">
+        <div class="flex items-center justify-between mb-4">
+            <h2 class="text-2xl font-bold text-gray-800"><i class="fa-solid fa-list-check text-green-600 ml-2"></i> الأمانات الولائية</h2>
+        </div>
+        
+        <!-- شريط البحث -->
+        <input type="text" id="searchInput" onkeyup="renderCards()" placeholder="ابحث عن ولاية أو أمين عام ولائي..." class="w-full p-3 rounded-lg shadow-sm border border-gray-300 focus:outline-none focus:border-green-500 mb-6 font-bold text-lg">
+        
+        <!-- شبكة عرض البطاقات الولائية -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="cardsContainer">
+            <!-- سيتم توليد البطاقات هنا -->
+        </div>
     </div>
 
     <!-- نافذة الإضافة / التعديل والإرسال المدمجة -->
     <div id="formModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex justify-center items-center z-50 overflow-y-auto">
-        <div class="bg-white rounded-lg p-6 w-11/12 md:w-3/4 lg:w-1/2 my-8">
+        <div class="bg-white rounded-lg p-6 w-11/12 md:w-3/4 lg:w-1/2 my-8 shadow-2xl border-t-4 border-green-600">
             <h2 id="modalTitle" class="text-2xl font-bold mb-4 text-green-700">إضافة أمانة ولائية جديدة</h2>
             
             <form id="dataForm" onsubmit="saveData(event)">
                 <input type="hidden" id="editIndex" value="-1">
                 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <!-- القسم الأول: بيانات الأمانة -->
+                    <!-- بيانات الأمانة -->
                     <div>
                         <h3 class="font-bold text-gray-700 mb-3 border-b pb-1"><i class="fa-solid fa-file-signature text-green-600"></i> 1. بيانات الأمانة</h3>
                         
                         <div class="mb-3">
                             <label class="block text-sm font-bold mb-1">الولاية (مطلوب)</label>
-                            <select id="wilayaName" required class="w-full p-2 border rounded focus:outline-none focus:border-green-500 bg-white"></select>
+                            <select id="wilayaName" required class="w-full p-2 border rounded focus:outline-none focus:border-green-500 bg-white font-bold"></select>
                         </div>
-
                         <div class="mb-3">
                             <label class="block text-sm font-bold mb-1">اسم الأمين العام (مطلوب)</label>
-                            <input type="text" id="sgName" required class="w-full p-2 border rounded focus:outline-none focus:border-green-500">
+                            <input type="text" id="sgName" required class="w-full p-2 border rounded focus:outline-none focus:border-green-500 font-bold">
                         </div>
-
                         <div class="mb-3">
                             <label class="block text-sm font-bold mb-1">رقم الهاتف (مطلوب)</label>
-                            <input type="tel" id="phone" required class="w-full p-2 border rounded focus:outline-none focus:border-green-500">
+                            <input type="tel" id="phone" required class="w-full p-2 border rounded focus:outline-none focus:border-green-500 font-bold" dir="ltr" placeholder="06XXXXXXXX">
                         </div>
-
                         <div class="mb-3">
-                            <label class="block text-sm font-bold mb-1">البريد الإلكتروني للأمانة (اختياري)</label>
-                            <input type="email" id="email" class="w-full p-2 border rounded focus:outline-none focus:border-green-500">
+                            <label class="block text-sm font-bold mb-1">البريد الإلكتروني (اختياري)</label>
+                            <input type="email" id="email" class="w-full p-2 border rounded focus:outline-none focus:border-green-500" dir="ltr">
                         </div>
-
                         <div class="mb-3">
                             <label class="block text-sm font-bold mb-1">مقر الأمانة (اختياري)</label>
                             <input type="text" id="address" class="w-full p-2 border rounded focus:outline-none focus:border-green-500">
                         </div>
-
                         <div class="mb-3">
                             <label class="block text-sm font-bold mb-1">رابط خرائط جوجل (اختياري)</label>
-                            <input type="url" id="mapsLink" class="w-full p-2 border rounded focus:outline-none focus:border-green-500">
+                            <input type="url" id="mapsLink" class="w-full p-2 border rounded focus:outline-none focus:border-green-500" dir="ltr">
                         </div>
-
                         <div class="mb-3">
                             <label class="block text-sm font-bold mb-1">صورة الأمين العام (اختياري)</label>
-                            <input type="file" id="photoInput" accept="image/*" class="w-full p-2 border rounded text-sm">
+                            <input type="file" id="photoInput" accept="image/*" class="w-full p-2 border rounded text-sm bg-gray-50">
                             <input type="hidden" id="photoBase64">
                         </div>
                     </div>
 
-                    <!-- القسم الثاني: خيارات الإرسال -->
+                    <!-- خيارات الإرسال والمحضر -->
                     <div class="bg-indigo-50 p-4 rounded-lg border border-indigo-100 flex flex-col justify-between">
                         <div>
                             <h3 class="font-bold text-indigo-800 mb-3 border-b border-indigo-200 pb-1"><i class="fa-solid fa-share-nodes text-indigo-600"></i> 2. خيارات المستلم والمحضر</h3>
                             
-                            <div class="mb-4 bg-white p-3 rounded shadow-sm border border-indigo-200">
+                            <div class="mb-4 bg-white p-3 rounded shadow-sm border border-indigo-200 hover:bg-indigo-100 transition cursor-pointer" onclick="document.getElementById('includeMahdar').click()">
                                 <label class="flex items-center space-x-2 space-x-reverse cursor-pointer">
                                     <input type="checkbox" id="includeMahdar" class="w-5 h-5 text-indigo-600 rounded focus:ring-indigo-500 border-gray-300">
-                                    <span class="text-sm font-bold text-indigo-900">إرفاق إشعار بتنصيب الأمانة (إرسال محضر التنصيب)</span>
+                                    <span class="text-sm font-bold text-indigo-900">إرفاق إشعار بتنصيب الأمانة (محضر التنصيب)</span>
                                 </label>
                             </div>
 
-                            <p class="text-xs text-gray-600 mb-4 leading-relaxed">أدخل رقم أو إيميل الشخص الذي تريد إرسال هذه البيانات إليه مباشرة بعد الحفظ.</p>
+                            <p class="text-xs text-gray-600 mb-4 leading-relaxed">أدخل بيانات الشخص الذي تريد إرسال المعلومات إليه فوراً بعد الحفظ.</p>
                             
                             <div class="mb-4">
                                 <label class="block text-sm font-bold mb-1 text-indigo-900">رقم واتساب المستلم</label>
-                                <input type="tel" id="targetWhatsapp" placeholder="مثال: 0660123456" class="w-full p-2 border rounded focus:outline-none focus:border-indigo-500">
+                                <input type="tel" id="targetWhatsapp" placeholder="0660123456" class="w-full p-2 border rounded focus:outline-none focus:border-indigo-500 font-bold" dir="ltr">
                             </div>
 
                             <div class="mb-4">
                                 <label class="block text-sm font-bold mb-1 text-indigo-900">إيميل المستلم</label>
-                                <input type="email" id="targetEmail" placeholder="example@gmail.com" class="w-full p-2 border rounded focus:outline-none focus:border-indigo-500">
+                                <input type="email" id="targetEmail" placeholder="example@gmail.com" class="w-full p-2 border rounded focus:outline-none focus:border-indigo-500 font-bold" dir="ltr">
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <!-- أزرار الإجراءات -->
-                <div class="flex flex-col md:flex-row justify-end gap-2 mt-6 pt-4 border-t">
-                    <button type="submit" class="bg-green-700 text-white px-4 py-3 md:py-2 rounded shadow hover:bg-green-800 w-full md:w-auto font-bold"><i class="fa-solid fa-floppy-disk"></i> حفظ البيانات فقط</button>
+                <div class="flex flex-col md:flex-row justify-end gap-2 mt-6 pt-4 border-t bg-gray-50 -mx-6 -mb-6 p-4 rounded-b-lg">
+                    <button type="submit" class="bg-green-700 text-white px-4 py-3 md:py-2 rounded shadow hover:bg-green-800 w-full md:w-auto font-bold"><i class="fa-solid fa-floppy-disk"></i> حفظ فقط</button>
                     <button type="button" onclick="saveAndShare('whatsapp')" class="bg-green-500 text-white px-4 py-3 md:py-2 rounded shadow hover:bg-green-600 w-full md:w-auto font-bold"><i class="fa-brands fa-whatsapp"></i> حفظ وإرسال واتساب</button>
                     <button type="button" onclick="saveAndShare('email')" class="bg-red-500 text-white px-4 py-3 md:py-2 rounded shadow hover:bg-red-600 w-full md:w-auto font-bold"><i class="fa-solid fa-envelope"></i> حفظ وإرسال إيميل</button>
                     <button type="button" onclick="closeModal()" class="bg-gray-400 text-white px-4 py-3 md:py-2 rounded shadow hover:bg-gray-500 w-full md:w-auto font-bold">إلغاء</button>
@@ -123,64 +138,183 @@
     </div>
 
     <script>
+        // 1. بيانات الأمانات الجهوية الثابتة
+        const regionsData = [
+            {
+                name: "جهة الشرق", color: "blue", count: 14,
+                coordinator: { name: "جعفري عبد الرحمان (سوق اهراس)", phone: "0775586559", email: "abderrahmanedjafri@yahoo.fr" },
+                wilayas: "باتنة، سطيف، بريكة، تبسة، سوق اهراس، قسنطينة، عنابة، سكيكدة، قالمة، خنشلة، ام البواقي، ميلة، جيجل، الطارف",
+                members: [
+                    { name: "بوقطوف توفيق (تبسة)", phone: "0697797528", email: "sntetoufik12@gmail.com" },
+                    { name: "خالد حجازي (باتنة)", phone: "0663915534", email: "sntebatna@gmail.com" }
+                ]
+            },
+            {
+                name: "جهة الغرب", color: "green", count: 10,
+                coordinator: { name: "راشدي الهواري (مستغانم)", phone: "0776484477", email: "sntemosta@gmail.com" },
+                wilayas: "وهران، الشلف، تلمسان، سيدي بلعباس، مستغانم، معسكر، عين تموشنت، غليزان، تيارت، سعيدة، تيسمسيلت",
+                members: [
+                    { name: "نجيب عيموش (غيليزان)", phone: "0550341143", email: "sntenadjib48@gmail.com" },
+                    { name: "خليفي شريف عبد الهادي (تلمسان)", phone: "0697119072 / 0770292740", email: "khelifiabdelhadi13@gmail.com" }
+                ]
+            },
+            {
+                name: "جهة الوسط 01", color: "purple", count: 6,
+                coordinator: { name: "حجلاوي أحمد (عين الدفلى)", phone: "0771291371", email: "hadjlaouiahmed@gmail.com" },
+                wilayas: "الجزائر شرق، الجزائر وسط، الجزائر غرب، تيبازة، المدية، عين الدفلى",
+                members: [
+                    { name: "بوسالم احمد (الجزائر شرق)", phone: "0556145073", email: "demed86@gmail.com" },
+                    { name: "نعمان رابح (تيبازة)", phone: "0659502817 / 0665253410", email: "ens.namane@gmail.com" }
+                ]
+            },
+            {
+                name: "جهة الوسط 02", color: "indigo", count: 6,
+                coordinator: { name: "حسان بلباقي (الجزائر شرق)", phone: "0550402965", email: "hcnblbki@gmail.com" },
+                wilayas: "بومرداس، البليدة، تيزي وزو، برج بوعريريج، البويرة، بجاية",
+                members: [
+                    { name: "عبد الرحيم سعيد (الجزائر شرق)", phone: "0556850930", email: "saidsnte@gmail.com" },
+                    { name: "عزيب عادل (برج بوعريريج)", phone: "0778279290", email: "azibadel9@gmail.com" }
+                ]
+            },
+            {
+                name: "جنوب الوسط", color: "yellow", count: 12,
+                coordinator: { name: "قزيم أحمد (الجلفة)", phone: "0673164317", email: "ahmed17goz@gmail.com" },
+                wilayas: "الجلفة، مسعد، الاغواط، بوسعادة، عين وسارة، آفلو، البيض، المسيلة، قصر البخاري، الابيض سيدي الشيخ، أولاد جلال، النعامة، غرداية",
+                members: [
+                    { name: "بن عبد الرجمان عبد الرزاق (غرداية)", phone: "0556850930", email: "abderrazakgeneral@gmail.com" },
+                    { name: "اسامة مزاري (بوسعادة)", phone: "0671391376", email: "oussama77.m@gmail.com" }
+                ]
+            },
+            {
+                name: "الجنوب الشرقي", color: "red", count: 7,
+                coordinator: { name: "باي فؤاد (الوادي)", phone: "0772757559 / 0662582595", email: "ademtoursdz@gmail.com" },
+                wilayas: "ورقلة، تقرت، المغيير، الوادي، بسكرة، اليزي، جانت",
+                members: [
+                    { name: "شيخي عامر (اليزي)", phone: "0660396167", email: "chikhiamer@gmail.com" },
+                    { name: "زيدي ليندة (بسكرة)", phone: "0658240995", email: "" }
+                ]
+            },
+            {
+                name: "الجنوب الغربي", color: "orange", count: 11,
+                coordinator: { name: "بن يحي مصطفى (تيميمون)", phone: "0663664686", email: "benyahiamustapha49@gmail.com" },
+                wilayas: "بشار، تيندوف، بني عباس، ادرار، تيميمون، المنيعة، عين صالح، تمنراست، المنيعة، برج باجي مختار، عين قزام",
+                members: [
+                    { name: "باعيسى محمد (تمنراست)", phone: "0671644149", email: "" },
+                    { name: "حمة عبد القادر (ادرار)", phone: "0660123586", email: "" },
+                    { name: "محجوبي خليفة (بشار)", phone: "0663796369", email: "" },
+                    { name: "يعيش عبد المومن (بني عباس)", phone: "0655184789", email: "" }
+                ]
+            }
+        ];
+
+        // 2. قائمة الولايات الـ 69
         const wilayasList = [
             "1- الامانة الولائية لولاية ادرار", "2- الامانة الولائية لولاية الشلف", "3- الامانة الولائية لولاية الاغواط", "4- الامانة الولائية لولاية ام البواقي",
             "5- الامانة الولائية لولاية باتنة", "6- الامانة الولائية لولاية بجاية", "7- الامانة الولائية لولاية بسكرة", "8- الامانة الولائية لولاية بشار",
             "9- الامانة الولائية لولاية البليدة", "10- الامانة الولائية لولاية البويرة", "11- الامانة الولائية لولاية تمنراست", "12- الامانة الولائية لولاية تبسة",
-            "13- الامانة الولائية لولاية تلمسان", "14- الامانة الولائية لولاية تيارت", "15- الامانة الولائية لولاية تيزي وزو", 
-            "16- الامانة الولائية لولاية الجزائر وسط", "16- الامانة الولائية لولاية الجزائر شرق", "16- الامانة الولائية لولاية الجزائر غرب", 
-            "17- الامانة الولائية لولاية الجلفة", "18- الامانة الولائية لولاية جيجل", "19- الامانة الولائية لولاية سطيف", "20- الامانة الولائية لولاية سعيدة", 
-            "21- الامانة الولائية لولاية سكيكدة", "22- الامانة الولائية لولاية سيدي بلعباس", "23- الامانة الولائية لولاية عنابة", "24- الامانة الولائية لولاية قالمة", 
-            "25- الامانة الولائية لولاية قسنطينة", "26- الامانة الولائية لولاية المدية", "27- الامانة الولائية لولاية مستغانم", "28- الامانة الولائية لولاية المسيلة", 
-            "29- الامانة الولائية لولاية معسكر", "30- الامانة الولائية لولاية ورقلة", "31- الامانة الولائية لولاية وهران", "32- الامانة الولائية لولاية البيض", 
-            "33- الامانة الولائية لولاية اليزي", "34- الامانة الولائية لولاية برج بوعريريج", "35- الامانة الولائية لولاية بومرداس", "36- الامانة الولائية لولاية الطارف", 
-            "37- الامانة الولائية لولاية تيندوف", "38- الامانة الولائية لولاية تيسمسيلت", "39- الامانة الولائية لولاية الوادي", "40- الامانة الولائية لولاية خنشلة", 
-            "41- الامانة الولائية لولاية سوق اهراس", "42- الامانة الولائية لولاية تيبازة", "43- الامانة الولائية لولاية ميلة", "44- الامانة الولائية لولاية عين الدفلى", 
-            "45- الامانة الولائية لولاية النعامة", "46- الامانة الولائية لولاية عين تيموشنت", "47- الامانة الولائية لولاية غارداية", "48- الامانة الولائية لولاية غيليزان", 
-            "49- الامانة الولائية لولاية تيميمون", "50- الامانة الولائية لولاية برج باجي مختار", "51- الامانة الولائية لولاية بني عباس", "52- الامانة الولائية لولاية أولاد جلال", 
-            "53- الامانة الولائية لولاية عين صالح", "54- الامانة الولائية لولاية عين قزام", "55- الامانة الولائية لولاية تقرت", "56- الامانة الولائية لولاية جانت", 
-            "57- الامانة الولائية لولاية المغير", "58- الامانة الولائية لولاية المنيعة", "59- الامانة الولائية لولاية آفلو", "60- الامانة الولائية لولاية بريكة", 
-            "61- الامانة الولائية لولاية القنطرة", "62- الامانة الولائية لولاية بئر العاتر", "63- الامانة الولائية لولاية العريشة", "64- الامانة الولائية لولاية قصر الشلالة", 
-            "65- الامانة الولائية لولاية عين وسارة", "66- الامانة الولائية لولاية مسعد", "67- الامانة الولائية لولاية قصر البخاري", "68- الامانة الولائية لولاية بوسعادة", 
-            "69- الامانة الولائية لولاية الأبيض سيدي الشيخ"
+            "13- الامانة الولائية لولاية تلمسان", "14- الامانة الولائية لولاية تيارت", "15- الامانة الولائية لولاية تيزي وزو", "16- الامانة الولائية لولاية الجزائر وسط",
+            "16- الامانة الولائية لولاية الجزائر شرق", "16- الامانة الولائية لولاية الجزائر غرب", "17- الامانة الولائية لولاية الجلفة", "18- الامانة الولائية لولاية جيجل",
+            "19- الامانة الولائية لولاية سطيف", "20- الامانة الولائية لولاية سعيدة", "21- الامانة الولائية لولاية سكيكدة", "22- الامانة الولائية لولاية سيدي بلعباس",
+            "23- الامانة الولائية لولاية عنابة", "24- الامانة الولائية لولاية قالمة", "25- الامانة الولائية لولاية قسنطينة", "26- الامانة الولائية لولاية المدية",
+            "27- الامانة الولائية لولاية مستغانم", "28- الامانة الولائية لولاية المسيلة", "29- الامانة الولائية لولاية معسكر", "30- الامانة الولائية لولاية ورقلة",
+            "31- الامانة الولائية لولاية وهران", "32- الامانة الولائية لولاية البيض", "33- الامانة الولائية لولاية اليزي", "34- الامانة الولائية لولاية برج بوعريريج",
+            "35- الامانة الولائية لولاية بومرداس", "36- الامانة الولائية لولاية الطارف", "37- الامانة الولائية لولاية تيندوف", "38- الامانة الولائية لولاية تيسمسيلت",
+            "39- الامانة الولائية لولاية الوادي", "40- الامانة الولائية لولاية خنشلة", "41- الامانة الولائية لولاية سوق اهراس", "42- الامانة الولائية لولاية تيبازة",
+            "43- الامانة الولائية لولاية ميلة", "44- الامانة الولائية لولاية عين الدفلى", "45- الامانة الولائية لولاية النعامة", "46- الامانة الولائية لولاية عين تيموشنت",
+            "47- الامانة الولائية لولاية غارداية", "48- الامانة الولائية لولاية غيليزان", "49- الامانة الولائية لولاية تيميمون", "50- الامانة الولائية لولاية برج باجي مختار",
+            "51- الامانة الولائية لولاية بني عباس", "52- الامانة الولائية لولاية أولاد جلال", "53- الامانة الولائية لولاية عين صالح", "54- الامانة الولائية لولاية عين قزام",
+            "55- الامانة الولائية لولاية تقرت", "56- الامانة الولائية لولاية جانت", "57- الامانة الولائية لولاية المغير", "58- الامانة الولائية لولاية المنيعة",
+            "59- الامانة الولائية لولاية آفلو", "60- الامانة الولائية لولاية بريكة", "61- الامانة الولائية لولاية القنطرة", "62- الامانة الولائية لولاية بئر العاتر",
+            "63- الامانة الولائية لولاية العريشة", "64- الامانة الولائية لولاية قصر الشلالة", "65- الامانة الولائية لولاية عين وسارة", "66- الامانة الولائية لولاية مسعد",
+            "67- الامانة الولائية لولاية قصر البخاري", "68- الامانة الولائية لولاية بوسعادة", "69- الامانة الولائية لولاية الأبيض سيدي الشيخ"
         ];
 
         let secretariats = [];
-        
-        try {
-            secretariats = JSON.parse(localStorage.getItem('secretariats_data')) || [];
-        } catch(e) {
-            console.warn("التخزين المحلي غير متاح، البيانات مؤقتة.");
-        }
+        try { secretariats = JSON.parse(localStorage.getItem('secretariats_data')) || []; } catch(e) {}
 
-        function populateWilayas() {
-            const select = document.getElementById('wilayaName');
-            if (select.options.length <= 1) { 
-                select.innerHTML = '<option value="" disabled selected>اختر الأمانة الولائية...</option>';
-                wilayasList.forEach(wilaya => {
-                    select.innerHTML += `<option value="${wilaya}">${wilaya}</option>`;
-                });
-            }
-        }
-
-        document.getElementById('photoInput').addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(event) {
-                    document.getElementById('photoBase64').value = event.target.result;
-                };
-                reader.readAsDataURL(file);
-            }
-        });
-
+        // --- دوال مساعدة ---
         function formatWhatsAppNumber(phone) {
             if (!phone) return "";
-            let cleaned = phone.replace(/\D/g, '');
+            // يأخذ أول رقم يجده في حال وجود رقمين مفصولين بـ / أو -
+            let firstPhone = phone.split(/[\/\-]/)[0].trim();
+            let cleaned = firstPhone.replace(/\D/g, '');
             if (cleaned.startsWith('0')) cleaned = '213' + cleaned.substring(1);
             return cleaned;
         }
 
+        // بناء بطاقات الجهات (التنسيق الجهوي)
+        function renderRegions() {
+            const container = document.getElementById('regionalContainer');
+            let html = '';
+            
+            regionsData.forEach(region => {
+                const waCoord = formatWhatsAppNumber(region.coordinator.phone);
+                
+                let membersHtml = '';
+                region.members.forEach(member => {
+                    const waMember = formatWhatsAppNumber(member.phone);
+                    membersHtml += `
+                        <div class="mt-2 bg-white p-2 rounded border border-gray-100 shadow-sm text-sm">
+                            <p class="font-bold text-gray-800">✔️ ${member.name}</p>
+                            <div class="flex flex-wrap gap-3 mt-1 text-xs">
+                                <span class="text-blue-600"><i class="fa-solid fa-phone"></i> ${member.phone}</span>
+                                <a href="https://wa.me/${waMember}" target="_blank" class="text-green-500 hover:underline"><i class="fa-brands fa-whatsapp text-sm"></i> واتساب</a>
+                                ${member.email ? `<a href="mailto:${member.email}" class="text-red-500 hover:underline"><i class="fa-solid fa-envelope"></i> إيميل</a>` : ''}
+                            </div>
+                        </div>`;
+                });
+
+                html += `
+                    <details class="bg-${region.color}-50 rounded-lg border border-${region.color}-200 shadow-sm overflow-hidden group">
+                        <summary class="p-4 bg-${region.color}-100 hover:bg-${region.color}-200 transition font-bold text-${region.color}-800 flex justify-between items-center">
+                            <span>🚩 المنسق الوطني ل${region.name}</span>
+                            <span class="bg-${region.color}-600 text-white text-xs px-2 py-1 rounded-full shadow">${region.count} ولايات <i class="fa-solid fa-chevron-down ml-1 text-[10px] group-open:rotate-180 transition-transform"></i></span>
+                        </summary>
+                        <div class="p-4 text-sm leading-relaxed border-t border-${region.color}-200">
+                            <div class="mb-3">
+                                <p class="font-bold text-lg text-gray-900 border-r-4 border-${region.color}-500 pr-2">👈 ${region.coordinator.name}</p>
+                                <div class="flex flex-wrap gap-4 mt-2 text-gray-700 font-bold bg-white p-2 rounded shadow-sm">
+                                    <span class="text-blue-700"><i class="fa-solid fa-phone"></i> ${region.coordinator.phone}</span>
+                                    <a href="https://wa.me/${waCoord}" target="_blank" class="text-green-600 hover:underline"><i class="fa-brands fa-whatsapp text-lg"></i> واتساب</a>
+                                    ${region.coordinator.email ? `<a href="mailto:${region.coordinator.email}" class="text-red-600 hover:underline break-all"><i class="fa-solid fa-envelope"></i> ${region.coordinator.email}</a>` : ''}
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3 bg-red-50 p-2 rounded border border-red-100 text-red-800 text-xs font-bold leading-relaxed">
+                                🔴 <strong>الولايات:</strong> (${region.wilayas})
+                            </div>
+
+                            <div class="mt-4">
+                                <h4 class="font-bold text-gray-700 border-b pb-1 mb-2">💠 أعضاء الأمانة الجهوية:</h4>
+                                ${membersHtml}
+                            </div>
+                        </div>
+                    </details>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
+        // بناء قائمة اختيار الولايات
+        function populateWilayas() {
+            const select = document.getElementById('wilayaName');
+            if (select.options.length <= 1) { 
+                select.innerHTML = '<option value="" disabled selected>اختر الأمانة الولائية...</option>';
+                wilayasList.forEach(wilaya => { select.innerHTML += `<option value="${wilaya}">${wilaya}</option>`; });
+            }
+        }
+
+        // تحويل الصورة لـ Base64
+        document.getElementById('photoInput').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) { document.getElementById('photoBase64').value = event.target.result; };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // عرض بطاقات الولايات
         function renderCards() {
             const container = document.getElementById('cardsContainer');
             const searchTerm = document.getElementById('searchInput').value.toLowerCase();
@@ -192,18 +326,18 @@
                     const defaultAvatar = "https://cdn-icons-png.flaticon.com/512/149/149071.png";
                     const avatar = item.photo || defaultAvatar;
 
-                    const card = `
-                        <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300 border border-gray-200">
-                            <div class="bg-gray-800 text-white p-3 flex justify-between items-center">
+                    container.innerHTML += `
+                        <div class="bg-white rounded-xl shadow border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow">
+                            <div class="bg-green-800 text-white p-3 flex justify-between items-center">
                                 <h3 class="font-bold text-sm truncate w-3/4"><i class="fa-solid fa-location-dot ml-1 text-red-400"></i> ${item.wilayaName}</h3>
                                 <div class="flex space-x-2 space-x-reverse">
-                                    <button onclick="editEntry(${index})" class="text-blue-300 hover:text-blue-100" title="تعديل"><i class="fa-solid fa-pen-to-square"></i></button>
-                                    <button onclick="deleteEntry(${index})" class="text-red-400 hover:text-red-200" title="حذف"><i class="fa-solid fa-trash"></i></button>
+                                    <button onclick="editEntry(${index})" class="text-blue-200 hover:text-white" title="تعديل"><i class="fa-solid fa-pen-to-square"></i></button>
+                                    <button onclick="deleteEntry(${index})" class="text-red-300 hover:text-white" title="حذف"><i class="fa-solid fa-trash"></i></button>
                                 </div>
                             </div>
                             
                             <div class="p-4 flex items-center">
-                                <img src="${avatar}" class="w-16 h-16 rounded-full border-2 border-green-500 ml-4 object-cover">
+                                <img src="${avatar}" class="w-16 h-16 rounded-full border-2 border-green-500 ml-4 object-cover shadow">
                                 <div>
                                     <p class="font-bold text-lg text-gray-800">👨 ${item.sgName}</p>
                                     <p class="text-sm text-gray-500 mt-1 line-clamp-2" title="${item.address}">🏦 ${item.address || 'غير محدد'}</p>
@@ -211,18 +345,18 @@
                             </div>
 
                             <div class="bg-gray-50 p-3 border-t flex justify-around card-actions">
-                                <a href="${item.phone ? 'tel:' + item.phone : '#'}" class="text-blue-600" title="اتصال"><i class="fa-solid fa-phone text-xl"></i></a>
-                                <a href="${waNumber ? 'https://wa.me/' + waNumber : '#'}" target="_blank" class="text-green-500" title="مراسلة الأمانة واتساب"><i class="fa-brands fa-whatsapp text-xl"></i></a>
-                                <a href="${item.email ? 'mailto:' + item.email : '#'}" class="${item.email ? 'text-red-500' : 'text-gray-300 pointer-events-none'}" title="إرسال إيميل للأمانة"><i class="fa-solid fa-envelope text-xl"></i></a>
-                                <a href="${item.mapsLink ? item.mapsLink : '#'}" target="_blank" class="${item.mapsLink ? 'text-yellow-500' : 'text-gray-300 pointer-events-none'}" title="الخريطة"><i class="fa-solid fa-map-location-dot text-xl"></i></a>
+                                <a href="${item.phone ? 'tel:' + item.phone : '#'}" class="text-blue-600 bg-blue-100 p-2 rounded-full w-10 h-10 flex items-center justify-center" title="اتصال"><i class="fa-solid fa-phone"></i></a>
+                                <a href="${waNumber ? 'https://wa.me/' + waNumber : '#'}" target="_blank" class="text-green-600 bg-green-100 p-2 rounded-full w-10 h-10 flex items-center justify-center" title="واتساب"><i class="fa-brands fa-whatsapp text-lg"></i></a>
+                                <a href="${item.email ? 'mailto:' + item.email : '#'}" class="${item.email ? 'text-red-500 bg-red-100' : 'text-gray-300 bg-gray-100 pointer-events-none'} p-2 rounded-full w-10 h-10 flex items-center justify-center" title="إيميل"><i class="fa-solid fa-envelope"></i></a>
+                                <a href="${item.mapsLink ? item.mapsLink : '#'}" target="_blank" class="${item.mapsLink ? 'text-yellow-600 bg-yellow-100' : 'text-gray-300 bg-gray-100 pointer-events-none'} p-2 rounded-full w-10 h-10 flex items-center justify-center" title="الخريطة"><i class="fa-solid fa-map-location-dot"></i></a>
                             </div>
                         </div>
                     `;
-                    container.innerHTML += card;
                 }
             });
         }
 
+        // --- وظائف النافذة (Modal) والإرسال ---
         function openModal() {
             populateWilayas();
             document.getElementById('formModal').classList.remove('hidden');
@@ -249,17 +383,10 @@
                 photo: document.getElementById('photoBase64').value
             };
 
-            if (index === "-1") {
-                secretariats.push(newData);
-            } else {
-                if(!newData.photo) newData.photo = secretariats[index].photo;
-                secretariats[index] = newData;
-            }
+            if (index === "-1") { secretariats.push(newData); } 
+            else { if(!newData.photo) newData.photo = secretariats[index].photo; secretariats[index] = newData; }
 
-            try {
-                localStorage.setItem('secretariats_data', JSON.stringify(secretariats));
-            } catch(e) {}
-            
+            try { localStorage.setItem('secretariats_data', JSON.stringify(secretariats)); } catch(e) {}
             renderCards();
             return newData;
         }
@@ -270,54 +397,36 @@
             closeModal();
         }
 
-        // بناء الرسالة مع إضافة خيار المحضر
         function buildShareMessage(data, includeMahdar) {
-            let msg = `*${data.wilayaName}*\n` +
-                      `👨 الأمين العام: ${data.sgName}\n` +
-                      `📞 الهاتف: ${data.phone}\n`;
-            
+            let msg = `*${data.wilayaName}*\n👨 الأمين العام: ${data.sgName}\n📞 الهاتف: ${data.phone}\n`;
             if (data.email) msg += `📧 البريد: ${data.email}\n`;
             if (data.address) msg += `🏦 المقر: ${data.address}\n`;
             if (data.mapsLink) msg += `📍 الخريطة: ${data.mapsLink}\n`;
-
-            if (includeMahdar) {
-                msg += `\n📄 *إشعار هام:* نعلمكم أنه تم رسمياً تنصيب الأمانة الولائية وإعداد محضر التنصيب الخاص بذلك.`;
-            }
-
+            if (includeMahdar) msg += `\n📄 *إشعار هام:* نعلمكم أنه تم رسمياً تنصيب الأمانة الولائية وإعداد محضر التنصيب الخاص بذلك.`;
             return msg;
         }
 
         function saveAndShare(type) {
             const form = document.getElementById('dataForm');
-            if (!form.checkValidity()) {
-                form.reportValidity();
-                return;
-            }
+            if (!form.checkValidity()) { form.reportValidity(); return; }
 
             const savedData = executeSave();
             const includeMahdar = document.getElementById('includeMahdar').checked;
 
             if (type === 'whatsapp') {
                 const targetPhone = document.getElementById('targetWhatsapp').value;
-                if (!targetPhone) { 
-                    alert('يرجى إدخال رقم واتساب المستلم في خيارات الإرسال.'); 
-                    return; 
-                }
+                if (!targetPhone) { alert('يرجى إدخال رقم واتساب المستلم.'); return; }
                 const waNumber = formatWhatsAppNumber(targetPhone);
                 const msg = encodeURIComponent(buildShareMessage(savedData, includeMahdar));
                 window.open(`https://wa.me/${waNumber}?text=${msg}`, '_blank');
             } 
             else if (type === 'email') {
                 const targetEmail = document.getElementById('targetEmail').value;
-                if (!targetEmail) { 
-                    alert('يرجى إدخال إيميل المستلم في خيارات الإرسال.'); 
-                    return; 
-                }
+                if (!targetEmail) { alert('يرجى إدخال إيميل المستلم.'); return; }
                 const msg = encodeURIComponent(buildShareMessage(savedData, includeMahdar));
                 const subject = encodeURIComponent('بيانات الأمانة الولائية: ' + savedData.wilayaName);
                 window.open(`mailto:${targetEmail}?subject=${subject}&body=${msg}`, '_blank');
             }
-            
             closeModal();
         }
 
@@ -332,561 +441,24 @@
             document.getElementById('address').value = data.address || "";
             document.getElementById('mapsLink').value = data.mapsLink || "";
             document.getElementById('modalTitle').innerText = "تعديل بيانات: " + data.wilayaName;
-            
             document.getElementById('targetWhatsapp').value = '';
             document.getElementById('targetEmail').value = '';
             document.getElementById('includeMahdar').checked = false;
-            
             document.getElementById('formModal').classList.remove('hidden');
         }
 
         function deleteEntry(index) {
             if (confirm("هل أنت متأكد من حذف هذه البيانات؟")) {
                 secretariats.splice(index, 1);
-                try {
-                    localStorage.setItem('secretariats_data', JSON.stringify(secretariats));
-                } catch(e) {}
+                try { localStorage.setItem('secretariats_data', JSON.stringify(secretariats)); } catch(e) {}
                 renderCards();
             }
         }
 
+        // الاستدعاءات الأولية عند فتح الصفحة
+        renderRegions();
         populateWilayas();
         renderCards();
-    </script>
-</body>
-</html>
-     .header-content { flex: 1; text-align: center; }
-
-        header h1 { font-size: 2.2rem; margin-bottom: 10px; text-shadow: 1px 1px 3px rgba(0,0,0,0.3); }
-        header h2 { font-size: 1.4rem; color: var(--accent-gold); margin-bottom: 15px; }
-        .slogan { background-color: var(--danger-red); display: inline-block; padding: 5px 20px; border-radius: 25px; font-weight: bold; font-size: 1rem; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
-
-        @media (max-width: 768px) {
-            .header-logo { width: 60px; }
-            header h1 { font-size: 1.5rem; }
-            header h2 { font-size: 1.1rem; }
-            .slogan { font-size: 0.85rem; padding: 5px 10px; }
-        }
-
-        .container { max-width: 1200px; margin: 20px auto; padding: 0 15px; }
-
-        /* Tabs */
-        .tabs { display: flex; flex-wrap: wrap; background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 8px rgba(0,0,0,0.05); margin-bottom: 20px; border: 1px solid var(--border-color); }
-        .tab-btn { flex: 1; background: none; border: none; padding: 15px 10px; font-size: 1.1rem; font-weight: bold; color: var(--text-dark); cursor: pointer; transition: all 0.3s ease; border-bottom: 4px solid transparent; }
-        .tab-btn:hover { background-color: #f9f9f9; color: var(--primary-green); }
-        .tab-btn.active { color: var(--primary-green); border-bottom-color: var(--danger-red); background-color: #fdfdfd; }
-        @media (max-width: 768px) { .tab-btn { flex: 1 1 100%; font-size: 1rem; border-bottom: 1px solid var(--border-color); } }
-
-        .tab-content { display: none; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.05); border: 1px solid var(--border-color); animation: fadeIn 0.4s; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        .section-title { color: var(--primary-green); margin-bottom: 25px; text-align: center; font-size: 1.8rem; border-bottom: 2px dashed var(--border-color); padding-bottom: 15px; }
-
-        /* Committee */
-        .committee-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
-        .region-card { border: 1px solid var(--border-color); border-radius: 10px; padding: 20px; text-align: center; background: #fff; border-top: 4px solid var(--accent-gold); box-shadow: 0 2px 5px rgba(0,0,0,0.05);}
-        .region-card h4 { color: var(--primary-green); margin-bottom: 15px; font-size: 1.3rem; padding-bottom: 10px; border-bottom: 1px solid #eee; }
-        .member { margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px dashed #eee; font-size: 1.05rem; }
-        .member:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
-        .member strong { color: var(--text-dark); display: block; margin-bottom: 5px; font-size: 1.1rem;}
-        .member span.phone { color: var(--danger-red); display: block; direction: ltr; font-weight: bold; margin-bottom: 3px; font-size: 1rem;}
-        .member span.phone a { color: #27ae60; text-decoration: none; transition: color 0.3s ease; }
-        .member span.phone a:hover { color: var(--primary-green); text-decoration: underline; }
-        .member span.email { color: #2980b9; display: block; direction: ltr; font-size: 0.9rem; word-break: break-all;}
-
-        /* Downloads */
-        .downloads-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-top: 20px; }
-        .download-card { background: #fafafa; border: 1px solid var(--border-color); border-radius: 10px; padding: 25px 15px; text-align: center; transition: transform 0.3s ease; border-top: 5px solid var(--primary-green); display: flex; flex-direction: column; justify-content: space-between; }
-        .download-card.law-23-02 { border-top-color: var(--danger-red); }
-        .download-card.law-23-08 { border-top-color: var(--accent-gold); }
-        .download-card.order-06-03 { border-top-color: #2980b9; }
-        .download-card:hover { transform: translateY(-5px); box-shadow: 0 8px 15px rgba(0,0,0,0.1); }
-        .download-icon { font-size: 3.5rem; margin-bottom: 10px; }
-        .download-card h3 { color: var(--text-dark); margin-bottom: 10px; font-size: 1.25rem; font-weight: 700; }
-        .download-card p { color: #7f8c8d; margin-bottom: 20px; font-size: 0.9rem; flex-grow: 1; }
-        .btn-download { display: inline-block; background-color: var(--secondary-green); color: white; text-decoration: none; padding: 10px 20px; border-radius: 25px; font-weight: bold; transition: background 0.3s; font-size: 0.95rem; }
-        .download-card.law-23-02 .btn-download { background-color: var(--danger-red); }
-        .download-card.law-23-08 .btn-download { background-color: #d35400; }
-        .download-card.order-06-03 .btn-download { background-color: #2980b9; }
-        .btn-download:hover { filter: brightness(1.1); }
-
-        /* Form */
-        .form-section-title { font-size: 1.3rem; color: var(--primary-green); margin-top: 20px; margin-bottom: 15px; border-bottom: 1px solid #ccc; padding-bottom: 5px;}
-        .form-row { display: flex; gap: 20px; }
-        .form-group { margin-bottom: 20px; flex: 1; }
-        @media (max-width: 768px) { .form-row { flex-direction: column; gap: 0; } }
-        .form-group label { display: block; margin-bottom: 8px; font-weight: bold; color: var(--text-dark); }
-        .required-star { color: var(--danger-red); margin-right: 3px; font-weight: bold;}
-        .form-control { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 5px; font-size: 1rem; }
-        .form-control:focus { outline: none; border-color: var(--secondary-green); }
-        textarea.form-control { resize: vertical; min-height: 100px; }
-        
-        .article-block { background: #fdfdfd; border: 1px solid #dcdde1; border-radius: 8px; padding: 20px; margin-bottom: 20px; position: relative; border-right: 5px solid var(--accent-gold);}
-        .remove-btn { position: absolute; top: 15px; left: 15px; background: var(--danger-red); color: white; border: none; border-radius: 50%; width: 30px; height: 30px; cursor: pointer; font-weight: bold; }
-        .add-article-btn { background: #ecf0f1; color: var(--text-dark); border: 2px dashed #bdc3c7; padding: 15px; width: 100%; font-size: 1.1rem; border-radius: 8px; cursor: pointer; margin-bottom: 20px; font-weight: bold; transition: 0.3s;}
-        .add-article-btn:hover { background: #e0e6ed; border-color: var(--secondary-green); color: var(--primary-green); }
-        
-        .actions-group { display: flex; gap: 15px; flex-wrap: wrap; margin-top: 30px; border-top: 2px solid #eee; padding-top: 20px;}
-        .btn-action { flex: 1; padding: 15px; font-size: 1.1rem; border-radius: 5px; cursor: pointer; font-weight: bold; border: none; color: white; transition: 0.3s; min-width: 200px;}
-        .btn-submit { background-color: var(--primary-green); }
-        .btn-submit:hover { background-color: #0e4425; }
-        .btn-save { background-color: #2980b9; }
-        .btn-print { background-color: #8e44ad; }
-        
-        /* Modal (النافذة المنبثقة للايميل والواتساب) */
-        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 1000; justify-content: center; align-items: center; }
-        .modal-box { background: white; width: 90%; max-width: 450px; padding: 25px; border-radius: 10px; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.3); animation: slideDown 0.3s ease; }
-        @keyframes slideDown { from { transform: translateY(-30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-        .modal-box h3 { color: var(--primary-green); margin-bottom: 10px; }
-        .modal-box p { font-size: 0.95rem; color: #555; margin-bottom: 15px; }
-        .email-btn { display: block; width: 100%; padding: 12px; margin-bottom: 10px; border: none; border-radius: 5px; font-weight: bold; font-size: 1.1rem; color: white; cursor: pointer; transition: 0.3s; }
-        .btn-gmail { background-color: #ea4335; }
-        .btn-gmail:hover { background-color: #c0392b; }
-        .btn-default { background-color: #34495e; }
-        .btn-default:hover { background-color: #2c3e50; }
-        .btn-whatsapp { background-color: #25D366; margin-top: 10px; }
-        .btn-whatsapp:hover { background-color: #128C7E; }
-        .close-modal { margin-top: 15px; background: none; border: none; color: var(--danger-red); font-weight: bold; cursor: pointer; text-decoration: underline; font-size: 1rem; }
-
-        @media print {
-            header, .tabs, .add-article-btn, .actions-group, .remove-btn, .modal-overlay { display: none !important; }
-            .tab-content { display: block !important; box-shadow: none; border: none; }
-            #committee, #laws { display: none !important; }
-            body { background: white; }
-            .article-block { border: 1px solid #000; page-break-inside: avoid; }
-        }
-    </style>
-</head>
-<body>
-
-    <header>
-        <img src="https://c.top4top.io/p_3793h57541.png" alt="شعار لجنة التحضير" class="header-logo">
-        <div class="header-content">
-            <h1>النقابة الوطنية لعمال التربية (S.N.T.E)</h1>
-            <h2>البوابة الإلكترونية الاستشارية للمؤتمر السادس الاستثنائي</h2>
-            <div class="slogan">تخطيط .. تنظيم .. وعمل مستمر لضمان نجاح المؤتمر الاستثنائي</div>
-        </div>
-        <img src="https://c.top4top.io/p_3793h57541.png" alt="شعار لجنة التحضير" class="header-logo">
-    </header>
-
-    <div class="container">
-        
-        <div class="tabs">
-            <button class="tab-btn active" onclick="openTab(event, 'committee')">👥 اللجنة الوطنية</button>
-            <button class="tab-btn" onclick="openTab(event, 'laws')">📚 النصوص القانونية</button>
-            <button class="tab-btn" onclick="openTab(event, 'proposal')">💡 تقديم مقترح (متعدد)</button>
-        </div>
-
-        <div id="committee" class="tab-content" style="display: block;">
-            <h2 class="section-title">اللجنة الوطنية لتحضير المؤتمر 6 الاستثنائي</h2>
-            <div style="text-align: center; background: #e8f8f5; color: #27ae60; padding: 10px; border-radius: 5px; margin-bottom: 20px;">
-                <strong>💬 تواصل مباشر:</strong> اضغط على رقم الهاتف لفتح محادثة واتساب مع العضو مباشرة.
-            </div>
-            <div class="committee-grid">
-                <div class="region-card">
-                    <h4>🚩 ولايات الوسط</h4>
-                    <div class="member">
-                        <strong>👈 فريد لمناجلية</strong>
-                        <span class="phone">☎️ <a href="https://wa.me/213556477879" target="_blank">0556477879</a></span>
-                        <span class="email">📫 blidasnte@hotmail.fr</span>
-                    </div>
-                    <div class="member">
-                        <strong>👈 تامي نورين لخضر</strong>
-                        <span class="phone">☎️ <a href="https://wa.me/213675998222" target="_blank">0675998222</a></span>
-                        <span class="email">📫 taminourinelakhdar@gmail.com</span>
-                    </div>
-                    <div class="member">
-                        <strong>👈 عبد الرحيم سعيد</strong>
-                        <span class="phone">☎️ <a href="https://wa.me/213556850930" target="_blank">0556850930</a></span>
-                        <span class="email">📫 saidsnte@gmail.com</span>
-                    </div>
-                    <div class="member">
-                        <strong>👈 جبري عبد الجليل</strong>
-                        <span class="phone">☎️ <a href="https://wa.me/213561546898" target="_blank">0561546898</a></span>
-                        <span class="email">📫 djebriabdeldjallil@gmail.com</span>
-                    </div>
-                </div>
-                <div class="region-card">
-                    <h4>🚩 ولايات الشرق</h4>
-                    <div class="member">
-                        <strong>👈 كرميش بايزيد</strong>
-                        <span class="phone">☎️ <a href="https://wa.me/213656192113" target="_blank">0656192113</a></span>
-                        <span class="email">📫 keribrahim25@gmail.com</span>
-                    </div>
-                    <div class="member">
-                        <strong>👈 جعفري عبد الرحمان</strong>
-                        <span class="phone">☎️ <a href="https://wa.me/213775586559" target="_blank">0775586559</a></span>
-                        <span class="email">📫 adberrahmanedjafri@yahoo.fr</span>
-                    </div>
-                    <div class="member">
-                        <strong>👈 حجازي خالد</strong>
-                        <span class="phone">☎️ <a href="https://wa.me/213663915534" target="_blank">0663915534</a></span>
-                        <span class="email">📫 sntebatna@gmail.com</span>
-                    </div>
-                </div>
-                <div class="region-card">
-                    <h4>🚩 ولايات الغرب</h4>
-                    <div class="member">
-                        <strong>👈 مجاطي علي</strong>
-                        <span class="phone">☎️ <a href="https://wa.me/213771242455" target="_blank">0771242455</a> / <a href="https://wa.me/213556454007" target="_blank">0556454007</a></span>
-                        <span class="email">📫 alimedjatio@gmail.com</span>
-                    </div>
-                    <div class="member">
-                        <strong>👈 بن علو توفيق</strong>
-                        <span class="phone">☎️ <a href="https://wa.me/213663241117" target="_blank">0663241117</a> / <a href="https://wa.me/213550362130" target="_blank">0550362130</a></span>
-                        <span class="email">📫 benalloudem@gmail.com</span>
-                    </div>
-                    <div class="member">
-                        <strong>👈 راشدي الهواري</strong>
-                        <span class="phone">☎️ <a href="https://wa.me/213776484477" target="_blank">0776484477</a></span>
-                        <span class="email">📫 sntemosta@gmail.com</span>
-                    </div>
-                </div>
-                <div class="region-card">
-                    <h4>🚩 ولايات الجنوب</h4>
-                    <div class="member">
-                        <strong>👈 بن يحي مصطفى</strong>
-                        <span class="phone">☎️ <a href="https://wa.me/213663664686" target="_blank">0663664686</a></span>
-                        <span class="email">📫 gourarasnte@gmail.com</span>
-                    </div>
-                    <div class="member">
-                        <strong>👈 عبد الحي رمضان</strong>
-                        <span class="phone">☎️ <a href="https://wa.me/213663112987" target="_blank">0663112987</a></span>
-                        <span class="email">📫 ramadhan063@gmail.com</span>
-                    </div>
-                    <div class="member">
-                        <strong>👈 معطالله عبد النبي</strong>
-                        <span class="phone">☎️ <a href="https://wa.me/213671327711" target="_blank">0671327711</a></span>
-                        <span class="email">📫 belhajbelhaj314@gmail.com</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div id="laws" class="tab-content">
-            <h2 class="section-title">الوثائق والنصوص المرجعية</h2>
-            <p style="text-align: center; color: var(--text-dark); font-size: 1.1rem; margin-bottom: 20px;">
-                يرجى الاطلاع على النصوص التشريعية والتنظيمية أدناه قبل تقديم أي مقترح لضمان المطابقة والتوافق.
-            </p>
-            <div class="downloads-grid">
-                <div class="download-card">
-                    <div><div class="download-icon">📖</div><h3>القانون الأساسي للنقابة</h3><p>مسودة القانون الأساسي الحالي للتقييم.</p></div>
-                    <a href="https://drive.google.com/file/d/1Wb693JzLidD8aSiTQ3J72HF8Dhw8k3Vm/view?usp=drive_link" target="_blank" class="btn-download">تحميل 📥</a>
-                </div>
-                <div class="download-card law-23-02">
-                    <div><div class="download-icon">⚖️</div><h3>القانون 23-02</h3><p>ممارسة الحق النقابي.</p></div>
-                    <a href="https://drive.google.com/file/d/1gWGJsb_pABHEyrKskeogHLJFi28XX2Gr/view?usp=drive_link" target="_blank" class="btn-download">تحميل 📥</a>
-                </div>
-                <div class="download-card law-23-08">
-                    <div><div class="download-icon">🛑</div><h3>القانون 23-08</h3><p>النزاعات وحق الإضراب.</p></div>
-                    <a href="https://drive.google.com/file/d/1At7pubkTLWo-DC5h8jNATXx108aq3rnK/view?usp=drive_link" target="_blank" class="btn-download">تحميل 📥</a>
-                </div>
-                <div class="download-card order-06-03">
-                    <div><div class="download-icon">🏢</div><h3>الأمر 06-03</h3><p>قانون الوظيفة العمومية.</p></div>
-                    <a href="https://drive.google.com/file/d/0B1ZcCEA55aNgYWdNd2NtTlczbUU/view?usp=sharing&resourcekey=0-NpzwqBvR-zqOfEU7qXXF9w" target="_blank" class="btn-download">تحميل 📥</a>
-                </div>
-            </div>
-        </div>
-
-        <div id="proposal" class="tab-content">
-            <h2 class="section-title">تقديم مقترح تعديل القانون الأساسي</h2>
-            
-            <form id="proposalForm">
-                
-                <h3 class="form-section-title">📝 بيانات المرسل</h3>
-                
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>الاسم واللقب <span class="required-star">*</span></label>
-                        <input type="text" id="fullName" class="form-control auto-save" required placeholder="أدخل اسمك الكامل">
-                    </div>
-                    <div class="form-group">
-                        <label>البريد الإلكتروني</label>
-                        <input type="email" id="email" class="form-control auto-save" placeholder="اختياري (مثال: name@gmail.com)">
-                    </div>
-                </div>
-
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>الرتبة <span class="required-star">*</span></label>
-                        <input type="text" id="rank" class="form-control auto-save" required placeholder="مثال: أستاذ تعليم متوسط">
-                    </div>
-                    <div class="form-group">
-                        <label>مكان العمل <span class="required-star">*</span></label>
-                        <input type="text" id="workplace" class="form-control auto-save" required placeholder="المؤسسة أو الولاية">
-                    </div>
-                </div>
-
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>رقم الهاتف <span class="required-star">*</span></label>
-                        <input type="tel" id="phoneNum" class="form-control auto-save" required placeholder="أدخل رقم هاتفك">
-                    </div>
-                    <div class="form-group">
-                        <label>الصفة النقابية <span class="required-star">*</span></label>
-                        <input type="text" id="unionStatus" class="form-control auto-save" required placeholder="مثال: منخرط، عضو مكتب ولائي...">
-                    </div>
-                </div>
-
-                <h3 class="form-section-title" style="margin-top: 30px;">📑 تفاصيل المقترح</h3>
-
-                <div id="articlesContainer">
-                    </div>
-
-                <button type="button" class="add-article-btn" onclick="addArticleBlock()">➕ إضافة مادة أخرى للتعديل</button>
-
-                <div class="actions-group">
-                    <button type="button" class="btn-action btn-save" onclick="downloadTxt()">📥 تحميل نسخة (TXT)</button>
-                    <button type="button" class="btn-action btn-print" onclick="window.print()">🖨️ طباعة / حفظ PDF</button>
-                    <button type="button" class="btn-action btn-submit" onclick="openEmailModal()">📤 إرسال المقترح للجنة</button>
-                    <button type="button" class="btn-action" style="background:#7f8c8d; min-width: 100px;" onclick="clearDraft()">🗑️ مسح الكل</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <div class="modal-overlay" id="emailModal">
-        <div class="modal-box">
-            <h3>اختر طريقة الإرسال 📤</h3>
-            <p>يمكنك إرسال مقترحك عبر البريد الإلكتروني لرئيس اللجنة، أو إرساله مباشرة عبر الواتساب لأحد أعضاء اللجنة:</p>
-            
-            <button class="email-btn btn-gmail" onclick="sendVia('gmail')">إرسال عبر Gmail 🔴</button>
-            <button class="email-btn btn-default" onclick="sendVia('default')">تطبيق البريد الافتراضي 📱</button>
-
-            <hr style="margin: 20px 0; border: none; border-top: 1px dashed #ccc;">
-            
-            <h4 style="color: #27ae60; margin-bottom: 10px;">أو الإرسال عبر الواتساب 💬</h4>
-            <select id="whatsappMember" class="form-control" style="margin-bottom: 15px; font-weight: bold;">
-                <optgroup label="ولايات الوسط">
-                    <option value="213556477879">فريد لمناجلية</option>
-                    <option value="213675998222">تامي نورين لخضر</option>
-                    <option value="213556850930">عبد الرحيم سعيد</option>
-                    <option value="213561546898">جبري عبد الجليل</option>
-                </optgroup>
-                <optgroup label="ولايات الشرق">
-                    <option value="213656192113">كرميش بايزيد</option>
-                    <option value="213775586559">جعفري عبد الرحمان</option>
-                    <option value="213663915534">حجازي خالد</option>
-                </optgroup>
-                <optgroup label="ولايات الغرب">
-                    <option value="213771242455">مجاطي علي (0771242455)</option>
-                    <option value="213556454007">مجاطي علي (0556454007)</option>
-                    <option value="213663241117">بن علو توفيق (0663241117)</option>
-                    <option value="213550362130">بن علو توفيق (0550362130)</option>
-                    <option value="213776484477">راشدي الهواري</option>
-                </optgroup>
-                <optgroup label="ولايات الجنوب">
-                    <option value="213663664686">بن يحي مصطفى</option>
-                    <option value="213663112987">عبد الحي رمضان</option>
-                    <option value="213671327711">معطالله عبد النبي</option>
-                </optgroup>
-            </select>
-            <button class="email-btn btn-whatsapp" onclick="sendVia('whatsapp')">إرسال عبر الواتساب للمسؤول المحدد</button>
-            
-            <button class="close-modal" onclick="closeEmailModal()">إلغاء وإغلاق النافذة</button>
-        </div>
-    </div>
-
-    <script>
-        function openTab(evt, tabName) {
-            let tabContent = document.getElementsByClassName("tab-content");
-            for (let i = 0; i < tabContent.length; i++) tabContent[i].style.display = "none";
-            let tabBtns = document.getElementsByClassName("tab-btn");
-            for (let i = 0; i < tabBtns.length; i++) tabBtns[i].className = tabBtns[i].className.replace(" active", "");
-            document.getElementById(tabName).style.display = "block";
-            evt.currentTarget.className += " active";
-        }
-
-        let articleCount = 0;
-
-        function addArticleBlock(data = null) {
-            articleCount++;
-            const container = document.getElementById('articlesContainer');
-            const block = document.createElement('div');
-            block.className = 'article-block';
-            block.id = 'article_block_' + articleCount;
-            
-            block.innerHTML = `
-                ${articleCount > 1 ? `<button type="button" class="remove-btn" onclick="removeArticleBlock('${block.id}')">X</button>` : ''}
-                <div class="form-group">
-                    <label>رقم المادة المستهدفة بالتعديل أو الإضافة <span class="required-star">*</span></label>
-                    <input type="text" class="form-control art-num auto-save" required placeholder="مثال: المادة 34 أو اقتراح مادة جديدة" value="${data ? data.num : ''}">
-                </div>
-                <div class="form-group">
-                    <label>النص المقترح للمادة <span class="required-star">*</span></label>
-                    <textarea class="form-control art-text auto-save" required placeholder="اكتب صياغتك الدقيقة للمادة...">${data ? data.text : ''}</textarea>
-                </div>
-                <div class="form-group">
-                    <label>السند القانوني أو التبرير <span class="required-star">*</span></label>
-                    <textarea class="form-control art-just auto-save" required placeholder="اشرح لماذا تقترح هذا التعديل (القانون 23-02...الخ)">${data ? data.just : ''}</textarea>
-                </div>
-            `;
-            container.appendChild(block);
-            attachAutoSaveListeners();
-        }
-
-        function removeArticleBlock(id) {
-            document.getElementById(id).remove();
-            saveDataToLocal();
-        }
-
-        function attachAutoSaveListeners() {
-            document.querySelectorAll('.auto-save').forEach(input => {
-                input.removeEventListener('input', saveDataToLocal); 
-                input.addEventListener('input', saveDataToLocal);
-            });
-        }
-
-        function saveDataToLocal() {
-            const data = {
-                fullName: document.getElementById('fullName').value,
-                email: document.getElementById('email').value,
-                rank: document.getElementById('rank').value,
-                workplace: document.getElementById('workplace').value,
-                phoneNum: document.getElementById('phoneNum').value,
-                unionStatus: document.getElementById('unionStatus').value,
-                articles: []
-            };
-            document.querySelectorAll('.article-block').forEach(block => {
-                data.articles.push({
-                    num: block.querySelector('.art-num').value,
-                    text: block.querySelector('.art-text').value,
-                    just: block.querySelector('.art-just').value
-                });
-            });
-            localStorage.setItem('snte_proposal_draft', JSON.stringify(data));
-        }
-
-        function loadDraft() {
-            const draft = JSON.parse(localStorage.getItem('snte_proposal_draft'));
-            if (draft) {
-                document.getElementById('fullName').value = draft.fullName || '';
-                document.getElementById('email').value = draft.email || '';
-                document.getElementById('rank').value = draft.rank || '';
-                document.getElementById('workplace').value = draft.workplace || '';
-                document.getElementById('phoneNum').value = draft.phoneNum || '';
-                document.getElementById('unionStatus').value = draft.unionStatus || '';
-                if (draft.articles && draft.articles.length > 0) {
-                    draft.articles.forEach(art => addArticleBlock(art));
-                } else {
-                    addArticleBlock();
-                }
-            } else {
-                addArticleBlock(); 
-            }
-        }
-
-        function clearDraft() {
-            if(confirm('هل أنت متأكد أنك تريد مسح كل البيانات والمقترحات؟')) {
-                localStorage.removeItem('snte_proposal_draft');
-                document.getElementById('fullName').value = '';
-                document.getElementById('email').value = '';
-                document.getElementById('rank').value = '';
-                document.getElementById('workplace').value = '';
-                document.getElementById('phoneNum').value = '';
-                document.getElementById('unionStatus').value = '';
-                document.getElementById('articlesContainer').innerHTML = '';
-                articleCount = 0;
-                addArticleBlock();
-            }
-        }
-
-        function buildProposalString() {
-            let name = document.getElementById('fullName').value || 'غير محدد';
-            let email = document.getElementById('email').value || 'لم يتم التقديم';
-            let rank = document.getElementById('rank').value || 'غير محدد';
-            let workplace = document.getElementById('workplace').value || 'غير محدد';
-            let phoneNum = document.getElementById('phoneNum').value || 'غير محدد';
-            let unionStatus = document.getElementById('unionStatus').value || 'غير محدد';
-            
-            let content = `مقترحات تعديل القانون الأساسي (S.N.T.E)\n`;
-            content += `==========================================\n`;
-            content += `[ بيانات المرسل ]\n`;
-            content += `- الاسم واللقب: ${name}\n`;
-            content += `- الرتبة: ${rank}\n`;
-            content += `- مكان العمل: ${workplace}\n`;
-            content += `- رقم الهاتف: ${phoneNum}\n`;
-            content += `- الصفة النقابية: ${unionStatus}\n`;
-            content += `- البريد الإلكتروني: ${email}\n`;
-            content += `==========================================\n\n`;
-
-            document.querySelectorAll('.article-block').forEach((block, index) => {
-                let num = block.querySelector('.art-num').value || 'غير محدد';
-                let text = block.querySelector('.art-text').value || 'فارغ';
-                let just = block.querySelector('.art-just').value || 'فارغ';
-
-                content += `[ المقترح رقم ${index + 1} ]\n`;
-                content += `- المادة المستهدفة: ${num}\n`;
-                content += `- النص المقترح:\n${text}\n\n`;
-                content += `- السند / التبرير:\n${just}\n`;
-                content += `------------------------------------------\n\n`;
-            });
-            return content;
-        }
-
-        // دالة التحقق من صحة الحقول (HTML5 Validation)
-        function isFormValid() {
-            const form = document.getElementById('proposalForm');
-            if (!form.checkValidity()) {
-                form.reportValidity();
-                return false;
-            }
-            return true;
-        }
-
-        function downloadTxt() {
-            if (!isFormValid()) return; // منع التحميل إذا كانت الحقول الإلزامية فارغة
-            
-            const content = buildProposalString();
-            const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
-            const link = document.createElement('a');
-            link.href = URL.createObjectURL(blob);
-            link.download = `مقترحات_أسنتيو_${document.getElementById('fullName').value || 'جديد'}.txt`;
-            link.click();
-        }
-
-        function openEmailModal() {
-            if (!isFormValid()) return; // منع فتح النافذة إذا كانت الحقول الإلزامية فارغة
-            document.getElementById('emailModal').style.display = 'flex';
-        }
-
-        function closeEmailModal() {
-            document.getElementById('emailModal').style.display = 'none';
-        }
-
-        function sendVia(provider) {
-            const emailTo = "Kouidery@ymail.com";
-            const subject = encodeURIComponent("مقترحات تعديل القانون الأساسي - " + document.getElementById('fullName').value);
-            const proposalText = buildProposalString();
-            
-            let url = '';
-
-            if (provider === 'gmail') {
-                const body = encodeURIComponent(proposalText);
-                url = `https://mail.google.com/mail/?view=cm&fs=1&to=${emailTo}&su=${subject}&body=${body}`;
-                window.open(url, '_blank');
-                
-            } else if (provider === 'whatsapp') {
-                const phone = document.getElementById('whatsappMember').value;
-                const encodedText = encodeURIComponent(proposalText);
-                url = `https://wa.me/${phone}?text=${encodedText}`;
-                window.open(url, '_blank');
-                
-            } else {
-                const body = encodeURIComponent(proposalText);
-                url = `mailto:${emailTo}?subject=${subject}&body=${body}`;
-                const a = document.createElement('a');
-                a.href = url;
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-            }
-
-            closeEmailModal();
-        }
-
-        window.onload = function() {
-            loadDraft();
-        };
     </script>
 </body>
 </html>
