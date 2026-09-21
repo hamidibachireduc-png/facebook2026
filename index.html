@@ -2,326 +2,559 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>استمارة محضر تنصيب مكتب الأمانة الولائية</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>المكتشف الذكي لحقول ونقاط الوثائق</title>
   
-  <!-- استيراد خطوط النسخ الرسمية المطابقة للوثائق الجزائرية -->
+  <!-- خطوط رسمية مطابقة للوثائق الجزائرية -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@700&family=Cairo:wght@700&family=Noto+Naskh+Arabic:wght@700&display=swap" rel="stylesheet">
 
   <style>
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
     body {
       margin: 0;
-      padding: 10px;
-      background-color: #2c3e50;
-      font-family: 'Amiri', 'Traditional Arabic', Tahoma, sans-serif;
+      padding: 8px;
+      background-color: #0f172a;
+      font-family: 'Amiri', Tahoma, sans-serif;
       display: flex;
       flex-direction: column;
       align-items: center;
+      color: #f8fafc;
     }
 
-    /* شريط الأدوات العلوي */
-    .controls {
+    /* شريط الأدوات */
+    .toolbar {
       background: #ffffff;
-      padding: 12px;
-      border-radius: 10px;
-      margin-bottom: 12px;
+      color: #1e293b;
+      padding: 10px 14px;
+      border-radius: 12px;
+      margin-bottom: 10px;
       display: flex;
       flex-wrap: wrap;
-      gap: 10px;
+      gap: 8px;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.25);
-      width: 95%;
-      max-width: 850px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+      width: 100%;
+      max-width: 950px;
     }
 
-    .btn {
-      padding: 7px 14px;
+    .tool-btn {
+      padding: 8px 13px;
       border: none;
       border-radius: 6px;
       cursor: pointer;
       font-weight: bold;
-      font-size: 14px;
+      font-size: 13px;
       color: white;
       transition: 0.2s;
-      display: flex;
+      display: inline-flex;
       align-items: center;
       gap: 5px;
     }
+    .tool-btn:active { transform: scale(0.95); }
 
-    .btn-action { background-color: #4b6584; }
-    .btn-action:active { transform: scale(0.95); }
-    .btn-save { background-color: #20bf6b; }
-    .btn-print { background-color: #0fb9b1; }
+    .btn-magic { 
+      background: linear-gradient(135deg, #8b5cf6, #6d28d9); 
+      box-shadow: 0 2px 8px rgba(109,40,217,0.4); 
+    }
+    .btn-add { background-color: #f59e0b; }
+    .btn-save { background-color: #10b981; }
+    .btn-print { background-color: #0ea5e9; }
+    .btn-clear { background-color: #ef4444; }
+    .btn-size { background-color: #475569; padding: 5px 10px; }
 
     .tool-group {
       display: flex;
       align-items: center;
-      gap: 5px;
-      background: #f1f2f6;
+      gap: 4px;
+      background: #f1f5f9;
       padding: 4px 8px;
       border-radius: 6px;
+      font-size: 13px;
+      font-weight: bold;
+      color: #334155;
     }
 
-    select {
-      padding: 6px 10px;
-      border-radius: 5px;
-      border: 1px solid #ced6e0;
+    select, input[type="file"] {
+      padding: 5px 8px;
+      border-radius: 6px;
+      border: 1px solid #cbd5e1;
       font-family: inherit;
       font-weight: bold;
+      font-size: 12px;
       outline: none;
+      background: white;
+      color: #1e293b;
     }
 
-    /* مساحة عرض المستند */
-    .editor-wrapper {
+    .status-badge {
+      font-size: 12px;
+      padding: 4px 10px;
+      border-radius: 20px;
+      background: #e0e7ff;
+      color: #3730a3;
+      font-weight: bold;
+    }
+
+    /* مساحة الوثيقة */
+    .viewport-container {
       position: relative;
       width: 100%;
-      max-width: 794px;
-      background: white;
-      box-shadow: 0 0 15px rgba(0,0,0,0.4);
+      max-width: 800px;
+      background: #ffffff;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.6);
       line-height: 0;
+      user-select: none;
     }
 
-    .base-image {
+    .doc-img {
       width: 100%;
-      display: block;
       height: auto;
+      display: block;
+      pointer-events: none;
     }
 
-    /* حقول الإدخال */
-    .inputs-layer {
+    /* الحقول المتولدة ذاتياً */
+    .field-box {
       position: absolute;
-      top: 0;
-      left: 0;
+      background: rgba(255, 255, 255, 0.85);
+      border: 1px dashed #2563eb;
+      border-radius: 3px;
+      cursor: move;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 3px;
+      box-sizing: border-box;
+      touch-action: none;
+      transition: border-color 0.15s;
+    }
+
+    .field-box.selected {
+      border: 1.5px solid #ef4444;
+      background: rgba(254, 242, 242, 0.95);
+      z-index: 50;
+    }
+
+    .field-box input {
       width: 100%;
       height: 100%;
-    }
-
-    input.field {
-      position: absolute;
-      background: rgba(255, 255, 255, 0.75);
-      border: 1px dashed #2980b9;
+      border: none;
+      background: transparent;
+      outline: none;
+      text-align: center;
+      font-family: inherit;
       font-weight: bold;
       color: #000000;
-      text-align: center;
-      padding: 0 2px;
-      box-sizing: border-box;
-      outline: none;
-      transition: background 0.2s;
+      padding: 0;
+      margin: 0;
+      cursor: text;
     }
 
-    input.field:focus {
-      background: #ffffff;
-      border: 1.5px solid #e67e22;
-      z-index: 10;
-    }
-
-    #renderCanvas {
+    .field-del {
       display: none;
+      position: absolute;
+      top: -8px;
+      left: -8px;
+      width: 16px;
+      height: 16px;
+      background: #ef4444;
+      color: white;
+      border-radius: 50%;
+      font-size: 10px;
+      font-family: Arial, sans-serif;
+      font-weight: bold;
+      text-align: center;
+      line-height: 16px;
+      cursor: pointer;
     }
+    .field-box.selected .field-del { display: block; }
+
+    #hiddenCanvas, #renderCanvas { display: none; }
   </style>
 </head>
 <body>
 
-  <!-- شريط التحكم الكامل بالخط والحجم والحفظ -->
-  <div class="controls">
-    <label style="font-size: 13px; font-weight: bold;">صورة المستند:</label>
-    <input type="file" id="imagePicker" accept="image/*" style="max-width: 170px; font-size: 12px;">
-
-    <!-- أزرار تكبير وتصغير الخط -->
+  <div class="toolbar">
     <div class="tool-group">
-      <span style="font-size: 13px; font-weight: bold;">حجم الخط:</span>
-      <button class="btn btn-action" onclick="changeFontSize(-1)" title="تصغير">A-</button>
-      <span id="fontSizeDisplay" style="font-weight: bold; min-width: 25px; text-align: center;">13</span>
-      <button class="btn btn-action" onclick="changeFontSize(1)" title="تكبير">A+</button>
+      <span>الصورة:</span>
+      <input type="file" id="imageInput" accept="image/*">
     </div>
 
-    <!-- اختيار نوع الخط المطابق للنموذج -->
+    <!-- زر الكشف البصري الآلي -->
+    <button class="tool-btn btn-magic" onclick="runAutoDetection()">✨ فحص تلقائي للنقاط والخانات</button>
+    <button class="tool-btn btn-add" onclick="manualAddBox()">➕ إضافة يدوي</button>
+
+    <!-- حجم ونوع الخط -->
     <div class="tool-group">
-      <span style="font-size: 13px; font-weight: bold;">نوع الخط:</span>
-      <select id="fontFamilySelector" onchange="updateFontFamily()">
-        <option value="'Amiri', 'Traditional Arabic', serif" selected>الأميري (مطابق للوثيقة)</option>
-        <option value="'Noto Naskh Arabic', sans-serif">النسخ الرسمي (Noto Naskh)</option>
-        <option value="'Cairo', sans-serif">خط القاهرة (واضح جداً)</option>
-        <option value="'Traditional Arabic', Tahoma, sans-serif">الخط العربي التقليدي</option>
+      <span>حجم:</span>
+      <button class="tool-btn btn-size" onclick="adjustSize(-1)">A-</button>
+      <span id="fontSizeVal">13</span>
+      <button class="tool-btn btn-size" onclick="adjustSize(1)">A+</button>
+    </div>
+
+    <div class="tool-group">
+      <select id="fontChoice" onchange="changeFont()">
+        <option value="'Amiri', 'Traditional Arabic', serif" selected>الأميري (مطابق للأصل)</option>
+        <option value="'Noto Naskh Arabic', sans-serif">النسخ الرسمي</option>
+        <option value="'Cairo', sans-serif">القاهرة (Cairo)</option>
       </select>
     </div>
 
-    <!-- أزرار التصدير والطباعة -->
-    <button class="btn btn-save" onclick="exportAsImage()">💾 حفظ كصورة (PNG)</button>
-    <button class="btn btn-print" onclick="printDocument()">🖨️ طباعة</button>
+    <button class="tool-btn btn-save" onclick="exportDocumentImage()">💾 حفظ كصورة (PNG)</button>
+    <button class="tool-btn btn-print" onclick="printDocumentDirect()">🖨️ طباعة</button>
+    <button class="tool-btn btn-clear" onclick="clearAll()">🗑️ إفراغ</button>
+
+    <div class="status-badge" id="statusBadge">جاهز</div>
   </div>
 
-  <!-- مساحة إدخال البيانات فوق الصورة -->
-  <div class="editor-wrapper" id="editorContainer">
-    <img id="mainDocImage" class="base-image" src="1000128007.jpg" alt="المستند">
-    
-    <div class="inputs-layer" id="fieldsLayer">
-      <!-- 1. ولاية العنوان -->
-      <input type="text" class="field" data-x="12" data-y="23.3" data-w="17" data-h="2.2" style="top: 23.3%; left: 12%; width: 17%; height: 2.2%;" placeholder="الولاية">
-
-      <!-- 2. تاريخ التنصيب والولاية -->
-      <input type="text" class="field" data-x="54.5" data-y="34.0" data-w="9" data-h="2.2" style="top: 34.0%; left: 54.5%; width: 9%; height: 2.2%;" placeholder="الولاية">
-      <input type="text" class="field" data-x="24.5" data-y="34.0" data-w="4.5" data-h="2.2" style="top: 34.0%; left: 24.5%; width: 4.5%; height: 2.2%;" placeholder="سنة">
-      <input type="text" class="field" data-x="17.5" data-y="34.0" data-w="4.5" data-h="2.2" style="top: 34.0%; left: 17.5%; width: 4.5%; height: 2.2%;" placeholder="شهر">
-      <input type="text" class="field" data-x="7.5" data-y="34.0" data-w="5.5" data-h="2.2" style="top: 34.0%; left: 7.5%; width: 5.5%; height: 2.2%;" placeholder="يوم">
-
-      <!-- 3. خلايا الجدول الـ 9 صفوف -->
-      <div id="tableInputs"></div>
-
-      <!-- 4. ولاية المهام أسفل الجدول -->
-      <input type="text" class="field" data-x="39" data-y="76.5" data-w="9.5" data-h="2.2" style="top: 76.5%; left: 39%; width: 9.5%; height: 2.2%;" placeholder="الولاية">
-
-      <!-- 5. نسخة موجهة إلى -->
-      <input type="text" class="field" data-x="67" data-y="83.8" data-w="8" data-h="2.2" style="top: 83.8%; left: 67%; width: 8%; height: 2.2%;" placeholder="الولاية">
-      <input type="text" class="field" data-x="68" data-y="87.8" data-w="8.5" data-h="2.2" style="top: 87.8%; left: 68%; width: 8.5%; height: 2.2%;" placeholder="الولاية">
-      <input type="text" class="field" data-x="68" data-y="90.0" data-w="8.5" data-h="2.2" style="top: 90.0%; left: 68%; width: 8.5%; height: 2.2%;" placeholder="الولاية">
-    </div>
+  <!-- مساحة العرض -->
+  <div class="viewport-container" id="docContainer">
+    <img id="documentImage" class="doc-img" src="1000128013.jpg" alt="الوثيقة">
+    <div id="fieldsLayer" style="position: absolute; top:0; left:0; width:100%; height:100%;"></div>
   </div>
 
+  <canvas id="hiddenCanvas"></canvas>
   <canvas id="renderCanvas"></canvas>
 
   <script>
-    let currentFontSize = 13;
-    let currentFontFamily = "'Amiri', 'Traditional Arabic', serif";
+    const docContainer = document.getElementById('docContainer');
+    const fieldsLayer = document.getElementById('fieldsLayer');
+    const docImage = document.getElementById('documentImage');
+    const fontChoice = document.getElementById('fontChoice');
+    const statusBadge = document.getElementById('statusBadge');
+    const fontSizeVal = document.getElementById('fontSizeVal');
 
-    // توليد خلايا الجدول
-    const tableContainer = document.getElementById('tableInputs');
-    const cols = [
-      { left: 80.5, width: 13.0 }, // اللقب والاسم
-      { left: 71.0, width: 9.0 },  // الوظيفة
-      { left: 52.0, width: 18.5 }, // رقم NIN
-      { left: 38.0, width: 13.5 }, // رقم الضمان الاجتماعي
-      { left: 21.0, width: 16.5 }, // المهمة النقابية
-      { left: 2.2,  width: 18.3 }  // مكان العمل
-    ];
+    let currentFont = fontChoice.value;
+    let baseFontSize = 13;
+    let activeBox = null;
 
-    const rowStartTop = 43.1;
-    const rowHeight = 2.85;
+    // خوارزمية المسح البصري الآلي
+    function runAutoDetection() {
+      if (!docImage.complete || docImage.naturalWidth === 0) return;
 
-    for (let r = 0; r < 9; r++) {
-      const topPos = rowStartTop + (r * rowHeight);
-      cols.forEach(col => {
-        const inp = document.createElement('input');
-        inp.type = 'text';
-        inp.className = 'field';
-        inp.setAttribute('data-x', col.left);
-        inp.setAttribute('data-y', topPos);
-        inp.setAttribute('data-w', col.width);
-        inp.setAttribute('data-h', 2.2);
-        inp.style.top = topPos + '%';
-        inp.style.left = col.left + '%';
-        inp.style.width = col.width + '%';
-        inp.style.height = '2.4%';
-        tableContainer.appendChild(inp);
+      statusBadge.innerText = 'جاري المسح البصري للنقاط والخانات...';
+      fieldsLayer.innerHTML = '';
+
+      setTimeout(() => {
+        const canvas = document.getElementById('hiddenCanvas');
+        const ctx = canvas.getContext('2d');
+        
+        const W = Math.min(1000, docImage.naturalWidth);
+        const H = Math.round(W * (docImage.naturalHeight / docImage.naturalWidth));
+        canvas.width = W;
+        canvas.height = H;
+
+        ctx.drawImage(docImage, 0, 0, W, H);
+        const imgData = ctx.getImageData(0, 0, W, H);
+        const data = imgData.data;
+
+        // تحويل الصورة إلى تدرج رمادي ثنائي
+        const gray = new Uint8Array(W * H);
+        for (let i = 0; i < data.length; i += 4) {
+          const brightness = (data[i] * 0.299 + data[i+1] * 0.587 + data[i+2] * 0.114);
+          gray[i / 4] = brightness < 165 ? 1 : 0;
+        }
+
+        const detectedZones = [];
+
+        // 1. مسح خطوط النقاط المتتالية
+        const stepY = 4;
+        for (let y = Math.floor(H * 0.15); y < H * 0.95; y += stepY) {
+          let dotCount = 0;
+          let startX = -1;
+          let lastTransition = 0;
+
+          for (let x = 10; x < W - 10; x++) {
+            const idx = y * W + x;
+            const current = gray[idx];
+            const prev = gray[idx - 1];
+
+            if (current !== prev) {
+              const span = x - lastTransition;
+              if (span >= 1 && span <= 9) {
+                if (startX === -1) startX = lastTransition;
+                dotCount++;
+              } else {
+                if (dotCount > 5 && (x - startX) > 35) {
+                  detectedZones.push({
+                    x: (startX / W) * 100,
+                    y: ((y - 12) / H) * 100,
+                    w: ((x - startX) / W) * 100,
+                    h: (24 / H) * 100
+                  });
+                }
+                dotCount = 0;
+                startX = -1;
+              }
+              lastTransition = x;
+            }
+          }
+          if (dotCount > 5 && (W - 10 - startX) > 35) {
+            detectedZones.push({
+              x: (startX / W) * 100,
+              y: ((y - 12) / H) * 100,
+              w: ((W - 10 - startX) / W) * 100,
+              h: (24 / H) * 100
+            });
+          }
+        }
+
+        // 2. دمج وتصفية التكرارات
+        const mergedZones = mergeOverlaps(detectedZones);
+
+        // إنشاء الحقول فوق الأماكن المكتشفة
+        mergedZones.forEach(z => {
+          createFieldBox({
+            x: Math.max(1, z.x),
+            y: Math.max(1, z.y),
+            w: Math.min(96 - z.x, Math.max(z.w, 7)),
+            h: z.h || 2.4,
+            text: ''
+          });
+        });
+
+        statusBadge.innerText = `تم اكتشاف ${mergedZones.length} حقلاً بنجاح!`;
+      }, 50);
+    }
+
+    function mergeOverlaps(zones) {
+      const result = [];
+      zones.sort((a, b) => a.y - b.y || a.x - b.x);
+
+      zones.forEach(zone => {
+        let matched = false;
+        for (let r of result) {
+          if (Math.abs(r.y - zone.y) < 2.0 && Math.abs(r.x - zone.x) < 4.0) {
+            r.w = Math.max(r.w, zone.w);
+            matched = true;
+            break;
+          }
+        }
+        if (!matched && zone.w >= 4) {
+          result.push(zone);
+        }
+      });
+      return result;
+    }
+
+    // إنشاء الحقل التفاعلي
+    function createFieldBox(data) {
+      const box = document.createElement('div');
+      box.className = 'field-box';
+      box.style.left = data.x + '%';
+      box.style.top = data.y + '%';
+      box.style.width = data.w + '%';
+      box.style.height = (data.h || 2.4) + '%';
+      box.setAttribute('data-size', baseFontSize);
+
+      const del = document.createElement('span');
+      del.className = 'field-del';
+      del.innerHTML = '&times;';
+      del.onclick = (e) => {
+        e.stopPropagation();
+        box.remove();
+        if (activeBox === box) activeBox = null;
+      };
+      box.appendChild(del);
+
+      const input = document.createElement('input');
+      input.type = 'text';
+      input.value = data.text || '';
+      input.placeholder = '...';
+      input.style.fontSize = baseFontSize + 'px';
+      input.style.fontFamily = currentFont;
+
+      input.onfocus = () => selectBox(box);
+      box.onclick = (e) => {
+        e.stopPropagation();
+        selectBox(box);
+      };
+
+      box.appendChild(input);
+      makeDraggable(box);
+      fieldsLayer.appendChild(box);
+      return box;
+    }
+
+    function selectBox(box) {
+      if (activeBox) activeBox.classList.remove('selected');
+      activeBox = box;
+      box.classList.add('selected');
+      const sz = parseInt(box.getAttribute('data-size')) || baseFontSize;
+      fontSizeVal.innerText = sz;
+    }
+
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('.field-box') && !e.target.closest('.toolbar')) {
+        if (activeBox) {
+          activeBox.classList.remove('selected');
+          activeBox = null;
+        }
+      }
+    });
+
+    // سحب باللمس أو الماوس
+    function makeDraggable(el) {
+      let isDragging = false;
+      let startX, startY, origLeft, origTop;
+
+      function onStart(e) {
+        if (e.target.tagName.toLowerCase() === 'input' && e.type !== 'touchstart') return;
+        isDragging = true;
+        selectBox(el);
+        const touch = e.touches ? e.touches[0] : e;
+        startX = touch.clientX;
+        startY = touch.clientY;
+        const rect = el.getBoundingClientRect();
+        const parentRect = docContainer.getBoundingClientRect();
+        origLeft = ((rect.left - parentRect.left) / parentRect.width) * 100;
+        origTop = ((rect.top - parentRect.top) / parentRect.height) * 100;
+      }
+
+      function onMove(e) {
+        if (!isDragging) return;
+        const touch = e.touches ? e.touches[0] : e;
+        const dx = touch.clientX - startX;
+        const dy = touch.clientY - startY;
+        const parentRect = docContainer.getBoundingClientRect();
+        const dLeftPercent = (dx / parentRect.width) * 100;
+        const dTopPercent = (dy / parentRect.height) * 100;
+
+        el.style.left = Math.max(0, Math.min(95, origLeft + dLeftPercent)) + '%';
+        el.style.top = Math.max(0, Math.min(98, origTop + dTopPercent)) + '%';
+      }
+
+      function onEnd() { isDragging = false; }
+
+      el.addEventListener('mousedown', onStart);
+      window.addEventListener('mousemove', onMove);
+      window.addEventListener('mouseup', onEnd);
+      el.addEventListener('touchstart', onStart, {passive: true});
+      window.addEventListener('touchmove', onMove, {passive: false});
+      window.addEventListener('touchend', onEnd);
+    }
+
+    function manualAddBox(x = 35, y = 35) {
+      const b = createFieldBox({ x: x, y: y, w: 18, h: 2.4, text: '' });
+      selectBox(b);
+      setTimeout(() => b.querySelector('input').focus(), 50);
+    }
+
+    docContainer.addEventListener('dblclick', (e) => {
+      if (e.target.closest('.field-box')) return;
+      const rect = docContainer.getBoundingClientRect();
+      const x = ((e.clientX - rect.left) / rect.width) * 100;
+      const y = ((e.clientY - rect.top) / rect.height) * 100;
+      manualAddBox(Math.max(1, Math.round(x) - 6), Math.max(1, Math.round(y) - 1));
+    });
+
+    function adjustSize(delta) {
+      if (activeBox) {
+        let sz = parseInt(activeBox.getAttribute('data-size')) || baseFontSize;
+        sz = Math.max(8, Math.min(32, sz + delta));
+        activeBox.setAttribute('data-size', sz);
+        activeBox.querySelector('input').style.fontSize = sz + 'px';
+        fontSizeVal.innerText = sz;
+      } else {
+        baseFontSize = Math.max(8, Math.min(32, baseFontSize + delta));
+        fontSizeVal.innerText = baseFontSize;
+        document.querySelectorAll('.field-box').forEach(b => {
+          b.setAttribute('data-size', baseFontSize);
+          b.querySelector('input').style.fontSize = baseFontSize + 'px';
+        });
+      }
+    }
+
+    function changeFont() {
+      currentFont = fontChoice.value;
+      document.querySelectorAll('.field-box input').forEach(inp => {
+        inp.style.fontFamily = currentFont;
       });
     }
 
-    // تطبيق الخط والحجم على كافة الحقول
-    function applyFontStyles() {
-      const allInputs = document.querySelectorAll('input.field');
-      allInputs.forEach(input => {
-        input.style.fontSize = currentFontSize + 'px';
-        input.style.fontFamily = currentFontFamily;
-      });
-      document.getElementById('fontSizeDisplay').innerText = currentFontSize;
+    function clearAll() {
+      if (confirm('هل تريد مسح جميع الحقول؟')) {
+        fieldsLayer.innerHTML = '';
+        activeBox = null;
+        statusBadge.innerText = 'تم الإفراغ';
+      }
     }
 
-    // وظيفة تكبير/تصغير الخط
-    function changeFontSize(delta) {
-      currentFontSize = Math.min(Math.max(currentFontSize + delta, 9), 22);
-      applyFontStyles();
-    }
-
-    // وظيفة تغيير نوع الخط
-    function updateFontFamily() {
-      currentFontFamily = document.getElementById('fontFamilySelector').value;
-      applyFontStyles();
-    }
-
-    // تطبيق أولي للخط
-    applyFontStyles();
-
-    // استيراد صورة من الهاتف
-    const imgElement = document.getElementById('mainDocImage');
-    document.getElementById('imagePicker').addEventListener('change', function(e) {
+    // عند اختيار صورة جديدة يتم تشغيل الفحص الآلي فوراً
+    document.getElementById('imageInput').addEventListener('change', function(e) {
       if (e.target.files && e.target.files[0]) {
         const reader = new FileReader();
         reader.onload = function(evt) {
-          imgElement.src = evt.target.result;
+          docImage.src = evt.target.result;
+          docImage.onload = runAutoDetection;
         };
         reader.readAsDataURL(e.target.files[0]);
       }
     });
 
-    // رسم المحتوى وتصديره مع تطبيق نوع الخط وحجمه بدقة
-    function renderToCanvas(callback) {
+    // التصدير كصورة وطباعة نظيفة
+    function renderDocument(callback) {
       const canvas = document.getElementById('renderCanvas');
       const ctx = canvas.getContext('2d');
 
-      canvas.width = imgElement.naturalWidth || 1000;
-      canvas.height = imgElement.naturalHeight || 1414;
+      canvas.width = docImage.naturalWidth || 1000;
+      canvas.height = docImage.naturalHeight || 1414;
 
-      // رسم خلفية الصورة
-      ctx.drawImage(imgElement, 0, 0, canvas.width, canvas.height);
-
+      ctx.drawImage(docImage, 0, 0, canvas.width, canvas.height);
       ctx.fillStyle = '#000000';
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
 
-      // احتساب نسبة التكبير بالنسبة لأبعاد الصورة الأصلية
-      const scaleFactor = canvas.width / (document.getElementById('editorContainer').clientWidth || 794);
-      const canvasFontSize = Math.round(currentFontSize * scaleFactor);
+      const scale = canvas.width / docContainer.clientWidth;
 
-      // تطبيق نفس الخط المختار على لوحة الرسم
-      ctx.font = `bold ${canvasFontSize}px ${currentFontFamily}`;
-
-      const allInputs = document.querySelectorAll('input.field');
-      allInputs.forEach(input => {
+      const boxes = document.querySelectorAll('.field-box');
+      boxes.forEach(box => {
+        const input = box.querySelector('input');
         const text = input.value.trim();
         if (text) {
-          const xPercent = parseFloat(input.getAttribute('data-x'));
-          const yPercent = parseFloat(input.getAttribute('data-y'));
-          const wPercent = parseFloat(input.getAttribute('data-w'));
-          const hPercent = parseFloat(input.getAttribute('data-h'));
+          const rect = box.getBoundingClientRect();
+          const pRect = docContainer.getBoundingClientRect();
 
-          const fieldX = (xPercent / 100) * canvas.width;
-          const fieldY = (yPercent / 100) * canvas.height;
-          const fieldW = (wPercent / 100) * canvas.width;
-          const fieldH = (hPercent / 100) * canvas.height;
+          const leftP = (rect.left - pRect.left) / pRect.width;
+          const topP = (rect.top - pRect.top) / pRect.height;
+          const widthP = rect.width / pRect.width;
+          const heightP = rect.height / pRect.height;
 
-          const textCenterX = fieldX + (fieldW / 2);
-          const textCenterY = fieldY + (fieldH / 2);
+          const bX = leftP * canvas.width;
+          const bY = topP * canvas.height;
+          const bW = widthP * canvas.width;
+          const bH = heightP * canvas.height;
 
-          ctx.fillText(text, textCenterX, textCenterY);
+          const fSize = parseInt(box.getAttribute('data-size')) || baseFontSize;
+          ctx.font = `bold ${Math.round(fSize * scale)}px ${currentFont}`;
+          ctx.fillText(text, bX + (bW / 2), bY + (bH / 2));
         }
       });
 
       if (callback) callback(canvas);
     }
 
-    // حفظ كصورة في الهاتف
-    function exportAsImage() {
-      renderToCanvas(function(canvas) {
+    function exportDocumentImage() {
+      renderDocument(function(canvas) {
         const link = document.createElement('a');
-        link.download = 'محضر_تنصيب_مكتمل.png';
+        link.download = 'وثيقة_مكتملة.png';
         link.href = canvas.toDataURL('image/png');
         link.click();
       });
     }
 
-    // طباعة بدون شاشة بيضاء
-    function printDocument() {
-      renderToCanvas(function(canvas) {
+    function printDocumentDirect() {
+      renderDocument(function(canvas) {
         const dataUrl = canvas.toDataURL('image/png');
-        const printWindow = window.open('', '_blank');
-        if (printWindow) {
-          printWindow.document.write(`
+        const w = window.open('', '_blank');
+        if (w) {
+          w.document.write(`
             <html>
               <head>
-                <title>طباعة المحضر</title>
+                <title>طباعة الوثيقة</title>
                 <style>
                   @page { size: auto; margin: 0; }
                   body { margin: 0; display: flex; justify-content: center; align-items: center; }
@@ -333,12 +566,15 @@
               </body>
             </html>
           `);
-          printWindow.document.close();
-        } else {
-          alert('يرجى السماح بالنوافذ المنبثقة أو استخدام زر الحفظ كصورة.');
+          w.document.close();
         }
       });
     }
+
+    window.onload = () => {
+      if (docImage.complete) runAutoDetection();
+      else docImage.onload = runAutoDetection;
+    };
   </script>
 </body>
 </html>
