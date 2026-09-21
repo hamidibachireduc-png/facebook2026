@@ -1,468 +1,344 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>دليل الأمانات الولائية والجهوية</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f3f4f6; padding-bottom: 80px; }
-        .card-actions a, .card-actions button { transition: all 0.2s ease-in-out; }
-        .card-actions a:hover, .card-actions button:hover { transform: scale(1.1); }
-        details > summary { list-style: none; cursor: pointer; }
-        details > summary::-webkit-details-marker { display: none; }
-        details[open] summary ~ * { animation: fadeIn 0.3s ease-in-out; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
-        /* شريط التحديد المتعدد السلس */
-        #bulkShareBar { transition: transform 0.3s ease-in-out; }
-        .slide-up { transform: translateY(0); }
-        .slide-down { transform: translateY(150%); }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>استمارة محضر تنصيب مكتب الأمانة الولائية</title>
+  
+  <!-- استيراد خطوط النسخ الرسمية المطابقة للوثائق الجزائرية -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@700&family=Cairo:wght@700&family=Noto+Naskh+Arabic:wght@700&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      margin: 0;
+      padding: 10px;
+      background-color: #2c3e50;
+      font-family: 'Amiri', 'Traditional Arabic', Tahoma, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* شريط الأدوات العلوي */
+    .controls {
+      background: #ffffff;
+      padding: 12px;
+      border-radius: 10px;
+      margin-bottom: 12px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+      width: 95%;
+      max-width: 850px;
+    }
+
+    .btn {
+      padding: 7px 14px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 14px;
+      color: white;
+      transition: 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .btn-action { background-color: #4b6584; }
+    .btn-action:active { transform: scale(0.95); }
+    .btn-save { background-color: #20bf6b; }
+    .btn-print { background-color: #0fb9b1; }
+
+    .tool-group {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      background: #f1f2f6;
+      padding: 4px 8px;
+      border-radius: 6px;
+    }
+
+    select {
+      padding: 6px 10px;
+      border-radius: 5px;
+      border: 1px solid #ced6e0;
+      font-family: inherit;
+      font-weight: bold;
+      outline: none;
+    }
+
+    /* مساحة عرض المستند */
+    .editor-wrapper {
+      position: relative;
+      width: 100%;
+      max-width: 794px;
+      background: white;
+      box-shadow: 0 0 15px rgba(0,0,0,0.4);
+      line-height: 0;
+    }
+
+    .base-image {
+      width: 100%;
+      display: block;
+      height: auto;
+    }
+
+    /* حقول الإدخال */
+    .inputs-layer {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    input.field {
+      position: absolute;
+      background: rgba(255, 255, 255, 0.75);
+      border: 1px dashed #2980b9;
+      font-weight: bold;
+      color: #000000;
+      text-align: center;
+      padding: 0 2px;
+      box-sizing: border-box;
+      outline: none;
+      transition: background 0.2s;
+    }
+
+    input.field:focus {
+      background: #ffffff;
+      border: 1.5px solid #e67e22;
+      z-index: 10;
+    }
+
+    #renderCanvas {
+      display: none;
+    }
+  </style>
 </head>
-<body class="bg-gray-100 text-gray-800">
+<body>
 
-    <!-- شريط التنقل -->
-    <nav class="bg-green-700 text-white shadow-lg p-4 sticky top-0 z-40">
-        <div class="container mx-auto flex justify-between items-center">
-            <h1 class="text-xl font-bold"><i class="fa-solid fa-address-book ml-2"></i> دليل الأمانات</h1>
-            <button onclick="openModal()" class="bg-white text-green-700 px-4 py-2 rounded-lg font-bold shadow hover:bg-gray-100 transition">
-                <i class="fa-solid fa-plus"></i> إضافة أمانة
-            </button>
-        </div>
-    </nav>
+  <!-- شريط التحكم الكامل بالخط والحجم والحفظ -->
+  <div class="controls">
+    <label style="font-size: 13px; font-weight: bold;">صورة المستند:</label>
+    <input type="file" id="imagePicker" accept="image/*" style="max-width: 170px; font-size: 12px;">
 
-    <!-- القسم الأول: الأمانات الجهوية -->
-    <div class="container mx-auto mt-6 px-4">
-        <div class="bg-white rounded-xl shadow-md p-5 border-t-4 border-blue-600">
-            <h2 class="text-2xl font-bold text-gray-800 mb-4 border-b pb-2"><i class="fa-solid fa-sitemap text-blue-600 ml-2"></i> الأمانات الجهوية للتنسيق</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="regionalContainer"></div>
-        </div>
+    <!-- أزرار تكبير وتصغير الخط -->
+    <div class="tool-group">
+      <span style="font-size: 13px; font-weight: bold;">حجم الخط:</span>
+      <button class="btn btn-action" onclick="changeFontSize(-1)" title="تصغير">A-</button>
+      <span id="fontSizeDisplay" style="font-weight: bold; min-width: 25px; text-align: center;">13</span>
+      <button class="btn btn-action" onclick="changeFontSize(1)" title="تكبير">A+</button>
     </div>
 
-    <!-- القسم الثاني: الأمانات الولائية -->
-    <div class="container mx-auto mt-8 px-4">
-        <div class="flex items-center justify-between mb-4">
-            <h2 class="text-2xl font-bold text-gray-800"><i class="fa-solid fa-list-check text-green-600 ml-2"></i> الأمانات الولائية</h2>
-            <button onclick="selectAll()" class="text-sm font-bold text-indigo-600 hover:text-indigo-800"><i class="fa-solid fa-check-double"></i> تحديد الكل</button>
-        </div>
-        <input type="text" id="searchInput" onkeyup="renderCards()" placeholder="ابحث عن ولاية أو أمين عام ولائي..." class="w-full p-3 rounded-lg shadow-sm border border-gray-300 focus:outline-none focus:border-green-500 mb-6 font-bold text-lg">
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="cardsContainer"></div>
+    <!-- اختيار نوع الخط المطابق للنموذج -->
+    <div class="tool-group">
+      <span style="font-size: 13px; font-weight: bold;">نوع الخط:</span>
+      <select id="fontFamilySelector" onchange="updateFontFamily()">
+        <option value="'Amiri', 'Traditional Arabic', serif" selected>الأميري (مطابق للوثيقة)</option>
+        <option value="'Noto Naskh Arabic', sans-serif">النسخ الرسمي (Noto Naskh)</option>
+        <option value="'Cairo', sans-serif">خط القاهرة (واضح جداً)</option>
+        <option value="'Traditional Arabic', Tahoma, sans-serif">الخط العربي التقليدي</option>
+      </select>
     </div>
 
-    <!-- شريط الإرسال الجماعي العائم (يظهر عند التحديد) -->
-    <div id="bulkShareBar" class="fixed bottom-0 left-0 right-0 bg-indigo-800 text-white p-4 shadow-[0_-10px_15px_-3px_rgba(0,0,0,0.1)] z-40 flex justify-between items-center slide-down">
-        <div class="font-bold text-sm md:text-base">
-            <i class="fa-solid fa-layer-group ml-1 text-indigo-300"></i> تم تحديد: <span id="bulkCount" class="bg-white text-indigo-800 px-2 py-0.5 rounded-full mx-1">0</span> ولاية
-        </div>
-        <div class="flex gap-2">
-            <button onclick="openBulkModal()" class="bg-green-500 hover:bg-green-400 text-white px-4 py-2 rounded shadow font-bold text-sm md:text-base transition"><i class="fa-solid fa-paper-plane ml-1"></i> إرسال المحدد</button>
-            <button onclick="clearSelection()" class="bg-indigo-600 hover:bg-indigo-500 text-white px-4 py-2 rounded shadow font-bold text-sm md:text-base transition">إلغاء</button>
-        </div>
+    <!-- أزرار التصدير والطباعة -->
+    <button class="btn btn-save" onclick="exportAsImage()">💾 حفظ كصورة (PNG)</button>
+    <button class="btn btn-print" onclick="printDocument()">🖨️ طباعة</button>
+  </div>
+
+  <!-- مساحة إدخال البيانات فوق الصورة -->
+  <div class="editor-wrapper" id="editorContainer">
+    <img id="mainDocImage" class="base-image" src="1000128007.jpg" alt="المستند">
+    
+    <div class="inputs-layer" id="fieldsLayer">
+      <!-- 1. ولاية العنوان -->
+      <input type="text" class="field" data-x="12" data-y="23.3" data-w="17" data-h="2.2" style="top: 23.3%; left: 12%; width: 17%; height: 2.2%;" placeholder="الولاية">
+
+      <!-- 2. تاريخ التنصيب والولاية -->
+      <input type="text" class="field" data-x="54.5" data-y="34.0" data-w="9" data-h="2.2" style="top: 34.0%; left: 54.5%; width: 9%; height: 2.2%;" placeholder="الولاية">
+      <input type="text" class="field" data-x="24.5" data-y="34.0" data-w="4.5" data-h="2.2" style="top: 34.0%; left: 24.5%; width: 4.5%; height: 2.2%;" placeholder="سنة">
+      <input type="text" class="field" data-x="17.5" data-y="34.0" data-w="4.5" data-h="2.2" style="top: 34.0%; left: 17.5%; width: 4.5%; height: 2.2%;" placeholder="شهر">
+      <input type="text" class="field" data-x="7.5" data-y="34.0" data-w="5.5" data-h="2.2" style="top: 34.0%; left: 7.5%; width: 5.5%; height: 2.2%;" placeholder="يوم">
+
+      <!-- 3. خلايا الجدول الـ 9 صفوف -->
+      <div id="tableInputs"></div>
+
+      <!-- 4. ولاية المهام أسفل الجدول -->
+      <input type="text" class="field" data-x="39" data-y="76.5" data-w="9.5" data-h="2.2" style="top: 76.5%; left: 39%; width: 9.5%; height: 2.2%;" placeholder="الولاية">
+
+      <!-- 5. نسخة موجهة إلى -->
+      <input type="text" class="field" data-x="67" data-y="83.8" data-w="8" data-h="2.2" style="top: 83.8%; left: 67%; width: 8%; height: 2.2%;" placeholder="الولاية">
+      <input type="text" class="field" data-x="68" data-y="87.8" data-w="8.5" data-h="2.2" style="top: 87.8%; left: 68%; width: 8.5%; height: 2.2%;" placeholder="الولاية">
+      <input type="text" class="field" data-x="68" data-y="90.0" data-w="8.5" data-h="2.2" style="top: 90.0%; left: 68%; width: 8.5%; height: 2.2%;" placeholder="الولاية">
     </div>
+  </div>
 
-    <!-- نافذة الإضافة / التعديل الفردية -->
-    <div id="formModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 overflow-y-auto">
-        <div class="flex min-h-screen items-start justify-center pt-8 pb-16 px-4">
-            <div class="bg-white rounded-lg p-6 w-full md:w-3/4 lg:w-1/2 shadow-2xl border-t-4 border-green-600">
-                <h2 id="modalTitle" class="text-2xl font-bold mb-4 text-green-700">إضافة أمانة ولائية جديدة</h2>
-                <form id="dataForm" onsubmit="saveData(event)">
-                    <input type="hidden" id="editIndex" value="-1">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <!-- بيانات الأمانة -->
-                        <div>
-                            <h3 class="font-bold text-gray-700 mb-3 border-b pb-1"><i class="fa-solid fa-file-signature text-green-600"></i> 1. بيانات الأمانة</h3>
-                            <div class="mb-3"><label class="block text-sm font-bold mb-1">الولاية (مطلوب)</label><select id="wilayaName" required class="w-full p-2 border rounded focus:outline-none focus:border-green-500 bg-white font-bold"></select></div>
-                            <div class="mb-3"><label class="block text-sm font-bold mb-1">اسم الأمين العام (مطلوب)</label><input type="text" id="sgName" required class="w-full p-2 border rounded focus:outline-none focus:border-green-500 font-bold"></div>
-                            <div class="mb-3"><label class="block text-sm font-bold mb-1">رقم الهاتف (مطلوب)</label><input type="tel" id="phone" required class="w-full p-2 border rounded focus:outline-none focus:border-green-500 font-bold" dir="ltr" placeholder="06XXXXXXXX"></div>
-                            <div class="mb-3"><label class="block text-sm font-bold mb-1">البريد الإلكتروني (اختياري)</label><input type="email" id="email" class="w-full p-2 border rounded focus:outline-none focus:border-green-500" dir="ltr"></div>
-                            <div class="mb-3"><label class="block text-sm font-bold mb-1">مقر الأمانة (اختياري)</label><input type="text" id="address" class="w-full p-2 border rounded focus:outline-none focus:border-green-500"></div>
-                            <div class="mb-3"><label class="block text-sm font-bold mb-1">رابط خرائط جوجل (اختياري)</label><input type="url" id="mapsLink" class="w-full p-2 border rounded focus:outline-none focus:border-green-500" dir="ltr"></div>
-                            <div class="mb-3"><label class="block text-sm font-bold mb-1">صورة الأمين العام (اختياري)</label><input type="file" id="photoInput" accept="image/*" class="w-full p-2 border rounded text-sm bg-gray-50"><input type="hidden" id="photoBase64"></div>
-                        </div>
-                        <!-- خيارات الإرسال الفردي -->
-                        <div class="bg-indigo-50 p-4 rounded-lg border border-indigo-100 flex flex-col justify-between">
-                            <div>
-                                <h3 class="font-bold text-indigo-800 mb-3 border-b border-indigo-200 pb-1"><i class="fa-solid fa-share-nodes text-indigo-600"></i> 2. خيارات الإرسال والمحضر</h3>
-                                <div class="mb-4 bg-white p-3 rounded shadow-sm border border-indigo-200">
-                                    <label class="flex items-start space-x-2 space-x-reverse cursor-pointer mb-2">
-                                        <input type="checkbox" id="includeMahdar" class="w-5 h-5 text-indigo-600 rounded mt-1">
-                                        <span class="text-sm font-bold text-indigo-900 leading-tight">إضافة إشعار بتنصيب الأمانة</span>
-                                    </label>
-                                    <p class="text-xs text-red-700 font-bold bg-red-50 p-2 rounded border border-red-100 mt-2"><i class="fa-solid fa-circle-info"></i> تنبيه: يجب إرفاق ملف المحضر يدوياً (📎) من هاتفك.</p>
-                                    
-                                    <!-- روابط تحميل المحضر الفارغ التي تم استرجاعها -->
-                                    <div class="mt-3 pt-3 border-t border-gray-200">
-                                        <p class="text-xs text-gray-500 mb-2">النماذج الفارغة (للتحميل):</p>
-                                        <div class="flex flex-col gap-2">
-                                            <a href="https://docs.google.com/document/d/1Jno9ij18nbOVNaa36UkZvR74Xgfk-1Jj/edit?usp=drivesdk&ouid=107262215692600027206&rtpof=true&sd=true" target="_blank" class="text-xs font-bold bg-blue-100 text-blue-700 px-3 py-2 rounded hover:bg-blue-200 transition flex items-center gap-2">
-                                                <i class="fa-solid fa-file-word text-lg"></i> تحميل النموذج (Word)
-                                            </a>
-                                            <a href="https://drive.google.com/file/d/1jlNNwiFWxf5XIfAa-W2s54T-Xg3ZT8CU/view?usp=drivesdk" target="_blank" class="text-xs font-bold bg-red-100 text-red-700 px-3 py-2 rounded hover:bg-red-200 transition flex items-center gap-2">
-                                                <i class="fa-solid fa-file-pdf text-lg"></i> تحميل النموذج (PDF)
-                                            </a>
-                                        </div>
-                                    </div>
+  <canvas id="renderCanvas"></canvas>
 
-                                </div>
-                                <div class="mb-4"><label class="block text-sm font-bold mb-1 text-indigo-900">رقم واتساب المستلم</label><input type="tel" id="targetWhatsapp" placeholder="0660123456" class="w-full p-2 border rounded font-bold" dir="ltr"></div>
-                                <div class="mb-4"><label class="block text-sm font-bold mb-1 text-indigo-900">إيميل المستلم</label><input type="email" id="targetEmail" placeholder="example@gmail.com" class="w-full p-2 border rounded font-bold" dir="ltr"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="flex flex-col md:flex-row justify-end gap-2 mt-6 pt-4 border-t bg-gray-50 -mx-6 -mb-6 p-4 rounded-b-lg">
-                        <button type="submit" class="bg-green-700 text-white px-4 py-3 md:py-2 rounded font-bold hover:bg-green-800 w-full md:w-auto"><i class="fa-solid fa-floppy-disk"></i> حفظ فقط</button>
-                        <button type="button" onclick="saveAndShare('whatsapp')" class="bg-green-500 text-white px-4 py-3 md:py-2 rounded font-bold hover:bg-green-600 w-full md:w-auto"><i class="fa-brands fa-whatsapp"></i> حفظ وإرسال واتساب</button>
-                        <button type="button" onclick="saveAndShare('email')" class="bg-red-500 text-white px-4 py-3 md:py-2 rounded font-bold hover:bg-red-600 w-full md:w-auto"><i class="fa-solid fa-envelope"></i> حفظ وإرسال إيميل</button>
-                        <button type="button" onclick="closeModal()" class="bg-gray-400 text-white px-4 py-3 md:py-2 rounded font-bold hover:bg-gray-500 w-full md:w-auto">إلغاء</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
+  <script>
+    let currentFontSize = 13;
+    let currentFontFamily = "'Amiri', 'Traditional Arabic', serif";
 
-    <!-- نافذة الإرسال الجماعي (الدفعة الواحدة) -->
-    <div id="bulkModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 overflow-y-auto flex items-center justify-center p-4">
-        <div class="bg-white rounded-lg p-6 w-full md:w-1/2 shadow-2xl border-t-4 border-indigo-600">
-            <h2 class="text-2xl font-bold mb-4 text-indigo-800"><i class="fa-solid fa-paper-plane"></i> إرسال الولايات المحددة</h2>
-            <div class="bg-indigo-50 p-4 rounded-lg border border-indigo-100 mb-4">
-                <div class="mb-4 bg-white p-3 rounded shadow-sm border border-indigo-200">
-                    <label class="flex items-start space-x-2 space-x-reverse cursor-pointer">
-                        <input type="checkbox" id="bulkIncludeMahdar" class="w-5 h-5 text-indigo-600 rounded mt-1">
-                        <span class="text-sm font-bold text-indigo-900 leading-tight">إضافة إشعار بتنصيب الأمانات (نص المحضر)</span>
-                    </label>
-                    
-                    <!-- روابط التحميل في نافذة الإرسال الجماعي أيضاً -->
-                    <div class="mt-3 pt-3 border-t border-gray-200">
-                        <p class="text-xs text-gray-500 mb-2">النماذج الفارغة (للتحميل):</p>
-                        <div class="flex flex-col gap-2">
-                            <a href="https://docs.google.com/document/d/1Jno9ij18nbOVNaa36UkZvR74Xgfk-1Jj/edit?usp=drivesdk&ouid=107262215692600027206&rtpof=true&sd=true" target="_blank" class="text-xs font-bold bg-blue-100 text-blue-700 px-3 py-2 rounded hover:bg-blue-200 transition flex items-center gap-2">
-                                <i class="fa-solid fa-file-word text-lg"></i> تحميل النموذج (Word)
-                            </a>
-                            <a href="https://drive.google.com/file/d/1jlNNwiFWxf5XIfAa-W2s54T-Xg3ZT8CU/view?usp=drivesdk" target="_blank" class="text-xs font-bold bg-red-100 text-red-700 px-3 py-2 rounded hover:bg-red-200 transition flex items-center gap-2">
-                                <i class="fa-solid fa-file-pdf text-lg"></i> تحميل النموذج (PDF)
-                            </a>
-                        </div>
-                    </div>
-                    
-                </div>
-                <div class="mb-4">
-                    <label class="block text-sm font-bold mb-1 text-indigo-900">رقم واتساب المستلم</label>
-                    <input type="tel" id="bulkWhatsapp" placeholder="0660123456" class="w-full p-2 border rounded font-bold" dir="ltr">
-                </div>
-                <div class="mb-4">
-                    <label class="block text-sm font-bold mb-1 text-indigo-900">إيميل المستلم</label>
-                    <input type="email" id="bulkEmail" placeholder="example@gmail.com" class="w-full p-2 border rounded font-bold" dir="ltr">
-                </div>
-            </div>
-            <div class="flex flex-col md:flex-row justify-end gap-2 border-t pt-4">
-                <button type="button" onclick="executeBulkShare('whatsapp')" class="bg-green-500 text-white px-4 py-2 rounded font-bold hover:bg-green-600 w-full md:w-auto"><i class="fa-brands fa-whatsapp"></i> إرسال عبر واتساب</button>
-                <button type="button" onclick="executeBulkShare('email')" class="bg-red-500 text-white px-4 py-2 rounded font-bold hover:bg-red-600 w-full md:w-auto"><i class="fa-solid fa-envelope"></i> إرسال عبر إيميل</button>
-                <button type="button" onclick="closeBulkModal()" class="bg-gray-400 text-white px-4 py-2 rounded font-bold hover:bg-gray-500 w-full md:w-auto">إلغاء</button>
-            </div>
-        </div>
-    </div>
+    // توليد خلايا الجدول
+    const tableContainer = document.getElementById('tableInputs');
+    const cols = [
+      { left: 80.5, width: 13.0 }, // اللقب والاسم
+      { left: 71.0, width: 9.0 },  // الوظيفة
+      { left: 52.0, width: 18.5 }, // رقم NIN
+      { left: 38.0, width: 13.5 }, // رقم الضمان الاجتماعي
+      { left: 21.0, width: 16.5 }, // المهمة النقابية
+      { left: 2.2,  width: 18.3 }  // مكان العمل
+    ];
 
-    <script>
-        const regionsData = [
-            { name: "جهة الشرق", color: "blue", count: 14, coordinator: { name: "جعفري عبد الرحمان (سوق اهراس)", phone: "0775586559", email: "abderrahmanedjafri@yahoo.fr" }, wilayas: "باتنة، سطيف، بريكة، تبسة، سوق اهراس، قسنطينة، عنابة، سكيكدة، قالمة، خنشلة، ام البواقي، ميلة، جيجل، الطارف", members: [ { name: "بوقطوف توفيق (تبسة)", phone: "0697797528", email: "sntetoufik12@gmail.com" }, { name: "خالد حجازي (باتنة)", phone: "0663915534", email: "sntebatna@gmail.com" } ] },
-            { name: "جهة الغرب", color: "green", count: 10, coordinator: { name: "راشدي الهواري (مستغانم)", phone: "0776484477", email: "sntemosta@gmail.com" }, wilayas: "وهران، الشلف، تلمسان، سيدي بلعباس، مستغانم، معسكر، عين تموشنت، غليزان، تيارت، سعيدة، تيسمسيلت", members: [ { name: "نجيب عيموش (غيليزان)", phone: "0550341143", email: "sntenadjib48@gmail.com" }, { name: "خليفي شريف عبد الهادي (تلمسان)", phone: "0697119072 / 0770292740", email: "khelifiabdelhadi13@gmail.com" } ] },
-            { name: "جهة الوسط 01", color: "purple", count: 6, coordinator: { name: "حجلاوي أحمد (عين الدفلى)", phone: "0771291371", email: "hadjlaouiahmed@gmail.com" }, wilayas: "الجزائر شرق، الجزائر وسط، الجزائر غرب، تيبازة، المدية، عين الدفلى", members: [ { name: "بوسالم احمد (الجزائر شرق)", phone: "0556145073", email: "demed86@gmail.com" }, { name: "نعمان رابح (تيبازة)", phone: "0659502817 / 0665253410", email: "ens.namane@gmail.com" } ] },
-            { name: "جهة الوسط 02", color: "indigo", count: 6, coordinator: { name: "حسان بلباقي (الجزائر شرق)", phone: "0550402965", email: "hcnblbki@gmail.com" }, wilayas: "بومرداس، البليدة، تيزي وزو، برج بوعريريج، البويرة، بجاية", members: [ { name: "عبد الرحيم سعيد (الجزائر شرق)", phone: "0556850930", email: "saidsnte@gmail.com" }, { name: "عزيب عادل (برج بوعريريج)", phone: "0778279290", email: "azibadel9@gmail.com" } ] },
-            { name: "جنوب الوسط", color: "yellow", count: 12, coordinator: { name: "قزيم أحمد (الجلفة)", phone: "0673164317", email: "ahmed17goz@gmail.com" }, wilayas: "الجلفة، مسعد، الاغواط، بوسعادة، عين وسارة، آفلو، البيض، المسيلة، قصر البخاري، الابيض سيدي الشيخ، أولاد جلال، النعامة، غرداية", members: [ { name: "بن عبد الرجمان عبد الرزاق (غرداية)", phone: "0556850930", email: "abderrazakgeneral@gmail.com" }, { name: "اسامة مزاري (بوسعادة)", phone: "0671391376", email: "oussama77.m@gmail.com" } ] },
-            { name: "الجنوب الشرقي", color: "red", count: 7, coordinator: { name: "باي فؤاد (الوادي)", phone: "0772757559 / 0662582595", email: "ademtoursdz@gmail.com" }, wilayas: "ورقلة، تقرت، المغيير، الوادي، بسكرة، اليزي، جانت", members: [ { name: "شيخي عامر (اليزي)", phone: "0660396167", email: "chikhiamer@gmail.com" }, { name: "زيدي ليندة (بسكرة)", phone: "0658240995", email: "" } ] },
-            { name: "الجنوب الغربي", color: "orange", count: 11, coordinator: { name: "بن يحي مصطفى (تيميمون)", phone: "0663664686", email: "benyahiamustapha49@gmail.com" }, wilayas: "بشار، تيندوف، بني عباس، ادرار، تيميمون، المنيعة، عين صالح، تمنراست، المنيعة، برج باجي مختار، عين قزام", members: [ { name: "باعيسى محمد (تمنراست)", phone: "0671644149", email: "" }, { name: "حمة عبد القادر (ادرار)", phone: "0660123586", email: "" }, { name: "محجوبي خليفة (بشار)", phone: "0663796369", email: "" }, { name: "يعيش عبد المومن (بني عباس)", phone: "0655184789", email: "" } ] }
-        ];
+    const rowStartTop = 43.1;
+    const rowHeight = 2.85;
 
-        const wilayasList = [
-            "1- الامانة الولائية لولاية ادرار", "2- الامانة الولائية لولاية الشلف", "3- الامانة الولائية لولاية الاغواط", "4- الامانة الولائية لولاية ام البواقي", "5- الامانة الولائية لولاية باتنة", "6- الامانة الولائية لولاية بجاية", "7- الامانة الولائية لولاية بسكرة", "8- الامانة الولائية لولاية بشار", "9- الامانة الولائية لولاية البليدة", "10- الامانة الولائية لولاية البويرة", "11- الامانة الولائية لولاية تمنراست", "12- الامانة الولائية لولاية تبسة", "13- الامانة الولائية لولاية تلمسان", "14- الامانة الولائية لولاية تيارت", "15- الامانة الولائية لولاية تيزي وزو", "16- الامانة الولائية لولاية الجزائر وسط", "16- الامانة الولائية لولاية الجزائر شرق", "16- الامانة الولائية لولاية الجزائر غرب", "17- الامانة الولائية لولاية الجلفة", "18- الامانة الولائية لولاية جيجل", "19- الامانة الولائية لولاية سطيف", "20- الامانة الولائية لولاية سعيدة", "21- الامانة الولائية لولاية سكيكدة", "22- الامانة الولائية لولاية سيدي بلعباس", "23- الامانة الولائية لولاية عنابة", "24- الامانة الولائية لولاية قالمة", "25- الامانة الولائية لولاية قسنطينة", "26- الامانة الولائية لولاية المدية", "27- الامانة الولائية لولاية مستغانم", "28- الامانة الولائية لولاية المسيلة", "29- الامانة الولائية لولاية معسكر", "30- الامانة الولائية لولاية ورقلة", "31- الامانة الولائية لولاية وهران", "32- الامانة الولائية لولاية البيض", "33- الامانة الولائية لولاية اليزي", "34- الامانة الولائية لولاية برج بوعريريج", "35- الامانة الولائية لولاية بومرداس", "36- الامانة الولائية لولاية الطارف", "37- الامانة الولائية لولاية تيندوف", "38- الامانة الولائية لولاية تيسمسيلت", "39- الامانة الولائية لولاية الوادي", "40- الامانة الولائية لولاية خنشلة", "41- الامانة الولائية لولاية سوق اهراس", "42- الامانة الولائية لولاية تيبازة", "43- الامانة الولائية لولاية ميلة", "44- الامانة الولائية لولاية عين الدفلى", "45- الامانة الولائية لولاية النعامة", "46- الامانة الولائية لولاية عين تيموشنت", "47- الامانة الولائية لولاية غارداية", "48- الامانة الولائية لولاية غيليزان", "49- الامانة الولائية لولاية تيميمون", "50- الامانة الولائية لولاية برج باجي مختار", "51- الامانة الولائية لولاية بني عباس", "52- الامانة الولائية لولاية أولاد جلال", "53- الامانة الولائية لولاية عين صالح", "54- الامانة الولائية لولاية عين قزام", "55- الامانة الولائية لولاية تقرت", "56- الامانة الولائية لولاية جانت", "57- الامانة الولائية لولاية المغير", "58- الامانة الولائية لولاية المنيعة", "59- الامانة الولائية لولاية آفلو", "60- الامانة الولائية لولاية بريكة", "61- الامانة الولائية لولاية القنطرة", "62- الامانة الولائية لولاية بئر العاتر", "63- الامانة الولائية لولاية العريشة", "64- الامانة الولائية لولاية قصر الشلالة", "65- الامانة الولائية لولاية عين وسارة", "66- الامانة الولائية لولاية مسعد", "67- الامانة الولائية لولاية قصر البخاري", "68- الامانة الولائية لولاية بوسعادة", "69- الامانة الولائية لولاية الأبيض سيدي الشيخ"
-        ];
+    for (let r = 0; r < 9; r++) {
+      const topPos = rowStartTop + (r * rowHeight);
+      cols.forEach(col => {
+        const inp = document.createElement('input');
+        inp.type = 'text';
+        inp.className = 'field';
+        inp.setAttribute('data-x', col.left);
+        inp.setAttribute('data-y', topPos);
+        inp.setAttribute('data-w', col.width);
+        inp.setAttribute('data-h', 2.2);
+        inp.style.top = topPos + '%';
+        inp.style.left = col.left + '%';
+        inp.style.width = col.width + '%';
+        inp.style.height = '2.4%';
+        tableContainer.appendChild(inp);
+      });
+    }
 
-        let secretariats = [];
-        let selectedIndexes = [];
+    // تطبيق الخط والحجم على كافة الحقول
+    function applyFontStyles() {
+      const allInputs = document.querySelectorAll('input.field');
+      allInputs.forEach(input => {
+        input.style.fontSize = currentFontSize + 'px';
+        input.style.fontFamily = currentFontFamily;
+      });
+      document.getElementById('fontSizeDisplay').innerText = currentFontSize;
+    }
 
-        try { secretariats = JSON.parse(localStorage.getItem('secretariats_data')) || []; } catch(e) {}
+    // وظيفة تكبير/تصغير الخط
+    function changeFontSize(delta) {
+      currentFontSize = Math.min(Math.max(currentFontSize + delta, 9), 22);
+      applyFontStyles();
+    }
 
-        function formatWhatsAppNumber(phone) {
-            if (!phone) return "";
-            let firstPhone = phone.split(/[\/\-]/)[0].trim();
-            let cleaned = firstPhone.replace(/\D/g, '');
-            if (cleaned.startsWith('0')) cleaned = '213' + cleaned.substring(1);
-            return cleaned;
+    // وظيفة تغيير نوع الخط
+    function updateFontFamily() {
+      currentFontFamily = document.getElementById('fontFamilySelector').value;
+      applyFontStyles();
+    }
+
+    // تطبيق أولي للخط
+    applyFontStyles();
+
+    // استيراد صورة من الهاتف
+    const imgElement = document.getElementById('mainDocImage');
+    document.getElementById('imagePicker').addEventListener('change', function(e) {
+      if (e.target.files && e.target.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(evt) {
+          imgElement.src = evt.target.result;
+        };
+        reader.readAsDataURL(e.target.files[0]);
+      }
+    });
+
+    // رسم المحتوى وتصديره مع تطبيق نوع الخط وحجمه بدقة
+    function renderToCanvas(callback) {
+      const canvas = document.getElementById('renderCanvas');
+      const ctx = canvas.getContext('2d');
+
+      canvas.width = imgElement.naturalWidth || 1000;
+      canvas.height = imgElement.naturalHeight || 1414;
+
+      // رسم خلفية الصورة
+      ctx.drawImage(imgElement, 0, 0, canvas.width, canvas.height);
+
+      ctx.fillStyle = '#000000';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+
+      // احتساب نسبة التكبير بالنسبة لأبعاد الصورة الأصلية
+      const scaleFactor = canvas.width / (document.getElementById('editorContainer').clientWidth || 794);
+      const canvasFontSize = Math.round(currentFontSize * scaleFactor);
+
+      // تطبيق نفس الخط المختار على لوحة الرسم
+      ctx.font = `bold ${canvasFontSize}px ${currentFontFamily}`;
+
+      const allInputs = document.querySelectorAll('input.field');
+      allInputs.forEach(input => {
+        const text = input.value.trim();
+        if (text) {
+          const xPercent = parseFloat(input.getAttribute('data-x'));
+          const yPercent = parseFloat(input.getAttribute('data-y'));
+          const wPercent = parseFloat(input.getAttribute('data-w'));
+          const hPercent = parseFloat(input.getAttribute('data-h'));
+
+          const fieldX = (xPercent / 100) * canvas.width;
+          const fieldY = (yPercent / 100) * canvas.height;
+          const fieldW = (wPercent / 100) * canvas.width;
+          const fieldH = (hPercent / 100) * canvas.height;
+
+          const textCenterX = fieldX + (fieldW / 2);
+          const textCenterY = fieldY + (fieldH / 2);
+
+          ctx.fillText(text, textCenterX, textCenterY);
         }
+      });
 
-        function renderRegions() {
-            const container = document.getElementById('regionalContainer');
-            let html = '';
-            regionsData.forEach(region => {
-                const waCoord = formatWhatsAppNumber(region.coordinator.phone);
-                let membersHtml = '';
-                region.members.forEach(member => {
-                    const waMember = formatWhatsAppNumber(member.phone);
-                    membersHtml += `<div class="mt-2 bg-white p-2 rounded border border-gray-100 shadow-sm text-sm"><p class="font-bold text-gray-800">✔️ ${member.name}</p><div class="flex flex-wrap gap-3 mt-1 text-xs"><span class="text-blue-600"><i class="fa-solid fa-phone"></i> ${member.phone}</span><a href="https://wa.me/${waMember}" target="_blank" class="text-green-500 hover:underline"><i class="fa-brands fa-whatsapp text-sm"></i> واتساب</a>${member.email ? `<a href="mailto:${member.email}" class="text-red-500 hover:underline"><i class="fa-solid fa-envelope"></i> إيميل</a>` : ''}</div></div>`;
-                });
-                html += `<details class="bg-${region.color}-50 rounded-lg border border-${region.color}-200 shadow-sm overflow-hidden group"><summary class="p-4 bg-${region.color}-100 hover:bg-${region.color}-200 transition font-bold text-${region.color}-800 flex justify-between items-center"><span>🚩 المنسق الوطني ل${region.name}</span><span class="bg-${region.color}-600 text-white text-xs px-2 py-1 rounded-full shadow">${region.count} ولايات <i class="fa-solid fa-chevron-down ml-1 text-[10px] group-open:rotate-180 transition-transform"></i></span></summary><div class="p-4 text-sm leading-relaxed border-t border-${region.color}-200"><div class="mb-3"><p class="font-bold text-lg text-gray-900 border-r-4 border-${region.color}-500 pr-2">👈 ${region.coordinator.name}</p><div class="flex flex-wrap gap-4 mt-2 text-gray-700 font-bold bg-white p-2 rounded shadow-sm"><span class="text-blue-700"><i class="fa-solid fa-phone"></i> ${region.coordinator.phone}</span><a href="https://wa.me/${waCoord}" target="_blank" class="text-green-600 hover:underline"><i class="fa-brands fa-whatsapp text-lg"></i> واتساب</a>${region.coordinator.email ? `<a href="mailto:${region.coordinator.email}" class="text-red-600 hover:underline break-all"><i class="fa-solid fa-envelope"></i> ${region.coordinator.email}</a>` : ''}</div></div><div class="mb-3 bg-red-50 p-2 rounded border border-red-100 text-red-800 text-xs font-bold leading-relaxed">🔴 <strong>الولايات:</strong> (${region.wilayas})</div><div class="mt-4"><h4 class="font-bold text-gray-700 border-b pb-1 mb-2">💠 أعضاء الأمانة الجهوية:</h4>${membersHtml}</div></div></details>`;
-            });
-            container.innerHTML = html;
+      if (callback) callback(canvas);
+    }
+
+    // حفظ كصورة في الهاتف
+    function exportAsImage() {
+      renderToCanvas(function(canvas) {
+        const link = document.createElement('a');
+        link.download = 'محضر_تنصيب_مكتمل.png';
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+      });
+    }
+
+    // طباعة بدون شاشة بيضاء
+    function printDocument() {
+      renderToCanvas(function(canvas) {
+        const dataUrl = canvas.toDataURL('image/png');
+        const printWindow = window.open('', '_blank');
+        if (printWindow) {
+          printWindow.document.write(`
+            <html>
+              <head>
+                <title>طباعة المحضر</title>
+                <style>
+                  @page { size: auto; margin: 0; }
+                  body { margin: 0; display: flex; justify-content: center; align-items: center; }
+                  img { width: 100%; height: auto; max-height: 100vh; object-fit: contain; }
+                </style>
+              </head>
+              <body onload="window.print(); window.close();">
+                <img src="${dataUrl}" />
+              </body>
+            </html>
+          `);
+          printWindow.document.close();
+        } else {
+          alert('يرجى السماح بالنوافذ المنبثقة أو استخدام زر الحفظ كصورة.');
         }
-
-        function populateWilayas() {
-            const select = document.getElementById('wilayaName');
-            if (select.options.length <= 1) { 
-                select.innerHTML = '<option value="" disabled selected>اختر الأمانة الولائية...</option>';
-                wilayasList.forEach(wilaya => { select.innerHTML += `<option value="${wilaya}">${wilaya}</option>`; });
-            }
-        }
-
-        document.getElementById('photoInput').addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(event) { document.getElementById('photoBase64').value = event.target.result; };
-                reader.readAsDataURL(file);
-            }
-        });
-
-        function toggleSelect(index) {
-            const pos = selectedIndexes.indexOf(index);
-            if(pos > -1) { selectedIndexes.splice(pos, 1); } 
-            else { selectedIndexes.push(index); }
-            updateBulkShareBar();
-        }
-
-        function selectAll() {
-            const checkboxes = document.querySelectorAll('.wilaya-checkbox');
-            checkboxes.forEach(cb => {
-                const idx = parseInt(cb.value);
-                if(!cb.checked) {
-                    cb.checked = true;
-                    if(!selectedIndexes.includes(idx)) selectedIndexes.push(idx);
-                }
-            });
-            updateBulkShareBar();
-        }
-
-        function clearSelection() {
-            selectedIndexes = [];
-            const checkboxes = document.querySelectorAll('.wilaya-checkbox');
-            checkboxes.forEach(cb => cb.checked = false);
-            updateBulkShareBar();
-        }
-
-        function updateBulkShareBar() {
-            const bar = document.getElementById('bulkShareBar');
-            const count = document.getElementById('bulkCount');
-            count.innerText = selectedIndexes.length;
-            
-            if(selectedIndexes.length > 0) {
-                bar.classList.remove('slide-down');
-                bar.classList.add('slide-up');
-            } else {
-                bar.classList.remove('slide-up');
-                bar.classList.add('slide-down');
-            }
-        }
-        
-        function openBulkModal() {
-            document.getElementById('bulkWhatsapp').value = '';
-            document.getElementById('bulkEmail').value = '';
-            document.getElementById('bulkIncludeMahdar').checked = false;
-            document.getElementById('bulkModal').classList.remove('hidden');
-        }
-
-        function closeBulkModal() {
-            document.getElementById('bulkModal').classList.add('hidden');
-        }
-
-        function buildBulkMessage(includeMahdar) {
-            let msg = `*بيانات الأمانات الولائية المحددة:*\n================\n`;
-            
-            selectedIndexes.forEach(idx => {
-                const data = secretariats[idx];
-                msg += `*${data.wilayaName}*\n👨 الأمين العام: ${data.sgName}\n📞 الهاتف: ${data.phone}\n`;
-                if (data.email) msg += `📧 البريد: ${data.email}\n`;
-                if (data.address) msg += `🏦 المقر: ${data.address}\n`;
-                if (data.mapsLink) msg += `📍 الخريطة: ${data.mapsLink}\n`;
-                msg += `----------------\n`;
-            });
-            
-            if (includeMahdar) {
-                msg += `\n📄 *إشعار هام:* نعلمكم أنه تم رسمياً تنصيب الأمانات المذكورة أعلاه.\n📌 *تجدون محاضر التنصيب مرفقة مع هذه الرسالة.*`;
-            }
-            return msg;
-        }
-
-        function executeBulkShare(type) {
-            const includeMahdar = document.getElementById('bulkIncludeMahdar').checked;
-
-            if (type === 'whatsapp') {
-                const targetPhone = document.getElementById('bulkWhatsapp').value;
-                if (!targetPhone) { alert('يرجى إدخال رقم واتساب المستلم.'); return; }
-                const waNumber = formatWhatsAppNumber(targetPhone);
-                const msg = encodeURIComponent(buildBulkMessage(includeMahdar));
-                window.open(`https://wa.me/${waNumber}?text=${msg}`, '_blank');
-            } 
-            else if (type === 'email') {
-                const targetEmail = document.getElementById('bulkEmail').value;
-                if (!targetEmail) { alert('يرجى إدخال إيميل المستلم.'); return; }
-                const msg = encodeURIComponent(buildBulkMessage(includeMahdar));
-                const subject = encodeURIComponent('ملف بيانات الأمانات الولائية');
-                window.open(`mailto:${targetEmail}?subject=${subject}&body=${msg}`, '_blank');
-            }
-            closeBulkModal();
-            clearSelection();
-        }
-
-        function renderCards() {
-            const container = document.getElementById('cardsContainer');
-            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
-            container.innerHTML = '';
-
-            secretariats.forEach((item, index) => {
-                if (item.wilayaName.toLowerCase().includes(searchTerm) || item.sgName.toLowerCase().includes(searchTerm)) {
-                    const waNumber = formatWhatsAppNumber(item.phone);
-                    const defaultAvatar = "https://cdn-icons-png.flaticon.com/512/149/149071.png";
-                    const avatar = item.photo || defaultAvatar;
-                    const isChecked = selectedIndexes.includes(index) ? 'checked' : '';
-
-                    container.innerHTML += `
-                        <div class="bg-white rounded-xl shadow border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow relative">
-                            <div class="absolute top-2 right-2 z-10 bg-white rounded flex items-center justify-center shadow p-1">
-                                <input type="checkbox" value="${index}" ${isChecked} onchange="toggleSelect(${index})" class="wilaya-checkbox w-5 h-5 text-indigo-600 rounded cursor-pointer border-gray-300 shadow-sm focus:ring-indigo-500">
-                            </div>
-
-                            <div class="bg-green-800 text-white p-3 pr-10 flex justify-between items-center">
-                                <h3 class="font-bold text-sm truncate w-3/4"><i class="fa-solid fa-location-dot ml-1 text-red-400"></i> ${item.wilayaName}</h3>
-                                <div class="flex space-x-2 space-x-reverse">
-                                    <button onclick="editEntry(${index})" class="text-blue-200 hover:text-white" title="تعديل"><i class="fa-solid fa-pen-to-square"></i></button>
-                                    <button onclick="deleteEntry(${index})" class="text-red-300 hover:text-white" title="حذف"><i class="fa-solid fa-trash"></i></button>
-                                </div>
-                            </div>
-                            <div class="p-4 flex items-center">
-                                <img src="${avatar}" class="w-16 h-16 rounded-full border-2 border-green-500 ml-4 object-cover shadow">
-                                <div>
-                                    <p class="font-bold text-lg text-gray-800">👨 ${item.sgName}</p>
-                                    <p class="text-sm text-gray-500 mt-1 line-clamp-2" title="${item.address}">🏦 ${item.address || 'غير محدد'}</p>
-                                </div>
-                            </div>
-                            <div class="bg-gray-50 p-3 border-t flex justify-around card-actions">
-                                <a href="${item.phone ? 'tel:' + item.phone : '#'}" class="text-blue-600 bg-blue-100 p-2 rounded-full w-10 h-10 flex items-center justify-center" title="اتصال"><i class="fa-solid fa-phone"></i></a>
-                                <a href="${waNumber ? 'https://wa.me/' + waNumber : '#'}" target="_blank" class="text-green-600 bg-green-100 p-2 rounded-full w-10 h-10 flex items-center justify-center" title="واتساب"><i class="fa-brands fa-whatsapp text-lg"></i></a>
-                                <a href="${item.email ? 'mailto:' + item.email : '#'}" class="${item.email ? 'text-red-500 bg-red-100' : 'text-gray-300 bg-gray-100 pointer-events-none'} p-2 rounded-full w-10 h-10 flex items-center justify-center" title="إيميل"><i class="fa-solid fa-envelope"></i></a>
-                                <a href="${item.mapsLink ? item.mapsLink : '#'}" target="_blank" class="${item.mapsLink ? 'text-yellow-600 bg-yellow-100' : 'text-gray-300 bg-gray-100 pointer-events-none'} p-2 rounded-full w-10 h-10 flex items-center justify-center" title="الخريطة"><i class="fa-solid fa-map-location-dot"></i></a>
-                            </div>
-                        </div>
-                    `;
-                }
-            });
-        }
-
-        function openModal() {
-            populateWilayas();
-            document.getElementById('formModal').classList.remove('hidden');
-        }
-
-        function closeModal() {
-            document.getElementById('formModal').classList.add('hidden');
-            document.getElementById('dataForm').reset();
-            document.getElementById('editIndex').value = "-1";
-            document.getElementById('photoBase64').value = "";
-            document.getElementById('includeMahdar').checked = false;
-            document.getElementById('modalTitle').innerText = "إضافة أمانة ولائية جديدة";
-        }
-
-        function executeSave() {
-            const index = document.getElementById('editIndex').value;
-            const newData = {
-                wilayaName: document.getElementById('wilayaName').value,
-                sgName: document.getElementById('sgName').value,
-                phone: document.getElementById('phone').value,
-                email: document.getElementById('email').value,
-                address: document.getElementById('address').value,
-                mapsLink: document.getElementById('mapsLink').value,
-                photo: document.getElementById('photoBase64').value
-            };
-
-            if (index === "-1") { secretariats.push(newData); } 
-            else { if(!newData.photo) newData.photo = secretariats[index].photo; secretariats[index] = newData; }
-
-            try { localStorage.setItem('secretariats_data', JSON.stringify(secretariats)); } catch(e) {}
-            renderCards();
-            return newData;
-        }
-
-        function saveData(event) {
-            event.preventDefault();
-            executeSave();
-            closeModal();
-        }
-
-        function buildShareMessage(data, includeMahdar) {
-            let msg = `*${data.wilayaName}*\n👨 الأمين العام: ${data.sgName}\n📞 الهاتف: ${data.phone}\n`;
-            if (data.email) msg += `📧 البريد: ${data.email}\n`;
-            if (data.address) msg += `🏦 المقر: ${data.address}\n`;
-            if (data.mapsLink) msg += `📍 الخريطة: ${data.mapsLink}\n`;
-            
-            if (includeMahdar) {
-                msg += `\n📄 *إشعار هام:* نعلمكم أنه تم رسمياً تنصيب الأمانة الولائية.\n📌 *تجدون محضر التنصيب مرفقاً مع هذه الرسالة.*`;
-            }
-            return msg;
-        }
-
-        function saveAndShare(type) {
-            const form = document.getElementById('dataForm');
-            if (!form.checkValidity()) { form.reportValidity(); return; }
-
-            const savedData = executeSave();
-            const includeMahdar = document.getElementById('includeMahdar').checked;
-
-            if (type === 'whatsapp') {
-                const targetPhone = document.getElementById('targetWhatsapp').value;
-                if (!targetPhone) { alert('يرجى إدخال رقم واتساب المستلم.'); return; }
-                const waNumber = formatWhatsAppNumber(targetPhone);
-                const msg = encodeURIComponent(buildShareMessage(savedData, includeMahdar));
-                window.open(`https://wa.me/${waNumber}?text=${msg}`, '_blank');
-            } 
-            else if (type === 'email') {
-                const targetEmail = document.getElementById('targetEmail').value;
-                if (!targetEmail) { alert('يرجى إدخال إيميل المستلم.'); return; }
-                const msg = encodeURIComponent(buildShareMessage(savedData, includeMahdar));
-                const subject = encodeURIComponent('بيانات الأمانة الولائية: ' + savedData.wilayaName);
-                window.open(`mailto:${targetEmail}?subject=${subject}&body=${msg}`, '_blank');
-            }
-            closeModal();
-        }
-
-        function editEntry(index) {
-            populateWilayas();
-            const data = secretariats[index];
-            document.getElementById('editIndex').value = index;
-            document.getElementById('wilayaName').value = data.wilayaName;
-            document.getElementById('sgName').value = data.sgName;
-            document.getElementById('phone').value = data.phone;
-            document.getElementById('email').value = data.email || "";
-            document.getElementById('address').value = data.address || "";
-            document.getElementById('mapsLink').value = data.mapsLink || "";
-            document.getElementById('modalTitle').innerText = "تعديل بيانات: " + data.wilayaName;
-            document.getElementById('targetWhatsapp').value = '';
-            document.getElementById('targetEmail').value = '';
-            document.getElementById('includeMahdar').checked = false;
-            document.getElementById('formModal').classList.remove('hidden');
-        }
-
-        function deleteEntry(index) {
-            if (confirm("هل أنت متأكد من حذف هذه البيانات؟")) {
-                secretariats.splice(index, 1);
-                const pos = selectedIndexes.indexOf(index);
-                if(pos > -1) { selectedIndexes.splice(pos, 1); updateBulkShareBar(); }
-                try { localStorage.setItem('secretariats_data', JSON.stringify(secretariats)); } catch(e) {}
-                renderCards();
-            }
-        }
-
-        renderRegions();
-        populateWilayas();
-        renderCards();
-    </script>
+      });
+    }
+  </script>
 </body>
 </html>
