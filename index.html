@@ -1,344 +1,993 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>استمارة محضر تنصيب مكتب الأمانة الولائية</title>
-  
-  <!-- استيراد خطوط النسخ الرسمية المطابقة للوثائق الجزائرية -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@700&family=Cairo:wght@700&family=Noto+Naskh+Arabic:wght@700&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>البوابة الشاملة للترقيات والدرجات | من انجاز حميدي البشير 2026</title>
+    <link rel="icon" href="https://l.top4top.io/p_37988hwfa0.png" type="image/png">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <style>
+        :root {
+            --primary-green: #008f51;
+            --dark-green: #006b3d;
+            --light-green: #e6f4ed;
+            --primary-red: #d32f2f;
+            --dark-red: #b71c1c;
+            --bg-light: #f0f2f5;
+            --white: #ffffff;
+            --shadow: 0 4px 15px rgba(0,0,0,0.08);
+            --border-color: #d1d5db;
+        }
 
-  <style>
-    body {
-      margin: 0;
-      padding: 10px;
-      background-color: #2c3e50;
-      font-family: 'Amiri', 'Traditional Arabic', Tahoma, sans-serif;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Tajawal', sans-serif; background-color: var(--bg-light); color: #333; padding-bottom: 50px; line-height: 1.6; }
+        
+        /* شريط العنوان مع شعار النقابة */
+        .navbar { 
+            background: linear-gradient(135deg, var(--dark-green), var(--primary-green)); 
+            color: white; 
+            padding: 18px 25px; 
+            box-shadow: var(--shadow); 
+            border-bottom: 4px solid var(--primary-red); 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .navbar-logo {
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
+            background: var(--white);
+            border-radius: 50%;
+            padding: 5px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            border: 2px solid var(--primary-red);
+            transition: transform 0.3s ease;
+        }
+        .navbar-logo:hover { transform: scale(1.06); }
+        .navbar-text { text-align: center; }
+        .navbar h1 { font-size: 1.8rem; margin-bottom: 4px; }
+        .navbar p { font-size: 1rem; opacity: 0.95; font-weight: 500; }
 
-    /* شريط الأدوات العلوي */
-    .controls {
-      background: #ffffff;
-      padding: 12px;
-      border-radius: 10px;
-      margin-bottom: 12px;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.25);
-      width: 95%;
-      max-width: 850px;
-    }
+        .container { max-width: 1150px; margin: 20px auto; padding: 0 15px; }
 
-    .btn {
-      padding: 7px 14px;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      font-weight: bold;
-      font-size: 14px;
-      color: white;
-      transition: 0.2s;
-      display: flex;
-      align-items: center;
-      gap: 5px;
-    }
+        /* لوحة التحكم والملفات */
+        .controls-panel { display: flex; justify-content: space-between; align-items: center; background: var(--white); padding: 15px 20px; border-radius: 12px; box-shadow: var(--shadow); margin-bottom: 20px; flex-wrap: wrap; gap: 12px; }
+        .controls-text { font-weight: 800; color: var(--dark-green); font-size: 1.1rem; display: flex; align-items: center; gap: 8px; }
+        .controls-btns { display: flex; gap: 8px; flex-wrap: wrap; }
+        .btn-action { padding: 9px 14px; border: none; border-radius: 6px; font-family: 'Tajawal', sans-serif; font-weight: 700; font-size: 0.9rem; cursor: pointer; display: flex; align-items: center; gap: 7px; transition: 0.25s; color: white; }
+        .btn-export { background-color: #107c41; }
+        .btn-export:hover { background-color: #0b5e31; }
+        .btn-import { background-color: #f39c12; }
+        .btn-import:hover { background-color: #d68910; }
+        .btn-print { background-color: #2563eb; }
+        .btn-print:hover { background-color: #1d4ed8; }
+        .btn-reset { background-color: #6b7280; }
+        .btn-reset:hover { background-color: #4b5563; }
+        .auto-save-indicator { font-size: 0.85rem; color: #555; margin-right: auto; display: flex; align-items: center; gap: 6px; background: #f8fafc; padding: 5px 12px; border-radius: 20px; border: 1px solid #e2e8f0; }
 
-    .btn-action { background-color: #4b6584; }
-    .btn-action:active { transform: scale(0.95); }
-    .btn-save { background-color: #20bf6b; }
-    .btn-print { background-color: #0fb9b1; }
+        /* نظام التبويبات */
+        .tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; background: var(--white); padding: 10px; border-radius: 12px; box-shadow: var(--shadow); }
+        .tab-btn { flex: 1; min-width: 180px; padding: 13px 10px; background: transparent; border: 2px solid transparent; border-radius: 8px; font-family: 'Tajawal', sans-serif; font-size: 1.02rem; font-weight: 700; color: #555; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; gap: 8px; }
+        .tab-btn:hover { background: #f9fafb; color: var(--primary-green); }
+        .tab-btn.active { background: var(--light-green); color: var(--primary-green); border-color: var(--primary-green); }
 
-    .tool-group {
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      background: #f1f2f6;
-      padding: 4px 8px;
-      border-radius: 6px;
-    }
+        .tab-content { display: none; animation: fadeIn 0.35s ease; }
+        .tab-content.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 
-    select {
-      padding: 6px 10px;
-      border-radius: 5px;
-      border: 1px solid #ced6e0;
-      font-family: inherit;
-      font-weight: bold;
-      outline: none;
-    }
+        /* الشبكة والبطاقات */
+        .main-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: start; }
+        @media (max-width: 900px) { .main-grid { grid-template-columns: 1fr; } }
+        
+        .card { background: var(--white); border-radius: 14px; padding: 24px; box-shadow: var(--shadow); border-top: 5px solid var(--primary-green); margin-bottom: 20px; }
+        .card.result-card { border-top-color: var(--primary-red); }
+        .card-title { font-size: 1.25rem; font-weight: 800; margin-bottom: 18px; color: var(--dark-green); display: flex; align-items: center; justify-content: space-between; border-bottom: 2px solid #f0f0f0; padding-bottom: 10px; }
+        .section-title { font-size: 1.05rem; font-weight: 700; color: var(--primary-red); margin: 18px 0 12px 0; border-bottom: 1px dashed #ccc; padding-bottom: 5px; display: flex; align-items: center; gap: 6px; }
 
-    /* مساحة عرض المستند */
-    .editor-wrapper {
-      position: relative;
-      width: 100%;
-      max-width: 794px;
-      background: white;
-      box-shadow: 0 0 15px rgba(0,0,0,0.4);
-      line-height: 0;
-    }
+        /* عناصر النماذج */
+        .form-group { margin-bottom: 14px; }
+        label { display: block; margin-bottom: 5px; font-weight: 700; font-size: 0.92rem; color: #374151; }
+        select, input { width: 100%; padding: 10px 12px; border: 1px solid var(--border-color); border-radius: 7px; font-family: 'Tajawal', sans-serif; font-size: 0.95rem; background-color: #fafafa; transition: 0.25s; }
+        select:focus, input:focus { border-color: var(--primary-green); background-color: #fff; outline: none; box-shadow: 0 0 0 3px rgba(0, 143, 81, 0.12); }
+        
+        .flex-container { display: flex; gap: 10px; }
+        .flex-item { flex: 1; text-align: center; }
+        .flex-item label { font-weight: 600; margin-top: 4px; font-size: 0.82rem; color: #6b7280; }
 
-    .base-image {
-      width: 100%;
-      display: block;
-      height: auto;
-    }
+        .btn-calc { width: 100%; padding: 13px; background: var(--primary-green); color: white; border: none; border-radius: 8px; font-size: 1.08rem; font-weight: 700; cursor: pointer; transition: 0.3s; margin-top: 10px; font-family: 'Tajawal', sans-serif; display: flex; align-items: center; justify-content: center; gap: 8px; }
+        .btn-calc:hover { background: var(--dark-green); transform: translateY(-1px); }
+        .btn-red { background: var(--primary-red); }
+        .btn-red:hover { background: var(--dark-red); }
 
-    /* حقول الإدخال */
-    .inputs-layer {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-    }
+        /* تنسيقات التبويب الأول (الدرجات) */
+        .reference-info { background-color: #e8f5e9; border: 1px dashed var(--primary-green); border-radius: 8px; padding: 12px 15px; margin-bottom: 18px; font-size: 0.9rem; color: #004224; }
+        .reference-info ul { margin: 6px 0 0 0; padding-inline-start: 20px; }
+        .reference-info li { margin-bottom: 4px; font-weight: 600; }
+        
+        .merit-box { background: #f8fafc; border: 1px solid #e2e8f0; padding: 10px 14px; border-radius: 8px; margin-top: 8px; display: flex; justify-content: space-between; align-items: center; }
+        .merit-result { font-weight: 800; color: #1d4ed8; font-size: 1.05rem; }
 
-    input.field {
-      position: absolute;
-      background: rgba(255, 255, 255, 0.75);
-      border: 1px dashed #2980b9;
-      font-weight: bold;
-      color: #000000;
-      text-align: center;
-      padding: 0 2px;
-      box-sizing: border-box;
-      outline: none;
-      transition: background 0.2s;
-    }
+        .result-box { display: none; padding: 20px; background-color: #ffffff; border-radius: 14px; box-shadow: var(--shadow); border-top: 5px solid var(--primary-green); }
+        .highlight-date-box { background: #e6f4ed; border: 1px solid #a7f3d0; padding: 15px; border-radius: 10px; text-align: center; margin-bottom: 15px; }
+        .retained-box { margin-top: 12px; padding: 12px; background-color: #fffbeb; color: #92400e; border: 1px solid #fde68a; border-radius: 8px; font-size: 0.95rem; text-align: center; font-weight: 600; }
+        .retained-box.not-eligible { background-color: #fef2f2; color: #991b1b; border-color: #fecaca; }
+        .note-box { margin-top: 15px; padding-top: 10px; border-top: 1px dashed #cbd5e1; font-size: 0.85rem; color: #842029; font-weight: 600; }
 
-    input.field:focus {
-      background: #ffffff;
-      border: 1.5px solid #e67e22;
-      z-index: 10;
-    }
+        /* جداول المقارنة والمسار */
+        .data-table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 0.92rem; text-align: center; }
+        .data-table th, .data-table td { padding: 10px 8px; border: 1px solid #e2e8f0; }
+        .data-table th { background: #f1f5f9; color: var(--dark-green); font-weight: 800; }
+        .data-table tr:nth-child(even) { background: #f8fafc; }
+        .data-table tr.highlight { background: #fff5f5; font-weight: 700; }
+        .data-table tr.active-row { background: #dcfce7; font-weight: 700; border: 2px solid var(--primary-green); }
+        
+        .status-badge { display: inline-block; padding: 3px 8px; border-radius: 12px; font-size: 0.8rem; font-weight: 700; }
+        .status-ok { background: #dcfce7; color: #166534; }
+        .status-no { background: #fee2e2; color: #991b1b; }
 
-    #renderCanvas {
-      display: none;
-    }
-  </style>
+        /* تنسيقات التبويب الثاني (المخلفات) */
+        .result-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #f1f5f9; }
+        .result-item:last-child { border-bottom: none; }
+        .result-label { color: #4b5563; font-weight: 600; font-size: 0.95rem; }
+        .result-value { font-weight: 800; color: var(--dark-green); font-size: 1.05rem; }
+        .result-subtext { display: block; font-size: 0.78rem; color: #6b7280; font-weight: 400; margin-top: 2px; }
+        .total-box { background: #fff5f5; border: 2px solid var(--primary-red); padding: 18px; border-radius: 10px; text-align: center; margin-top: 18px; }
+        .total-label { font-size: 1rem; color: var(--primary-red); font-weight: 700; }
+        .total-amount { font-size: 1.9rem; color: var(--primary-red); font-weight: 800; display: block; margin-top: 4px; }
+        .info-badge { display: inline-block; background: var(--light-green); color: var(--dark-green); padding: 6px 12px; border-radius: 6px; font-size: 0.88rem; font-weight: 700; margin-top: 6px; width: 100%; text-align: center; border: 1px solid #a7f3d0; }
+        .badge { background: var(--primary-green); color: white; padding: 2px 8px; border-radius: 5px; font-size: 0.78rem; }
+
+        /* تنسيقات الدليل القانوني */
+        .legal-brochure { padding: 30px; grid-column: 1 / -1; }
+        .brochure-header { text-align: center; border-bottom: 3px solid var(--primary-green); padding-bottom: 20px; margin-bottom: 25px; }
+        .brochure-logo { width: 90px; height: 90px; object-fit: contain; margin-bottom: 10px; }
+        .brochure-header h2 { color: var(--primary-green); font-size: 1.7rem; margin-bottom: 8px; }
+        .section-box { margin-bottom: 28px; }
+        .section-box h3 { background: var(--light-green); color: var(--dark-green); padding: 10px 18px; border-radius: 8px; border-right: 5px solid var(--primary-green); margin-bottom: 12px; font-size: 1.15rem; }
+        .legal-text { font-size: 1rem; color: #374151; margin-bottom: 12px; text-align: justify; }
+        .legal-list { list-style: none; padding-right: 10px; }
+        .legal-list li { position: relative; padding-right: 25px; margin-bottom: 8px; font-size: 0.98rem; }
+        .legal-list li::before { content: "\f058"; font-family: "Font Awesome 6 Free"; font-weight: 900; position: absolute; right: 0; color: var(--primary-green); }
+
+        /* التذييل السفلي */
+        .footer-credit { text-align: center; margin-top: 35px; font-size: 1.05rem; color: #4b5563; font-weight: 700; display: flex; flex-direction: column; align-items: center; gap: 8px; }
+        .footer-logo { width: 55px; height: 55px; object-fit: contain; }
+        .drive-btn { display: inline-flex; align-items: center; gap: 8px; margin-top: 15px; padding: 12px 24px; background: #2563eb; color: white; border-radius: 8px; text-decoration: none; font-weight: bold; transition: 0.3s; }
+        .drive-btn:hover { background: #1d4ed8; }
+
+        /* شعار مصغر داخل رؤوس البطاقات */
+        .card-mini-logo { width: 32px; height: 32px; object-fit: contain; }
+
+        /* إعدادات الطباعة */
+        @media print {
+            body { background: white; padding: 0; }
+            .controls-panel, .tabs, .btn-calc, .drive-btn { display: none !important; }
+            .container { max-width: 100%; margin: 0; padding: 0; }
+            .card, .result-box { box-shadow: none; border: 1px solid #ccc; page-break-inside: avoid; }
+            .navbar { background: white !important; color: black !important; border-bottom: 2px solid #000; padding: 10px; }
+            .navbar-logo { box-shadow: none; border: 1px solid #000; }
+        }
+    </style>
 </head>
 <body>
 
-  <!-- شريط التحكم الكامل بالخط والحجم والحفظ -->
-  <div class="controls">
-    <label style="font-size: 13px; font-weight: bold;">صورة المستند:</label>
-    <input type="file" id="imagePicker" accept="image/*" style="max-width: 170px; font-size: 12px;">
-
-    <!-- أزرار تكبير وتصغير الخط -->
-    <div class="tool-group">
-      <span style="font-size: 13px; font-weight: bold;">حجم الخط:</span>
-      <button class="btn btn-action" onclick="changeFontSize(-1)" title="تصغير">A-</button>
-      <span id="fontSizeDisplay" style="font-weight: bold; min-width: 25px; text-align: center;">13</span>
-      <button class="btn btn-action" onclick="changeFontSize(1)" title="تكبير">A+</button>
+    <div class="navbar">
+        <img src="https://l.top4top.io/p_37988hwfa0.png" alt="شعار النقابة الوطنية لعمال التربية SNTE" class="navbar-logo">
+        <div class="navbar-text">
+            <h1><i class="fa-solid fa-award"></i> البوابة الشاملة للترقيات وحساب الدرجات</h1>
+            <p>تطبيق تفاعلي لحساب أقدمية الدرجات، محاكاة المسار المهني، وحساب المخلفات المالية | إنجاز: حميدي البشير 2026</p>
+        </div>
     </div>
 
-    <!-- اختيار نوع الخط المطابق للنموذج -->
-    <div class="tool-group">
-      <span style="font-size: 13px; font-weight: bold;">نوع الخط:</span>
-      <select id="fontFamilySelector" onchange="updateFontFamily()">
-        <option value="'Amiri', 'Traditional Arabic', serif" selected>الأميري (مطابق للوثيقة)</option>
-        <option value="'Noto Naskh Arabic', sans-serif">النسخ الرسمي (Noto Naskh)</option>
-        <option value="'Cairo', sans-serif">خط القاهرة (واضح جداً)</option>
-        <option value="'Traditional Arabic', Tahoma, sans-serif">الخط العربي التقليدي</option>
-      </select>
+    <div class="container">
+        
+        <!-- لوحة أدوات الملفات والطباعة -->
+        <div class="controls-panel">
+            <div class="controls-text">
+                <i class="fa-solid fa-sliders"></i> لوحة التحكم والملفات
+            </div>
+            <div class="auto-save-indicator" id="autoSaveStatus">
+                <i class="fa-solid fa-cloud-arrow-up" style="color: var(--primary-green);"></i> الحفظ التلقائي مفعل
+            </div>
+            <div class="controls-btns">
+                <input type="file" id="excelUpload" accept=".xlsx, .xls, .csv" style="display: none;" onchange="importExcel(event)">
+                <button class="btn-action btn-import" onclick="document.getElementById('excelUpload').click()">
+                    <i class="fa-solid fa-file-import"></i> استرداد Excel
+                </button>
+                <button class="btn-action btn-export" onclick="exportExcel()">
+                    <i class="fa-solid fa-file-excel"></i> تصدير Excel
+                </button>
+                <button class="btn-action btn-print" onclick="window.print()">
+                    <i class="fa-solid fa-print"></i> طباعة الكشف
+                </button>
+                <button class="btn-action btn-reset" onclick="resetAllData()">
+                    <i class="fa-solid fa-rotate-right"></i> تفريغ
+                </button>
+            </div>
+        </div>
+
+        <!-- التبويبات الرئيسية -->
+        <div class="tabs">
+            <button class="tab-btn active" onclick="openTab(event, 'tabGrades')">
+                <i class="fa-solid fa-calculator"></i> خبير حساب الدرجات
+            </button>
+            <button class="tab-btn" onclick="openTab(event, 'tabCareer')">
+                <i class="fa-solid fa-timeline"></i> محاكي الـ 12 درجة
+            </button>
+            <button class="tab-btn" onclick="openTab(event, 'tabArrears')">
+                <i class="fa-solid fa-coins"></i> مخلفات الترقية الصافية
+            </button>
+            <button class="tab-btn" onclick="openTab(event, 'tabLegal')">
+                <i class="fa-solid fa-scale-balanced"></i> الدليل القانوني للدرجات
+            </button>
+        </div>
+
+        <!-- ==================== التبويب 1: خبير حساب الدرجات ==================== -->
+        <div id="tabGrades" class="tab-content active">
+            <div class="main-grid">
+                <div class="card">
+                    <div class="card-title">
+                        <span><i class="fa-solid fa-user-check"></i> بيانات الموظف والدرجة الحالية</span>
+                        <img src="https://l.top4top.io/p_37988hwfa0.png" alt="SNTE" class="card-mini-logo">
+                    </div>
+
+                    <div class="flex-container">
+                        <div class="form-group" style="flex: 2;">
+                            <label for="empName">اسم ولقب الموظف (اختياري للطباعة):</label>
+                            <input type="text" id="empName" class="save-input" placeholder="مثال: حميدي البشير">
+                        </div>
+                        <div class="form-group" style="flex: 1;">
+                            <label for="financialYear">سنة جدول الترقية:</label>
+                            <input type="number" id="financialYear" class="save-input" value="2026" min="2000" max="2050" onchange="updateDynamicData()">
+                        </div>
+                    </div>
+
+                    <div class="reference-info" id="referenceInfoBox">
+                        <strong><i class="fa-solid fa-calendar-check"></i> التواريخ المرجعية للترقية (دون امتياز) لسنة <span id="displayYear">2026</span>:</strong>
+                        <ul>
+                            <li>الوتيرة الدنيا (2.5 سنة): <span id="refMin">30 جوان 2024</span> أو ما قبله</li>
+                            <li>الوتيرة الوسطى (3 سنوات): <span id="refMed">31 ديسمبر 2023</span> أو ما قبله</li>
+                            <li>الوتيرة القصوى (3.5 سنة): <span id="refMax">30 جوان 2023</span> أو ما قبله</li>
+                        </ul>
+                    </div>
+
+                    <div class="section-title"><i class="fa-solid fa-briefcase"></i> الوضعية في الدرجة الحالية</div>
+
+                    <div class="flex-container">
+                        <div class="form-group" style="flex: 1;">
+                            <label for="currentStep">الدرجة الحالية:</label>
+                            <select id="currentStep" class="save-input">
+                                <option value="0">بدون درجة (الدرجة 0 - متربص/مرسم جديد)</option>
+                                <option value="1">الدرجة 01</option>
+                                <option value="2">الدرجة 02</option>
+                                <option value="3" selected>الدرجة 03</option>
+                                <option value="4">الدرجة 04</option>
+                                <option value="5">الدرجة 05</option>
+                                <option value="6">الدرجة 06</option>
+                                <option value="7">الدرجة 07</option>
+                                <option value="8">الدرجة 08</option>
+                                <option value="9">الدرجة 09</option>
+                                <option value="10">الدرجة 10</option>
+                                <option value="11">الدرجة 11</option>
+                            </select>
+                        </div>
+                        <div class="form-group" style="flex: 1;">
+                            <label for="effectiveDate">تاريخ سريانها:</label>
+                            <input type="date" id="effectiveDate" class="save-input" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="region">منطقة العمل (الامتياز المكاني لحساب الأقدمية):</label>
+                        <select id="region" class="save-input">
+                            <option value="1">ولايات الشمال (بدون امتياز إضافي)</option>
+                            <option value="1.16666667">منطقة الهضاب العليا (امتياز شهرين عن كل سنة خدمة)</option>
+                            <option value="1.25">منطقة الجنوب (امتياز 3 أشهر عن كل سنة خدمة)</option>
+                            <option value="1.5">منطقة الجنوب الكبير (امتياز 6 أشهر عن كل سنة خدمة)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>الأقدمية المحتفظ بها من الدرجة السابقة (إن وجدت في المقرر):</label>
+                        <div class="flex-container">
+                            <div class="flex-item"><input type="number" id="seniorityYears" class="save-input" value="0" min="0" max="10"><label>سنوات</label></div>
+                            <div class="flex-item"><input type="number" id="seniorityMonths" class="save-input" value="0" min="0" max="11"><label>أشهر</label></div>
+                            <div class="flex-item"><input type="number" id="seniorityDays" class="save-input" value="0" min="0" max="29"><label>أيام</label></div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="promotionPace">وتيرة الترقية المستهدفة:</label>
+                        <select id="promotionPace" class="save-input">
+                            <option value="2.5">الوتيرة الدنيا (سنتان و 6 أشهر)</option>
+                            <option value="3">الوتيرة الوسطى (3 سنوات)</option>
+                            <option value="3.5">الوتيرة القصوى (3 سنوات و 6 أشهر)</option>
+                        </select>
+                    </div>
+
+                    <div class="section-title"><i class="fa-solid fa-star-half-stroke"></i> نقطة الاستحقاق والامتياز (اختياري)</div>
+                    <div class="form-group">
+                        <div class="flex-container">
+                            <div class="flex-item">
+                                <label>النقطة التربوية (×3)</label>
+                                <input type="number" id="pedPoint" class="save-input" placeholder="0 - 20" step="0.25" min="0" max="20" oninput="calcMerit()">
+                            </div>
+                            <div class="flex-item">
+                                <label>النقطة الإدارية (×2)</label>
+                                <input type="number" id="adminPoint" class="save-input" placeholder="0 - 20" step="0.25" min="0" max="20" oninput="calcMerit()">
+                            </div>
+                        </div>
+                        <div class="merit-box">
+                            <span>معدل الاستحقاق الموزون:</span>
+                            <span class="merit-result" id="meritResult">0.00 / 20</span>
+                        </div>
+                    </div>
+
+                    <button class="btn-calc" onclick="calculatePromotion()">
+                        <i class="fa-solid fa-gears"></i> حساب تاريخ استيفاء الدرجة والمقارنة
+                    </button>
+                </div>
+
+                <!-- بطاقة النتائج للتبويب الأول -->
+                <div>
+                    <div id="resultBox" class="result-box">
+                        <div class="card-title" style="color: var(--dark-green);">
+                            <span><i class="fa-solid fa-file-signature"></i> بطاقة الوضعية للترقية إلى <span id="targetStepLabel">الدرجة 04</span></span>
+                            <img src="https://l.top4top.io/p_37988hwfa0.png" alt="SNTE" class="card-mini-logo">
+                        </div>
+
+                        <div class="highlight-date-box">
+                            <div style="font-weight: 700; color: #374151; margin-bottom: 4px;">تاريخ استيفاء شرط الأقدمية وتاريخ السريان الجديد:</div>
+                            <div id="finalDate" style="font-size: 2rem; font-weight: 800; color: var(--primary-green); direction: ltr;">----/--/--</div>
+                        </div>
+                        
+                        <div id="retainedBox" class="retained-box">
+                            <i class="fa-solid fa-hourglass-half"></i> <span id="retainedTitle">الأقدمية الإضافية المحتفظ بها في 31 ديسمبر:</span><br>
+                            <strong id="retainedSeniority" style="font-size: 1.1rem;"></strong>
+                        </div>
+
+                        <!-- جدول مقارنة الوتائر الثلاث -->
+                        <div class="section-title" style="margin-top: 22px;"><i class="fa-solid fa-table-list"></i> مقارنة الوضعية حسب الوتائر الثلاث</div>
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>الوتيرة</th>
+                                    <th>تاريخ الاستيفاء</th>
+                                    <th>الوضعية في <span id="tableCutoffYear">2026</span></th>
+                                    <th>الفائض المحتفظ به</th>
+                                </tr>
+                            </thead>
+                            <tbody id="pacesComparisonBody">
+                                <!-- يتم ملؤه برمجياً -->
+                            </tbody>
+                        </table>
+
+                        <div class="note-box">
+                            <i class="fa-solid fa-triangle-exclamation"></i> ملاحظة قانونية: يُشترط لإدراج الموظف في قائمة التأهيل أن يستوفي شرط الأقدمية في 31 ديسمبر <span id="noteYearCurrent">2026</span> على الأكثر، وأن تتوفر لديه نقطة تقييم السنتين الأخيرتين (<span id="noteYearPrev">2025</span> وما قبلها).
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== التبويب 2: محاكي المسار المهني (12 درجة) ==================== -->
+        <div id="tabCareer" class="tab-content">
+            <div class="card">
+                <div class="card-title">
+                    <span><i class="fa-solid fa-road"></i> محاكي المسار المهني الكامل (من الدرجة 1 إلى الدرجة 12)</span>
+                    <img src="https://l.top4top.io/p_37988hwfa0.png" alt="SNTE" class="card-mini-logo">
+                </div>
+                <p style="margin-bottom: 18px; color: #555; font-size: 0.95rem;">
+                    يقوم هذا المحاكي ببناء جدول زمني ومالي استشرافي لكافة درجات مسارك المهني بناءً على تاريخ أول سريان أو تعيين، مع احتساب أثر المنطقة الجغرافية وقيمة الزيادة الاستدلالية لكل درجة.
+                </p>
+
+                <div class="main-grid" style="grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px; margin-bottom: 15px;">
+                    <div class="form-group">
+                        <label>تاريخ التعيين الأول (أو سريان الدرجة 0):</label>
+                        <input type="date" id="careerStartDate" class="save-input" value="2015-09-01">
+                    </div>
+                    <div class="form-group">
+                        <label>الصنف الحالي للرتبة:</label>
+                        <select id="careerCategory" class="save-input">
+                            <option value="5">الصنف 5 (14 نقطة/درجة)</option>
+                            <option value="7">الصنف 7 (17 نقطة/درجة)</option>
+                            <option value="8">الصنف 8 (19 نقطة/درجة)</option>
+                            <option value="10">الصنف 10 (23 نقطة/درجة)</option>
+                            <option value="11">الصنف 11 (25 نقطة/درجة)</option>
+                            <option value="12" selected>الصنف 12 (27 نقطة/درجة)</option>
+                            <option value="13">الصنف 13 (29 نقطة/درجة)</option>
+                            <option value="14">الصنف 14 (31 نقطة/درجة)</option>
+                            <option value="15">الصنف 15 (33 نقطة/درجة)</option>
+                            <option value="16">الصنف 16 (35 نقطة/درجة)</option>
+                            <option value="17">الصنف 17 (38 نقطة/درجة)</option>
+                            <option value="HC1">خارج الصنف ق ف 1 (41 نقطة/درجة)</option>
+                            <option value="HC2">خارج الصنف ق ف 2 (44 نقطة/درجة)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>متوسط وتيرة الترقية المتوقعة:</label>
+                        <select id="careerPace" class="save-input">
+                            <option value="2.5">الوتيرة الدنيا دائماً (2.5 سنة)</option>
+                            <option value="3" selected>الوتيرة الوسطى دائماً (3 سنوات)</option>
+                            <option value="3.5">الوتيرة القصوى دائماً (3.5 سنة)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>منطقة العمل:</label>
+                        <select id="careerRegion" class="save-input">
+                            <option value="1">الشمال (بدون امتياز)</option>
+                            <option value="1.16666667">الهضاب العليا (شهرين/سنة)</option>
+                            <option value="1.25">الجنوب (3 أشهر/سنة)</option>
+                            <option value="1.5">الجنوب الكبير (6 أشهر/سنة)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button class="btn-calc" onclick="generateCareerTable()" style="max-width: 350px; margin: 0 auto 20px auto;">
+                    <i class="fa-solid fa-table"></i> توليد جدول المسار المهني (12 درجة)
+                </button>
+
+                <div style="overflow-x: auto;">
+                    <table class="data-table" id="careerSimTable">
+                        <thead>
+                            <tr>
+                                <th>الدرجة</th>
+                                <th>النقاط الإضافية التراكمية</th>
+                                <th>تاريخ الاستحقاق المتوقع</th>
+                                <th>الزيادة الخام الشهرية في الراتب</th>
+                                <th>الزيادة الصافية الشهرية (تقريبي)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="careerSimBody">
+                            <!-- يملأ تلقائياً -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== التبويب 3: مخلفات الترقية الصافية ==================== -->
+        <div id="tabArrears" class="tab-content">
+            <div class="main-grid">
+                <div class="card">
+                    <div class="card-title">
+                        <span><i class="fa-solid fa-money-check-dollar"></i> حاسبة مخلفات الدرجة والمردودية</span>
+                        <img src="https://l.top4top.io/p_37988hwfa0.png" alt="SNTE" class="card-mini-logo">
+                    </div>
+
+                    <div class="form-group">
+                        <label>الرتبة / المنصب (لتحديد الصنف وقيمة الدرجة):</label>
+                        <select id="jobTitleArrears" class="save-input" onchange="updateJobInfoArrears()">
+                            <optgroup label="التعليم الابتدائي">
+                                <option value="10" data-index="653">معلم مدرسة ابتدائية (صنف 10)</option>
+                                <option value="12" data-index="737" selected>أستاذ التعليم الابتدائي (صنف 12)</option>
+                                <option value="13" data-index="778">أستاذ التعليم الابتدائي قسم أول (صنف 13)</option>
+                                <option value="14" data-index="821">أستاذ التعليم الابتدائي قسم ثان (صنف 14)</option>
+                                <option value="15" data-index="866">أستاذ التعليم الابتدائي مميز (صنف 15)</option>
+                            </optgroup>
+                            <optgroup label="التعليم المتوسط">
+                                <option value="12" data-index="737">أستاذ التعليم المتوسط (صنف 12)</option>
+                                <option value="13" data-index="778">أستاذ التعليم المتوسط قسم أول (صنف 13)</option>
+                                <option value="15" data-index="866">أستاذ التعليم المتوسط قسم ثان (صنف 15)</option>
+                                <option value="16" data-index="913">أستاذ التعليم المتوسط مميز (صنف 16)</option>
+                            </optgroup>
+                            <optgroup label="التعليم الثانوي">
+                                <option value="13" data-index="778">أستاذ التعليم الثانوي (صنف 13)</option>
+                                <option value="14" data-index="821">أستاذ التعليم الثانوي قسم أول (صنف 14)</option>
+                                <option value="16" data-index="913">أستاذ التعليم الثانوي قسم ثان (صنف 16)</option>
+                                <option value="17" data-index="962">أستاذ التعليم الثانوي مميز (صنف 17)</option>
+                            </optgroup>
+                            <optgroup label="الإدارة والتأطير التربوي">
+                                <option value="14" data-index="821">ناظر في التعليم الابتدائي / مدير ابتدائية</option>
+                                <option value="15" data-index="866">ناظر في التعليم المتوسط / مدير متوسطة</option>
+                                <option value="16" data-index="913">ناظر في التعليم الثانوي</option>
+                                <option value="17" data-index="962">مدير ثانوية</option>
+                            </optgroup>
+                            <optgroup label="التفتيش">
+                                <option value="17" data-index="962">مفتش التعليم الابتدائي / المتوسط</option>
+                                <option value="HC1" data-index="1130">مفتش التعليم الثانوي (خ ص ق ف 1)</option>
+                                <option value="HC2" data-index="1190">مفتش التربية الوطنية (خ ص ق ف 2)</option>
+                            </optgroup>
+                            <optgroup label="الإشراف، الاستشارة والتوجيه">
+                                <option value="7" data-index="548">مساعد التربية (صنف 7)</option>
+                                <option value="8" data-index="579">مساعد رئيسي للتربية (صنف 8)</option>
+                                <option value="10" data-index="653">مشرف التربية (صنف 10)</option>
+                                <option value="11" data-index="698">مشرف رئيسي للتربية (صنف 11)</option>
+                                <option value="12" data-index="737">مشرف رئيس / مستشار التوجيه (صنف 12)</option>
+                                <option value="13" data-index="778">مستشار التربية / مستشار رئيسي (صنف 13)</option>
+                                <option value="14" data-index="821">مستشار رئيس للتربية (صنف 14)</option>
+                            </optgroup>
+                            <optgroup label="المخابر والمصالح الاقتصادية والإداريين">
+                                <option value="5" data-index="488">عون تقني للمخابر / عون إدارة (صنف 5)</option>
+                                <option value="7" data-index="548">معاون تقني / عون إدارة رئيسي (صنف 7)</option>
+                                <option value="8" data-index="579">ملحق بالمخابر / ملحق إدارة (صنف 8)</option>
+                                <option value="10" data-index="653">ملحق رئيسي بالمخابر / نائب مقتصد (صنف 10)</option>
+                                <option value="11" data-index="698">نائب مقتصد مسير / متصرف (صنف 11)</option>
+                                <option value="12" data-index="737">ملحق مشرف بالمخابر / متصرف (صنف 12)</option>
+                                <option value="13" data-index="778">مقتصد / متصرف رئيسي (صنف 13)</option>
+                                <option value="14" data-index="821">مقتصد رئيسي (صنف 14)</option>
+                            </optgroup>
+                        </select>
+                        <div id="jobInfoDisplayArrears" class="info-badge">الصنف: 12 | النقطة للدرجة الواحدة: 27 نقطة (1,215.00 دج خام)</div>
+                    </div>
+
+                    <div class="flex-container">
+                        <div class="form-group" style="flex: 1;">
+                            <label>عدد الدرجات المرقى فيها:</label>
+                            <select id="stepsCountArr" class="save-input">
+                                <option value="1" selected>درجة واحدة (01)</option>
+                                <option value="2">درجتان (02)</option>
+                            </select>
+                        </div>
+                        <div class="form-group" style="flex: 1;">
+                            <label>نسبة منحة المردودية:</label>
+                            <select id="prRateArr" class="save-input">
+                                <option value="0.40" selected>40% (الأسلاك التربوية)</option>
+                                <option value="0.30">30% (الأسلاك المشتركة والإدارية)</option>
+                                <option value="0">بدون حساب المردودية (0%)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="flex-container">
+                        <div class="form-group" style="flex: 1;">
+                            <label>تاريخ سريان الدرجة (في المقرر):</label>
+                            <input type="month" id="startDateArr" class="save-input" value="2025-01">
+                        </div>
+                        <div class="form-group" style="flex: 1;">
+                            <label>تاريخ التسوية في الراتب:</label>
+                            <input type="month" id="actualDateArr" class="save-input" value="2026-06">
+                        </div>
+                    </div>
+
+                    <button class="btn-calc btn-red" onclick="calcArrears()">
+                        <i class="fa-solid fa-sack-dollar"></i> احسب كشف المخلفات الصافي
+                    </button>
+                </div>
+                
+                <!-- بطاقة نتائج المخلفات -->
+                <div class="card result-card" id="resBoxArrears">
+                    <div class="card-title" style="color: var(--primary-red);">
+                        <span><i class="fa-solid fa-receipt"></i> كشف المخلفات المالية (الصافي للدفع)</span>
+                        <img src="https://l.top4top.io/p_37988hwfa0.png" alt="SNTE" class="card-mini-logo">
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">المدة الزمنية للمخلفات:</span>
+                        <span id="resMonths" class="result-value">--</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">الزيادة الشهرية الخام (للدرجة):<span class="result-subtext">عدد النقاط × 45 دج</span></span>
+                        <span id="resMonthlyGross" class="result-value">--</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">إجمالي مخلفات الراتب (الخام):</span>
+                        <span id="resSalaryGross" class="result-value">--</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">صافي مخلفات الراتب:<span class="result-subtext">بعد اقتطاع الضمان الاجتماعي (9%) والضريبة IRG</span></span>
+                        <span id="resSalaryNet" class="result-value">--</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">صافي مخلفات المردودية <span class="badge" id="prBadgeDisplay">40%</span>:<span class="result-subtext">بعد اقتطاع 9% ضمان و 10% ضريبة IRG</span></span>
+                        <span id="resPRNet" class="result-value">--</span>
+                    </div>
+                    <div class="total-box">
+                        <span class="total-label">المبلغ الإجمالي الصافي للدفع (Net à Payer)</span>
+                        <span id="resTotalNet" class="total-amount">0.00 دج</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== التبويب 4: الدليل القانوني ==================== -->
+        <div id="tabLegal" class="tab-content">
+            <div class="card legal-brochure">
+                <div class="brochure-header">
+                    <img src="https://l.top4top.io/p_37988hwfa0.png" alt="شعار النقابة الوطنية لعمال التربية SNTE" class="brochure-logo">
+                    <h2>الدليل القانوني والتنظيمي للترقية في الدرجات</h2>
+                    <p>مرجع عملي لمسيري الموارد البشرية، أعضاء اللجان الإدارية المتساوية الأعضاء، والموظفين</p>
+                </div>
+
+                <div class="section-box">
+                    <h3>أولاً : المرجعية القانونية والتنظيمية</h3>
+                    <p class="legal-text">ينظم مسألة الترقية في الدرجات أحكام المادة 106 من الأمر رقم 06-03 المؤرخ في 15 جويلية 2006 المتضمن القانون الأساسي العام للوظيفة العمومية، وكذا أحكام مواد الفصل الثاني (المواد من 9 إلى 22) من المرسوم الرئاسي رقم 07-304 المؤرخ في 29 سبتمبر 2007، الذي يحدد الشبكة الاستدلالية لمرتبات الموظفين ونظام دفع رواتبهم، بالإضافة إلى المرسوم التنفيذي رقم 19-165 المتعلق بكيفيات تقييم الموظف.</p>
+                </div>
+
+                <div class="section-box">
+                    <h3>ثانياً : تعريف الترقية في الدرجات والشبكة النقطية</h3>
+                    <p class="legal-text">تعتبر الترقية في الدرجات تثميناً للخبرة المهنية التي يكتسبها الموظف، وتتمثل في الانتقال من درجة إلى الدرجة الأعلى منها مباشرة بصفة مستمرة من الدرجة 1 إلى الدرجة 12، وتترجم بزيادة في النقاط الاستدلالية حسب الصنف.</p>
+                </div>
+
+                <div class="section-box">
+                    <h3>ثالثاً : جدول مدد ووتائر الترقية ونسب التوزيع</h3>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>وتيرة الترقية</th>
+                                <th>المدة الزمنية المطلوبة</th>
+                                <th>نسبة التوزيع (نظام 3 وتائر)</th>
+                                <th>نسبة التوزيع (نظام وتيرتين)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>المدة الدنيا</strong></td>
+                                <td>سنتان و 6 أشهر (30 شهراً)</td>
+                                <td>4 من 10 موظفين (40%)</td>
+                                <td>6 من 10 موظفين (60%)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>المدة الوسطى</strong></td>
+                                <td>3 سنوات (36 شهراً)</td>
+                                <td>4 من 10 موظفين (40%)</td>
+                                <td>4 من 10 موظفين (40%)</td>
+                            </tr>
+                            <tr class="highlight">
+                                <td><strong>المدة القصوى</strong></td>
+                                <td>3 سنوات و 6 أشهر (42 شهراً)</td>
+                                <td>2 من 10 موظفين (20%)</td>
+                                <td>--- (بقوة القانون عند الاقتضاء)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="section-box">
+                    <h3>رابعاً : شروط ومعايير الفصل في حالة التساوي</h3>
+                    <ul class="legal-list">
+                        <li>أن يكون الموظف مرسماً في رتبته الأصلية ومستوفياً للأقدمية المطلوبة إلى غاية 31 ديسمبر من السنة المعتبرة.</li>
+                        <li>في حالة تساوي الموظفين في نقطة التقييم، يُفصل بينهم بمعيار <strong>الأقدمية في الرتبة</strong>، ثم <strong>الأقدمية العامة في الوظيفة العمومية</strong>، ثم <strong>الحالة العائلية</strong>، ثم <strong>الأكبر سناً</strong> (وفق النظام الداخلي للجنة المتساوية الأعضاء).</li>
+                        <li>تتم ترقية الموظفين المنتدبين أو المعينين في مناصب عليا أو وظائف عليا بقوة القانون حسب <strong>المدة الدنيا</strong> خارج الحصص المئوية.</li>
+                    </ul>
+                </div>
+
+                <div style="text-align: center; margin-top: 30px; padding-top: 20px; border-top: 2px dashed #e2e8f0;">
+                    <a href="https://drive.google.com/drive/folders/1Smt6Gevlk3SN0N1bkaHYDsbQk4diure0?usp=drive_link" target="_blank" class="drive-btn">
+                        <i class="fa-brands fa-google-drive"></i> تصفح مكتبة النصوص والتشريعات الكاملة (Google Drive)
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-credit">
+            <img src="https://l.top4top.io/p_37988hwfa0.png" alt="SNTE Logo" class="footer-logo">
+            <span>جميع الحقوق محفوظة © النقابة الوطنية لعمال التربية (SNTE) - من إنجاز الأستاذ حميدي البشير 2026</span>
+        </div>
     </div>
 
-    <!-- أزرار التصدير والطباعة -->
-    <button class="btn btn-save" onclick="exportAsImage()">💾 حفظ كصورة (PNG)</button>
-    <button class="btn btn-print" onclick="printDocument()">🖨️ طباعة</button>
-  </div>
+    <script>
+        // --- 1. التنقل بين التبويبات ---
+        function openTab(evt, tabName) {
+            let tabcontent = document.getElementsByClassName("tab-content");
+            for (let i = 0; i < tabcontent.length; i++) tabcontent[i].classList.remove("active");
+            let tablinks = document.getElementsByClassName("tab-btn");
+            for (let i = 0; i < tablinks.length; i++) tablinks[i].classList.remove("active");
+            document.getElementById(tabName).classList.add("active");
+            evt.currentTarget.classList.add("active");
+        }
 
-  <!-- مساحة إدخال البيانات فوق الصورة -->
-  <div class="editor-wrapper" id="editorContainer">
-    <img id="mainDocImage" class="base-image" src="1000128007.jpg" alt="المستند">
-    
-    <div class="inputs-layer" id="fieldsLayer">
-      <!-- 1. ولاية العنوان -->
-      <input type="text" class="field" data-x="12" data-y="23.3" data-w="17" data-h="2.2" style="top: 23.3%; left: 12%; width: 17%; height: 2.2%;" placeholder="الولاية">
+        // --- 2. نظام الحفظ التلقائي (Local Storage) ---
+        const inputsToSave = document.querySelectorAll('.save-input');
+        
+        function saveToLocal() {
+            let data = {};
+            inputsToSave.forEach(input => {
+                data[input.id] = input.value;
+            });
+            localStorage.setItem('tarkiaProData2026', JSON.stringify(data));
+            
+            let status = document.getElementById('autoSaveStatus');
+            status.style.opacity = '0.4';
+            setTimeout(() => { status.style.opacity = '1'; }, 200);
+        }
 
-      <!-- 2. تاريخ التنصيب والولاية -->
-      <input type="text" class="field" data-x="54.5" data-y="34.0" data-w="9" data-h="2.2" style="top: 34.0%; left: 54.5%; width: 9%; height: 2.2%;" placeholder="الولاية">
-      <input type="text" class="field" data-x="24.5" data-y="34.0" data-w="4.5" data-h="2.2" style="top: 34.0%; left: 24.5%; width: 4.5%; height: 2.2%;" placeholder="سنة">
-      <input type="text" class="field" data-x="17.5" data-y="34.0" data-w="4.5" data-h="2.2" style="top: 34.0%; left: 17.5%; width: 4.5%; height: 2.2%;" placeholder="شهر">
-      <input type="text" class="field" data-x="7.5" data-y="34.0" data-w="5.5" data-h="2.2" style="top: 34.0%; left: 7.5%; width: 5.5%; height: 2.2%;" placeholder="يوم">
+        function loadFromLocal() {
+            let savedData = localStorage.getItem('tarkiaProData2026');
+            if (savedData) {
+                let data = JSON.parse(savedData);
+                inputsToSave.forEach(input => {
+                    if (data[input.id] !== undefined) {
+                        input.value = data[input.id];
+                    }
+                });
+            } else {
+                document.getElementById('financialYear').value = new Date().getFullYear();
+                document.getElementById('effectiveDate').value = "2023-06-15";
+            }
+            updateDynamicData();
+            calcMerit();
+            updateJobInfoArrears();
+            generateCareerTable();
+            calcArrears();
+        }
 
-      <!-- 3. خلايا الجدول الـ 9 صفوف -->
-      <div id="tableInputs"></div>
+        function resetAllData() {
+            if(confirm("هل تريد فعلاً تفريغ وإعادة ضبط جميع الحقول؟")) {
+                localStorage.removeItem('tarkiaProData2026');
+                location.reload();
+            }
+        }
 
-      <!-- 4. ولاية المهام أسفل الجدول -->
-      <input type="text" class="field" data-x="39" data-y="76.5" data-w="9.5" data-h="2.2" style="top: 76.5%; left: 39%; width: 9.5%; height: 2.2%;" placeholder="الولاية">
+        inputsToSave.forEach(input => {
+            input.addEventListener('input', saveToLocal);
+            input.addEventListener('change', saveToLocal);
+        });
 
-      <!-- 5. نسخة موجهة إلى -->
-      <input type="text" class="field" data-x="67" data-y="83.8" data-w="8" data-h="2.2" style="top: 83.8%; left: 67%; width: 8%; height: 2.2%;" placeholder="الولاية">
-      <input type="text" class="field" data-x="68" data-y="87.8" data-w="8.5" data-h="2.2" style="top: 87.8%; left: 68%; width: 8.5%; height: 2.2%;" placeholder="الولاية">
-      <input type="text" class="field" data-x="68" data-y="90.0" data-w="8.5" data-h="2.2" style="top: 90.0%; left: 68%; width: 8.5%; height: 2.2%;" placeholder="الولاية">
-    </div>
-  </div>
+        // --- 3. تصدير واستيراد ملفات Excel ---
+        function exportExcel() {
+            let dataArr = [ ["المعرف البرمجي (ID)", "القيمة المدخلة (Value)", "البيان"] ];
+            inputsToSave.forEach(input => {
+                let labelEl = input.closest('.form-group')?.querySelector('label') || input.previousElementSibling;
+                let label = labelEl ? labelEl.innerText : input.id;
+                dataArr.push([input.id, input.value, label]);
+            });
 
-  <canvas id="renderCanvas"></canvas>
+            let worksheet = XLSX.utils.aoa_to_sheet(dataArr);
+            let workbook = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(workbook, worksheet, "بيانات الدرجات");
+            let empName = document.getElementById('empName').value.trim() || "موظف";
+            XLSX.writeFile(workbook, `ملف_الدرجات_${empName}_حميدي_البشير.xlsx`);
+        }
 
-  <script>
-    let currentFontSize = 13;
-    let currentFontFamily = "'Amiri', 'Traditional Arabic', serif";
+        function importExcel(event) {
+            let file = event.target.files[0];
+            if (!file) return;
 
-    // توليد خلايا الجدول
-    const tableContainer = document.getElementById('tableInputs');
-    const cols = [
-      { left: 80.5, width: 13.0 }, // اللقب والاسم
-      { left: 71.0, width: 9.0 },  // الوظيفة
-      { left: 52.0, width: 18.5 }, // رقم NIN
-      { left: 38.0, width: 13.5 }, // رقم الضمان الاجتماعي
-      { left: 21.0, width: 16.5 }, // المهمة النقابية
-      { left: 2.2,  width: 18.3 }  // مكان العمل
-    ];
+            let reader = new FileReader();
+            reader.onload = function(e) {
+                let data = new Uint8Array(e.target.result);
+                let workbook = XLSX.read(data, {type: 'array'});
+                let firstSheetName = workbook.SheetNames[0];
+                let worksheet = workbook.Sheets[firstSheetName];
+                let json = XLSX.utils.sheet_to_json(worksheet, {header: 1});
+                
+                for(let i = 1; i < json.length; i++) {
+                    let row = json[i];
+                    if(row[0] && row[1] !== undefined) {
+                        let inputElement = document.getElementById(row[0]);
+                        if(inputElement) inputElement.value = row[1];
+                    }
+                }
+                
+                saveToLocal();
+                updateDynamicData();
+                calcMerit();
+                updateJobInfoArrears();
+                calculatePromotion();
+                alert("تم استرداد البيانات من ملف Excel بنجاح!");
+                document.getElementById('excelUpload').value = ""; 
+            };
+            reader.readAsArrayBuffer(file);
+        }
 
-    const rowStartTop = 43.1;
-    const rowHeight = 2.85;
+        // --- 4. دوال التبويب الأول (حساب الدرجة ومقارنة الوتائر) ---
+        function updateDynamicData() {
+            const year = parseInt(document.getElementById('financialYear').value);
+            if(isNaN(year)) return;
+            document.getElementById('displayYear').innerText = year;
+            document.getElementById('refMin').innerText = `30 جوان ${year - 2}`;
+            document.getElementById('refMed').innerText = `31 ديسمبر ${year - 3}`;
+            document.getElementById('refMax').innerText = `30 جوان ${year - 3}`;
+            document.getElementById('noteYearCurrent').innerText = year;
+            document.getElementById('noteYearPrev').innerText = year - 1;
+            document.getElementById('tableCutoffYear').innerText = `31/12/${year}`;
+        }
 
-    for (let r = 0; r < 9; r++) {
-      const topPos = rowStartTop + (r * rowHeight);
-      cols.forEach(col => {
-        const inp = document.createElement('input');
-        inp.type = 'text';
-        inp.className = 'field';
-        inp.setAttribute('data-x', col.left);
-        inp.setAttribute('data-y', topPos);
-        inp.setAttribute('data-w', col.width);
-        inp.setAttribute('data-h', 2.2);
-        inp.style.top = topPos + '%';
-        inp.style.left = col.left + '%';
-        inp.style.width = col.width + '%';
-        inp.style.height = '2.4%';
-        tableContainer.appendChild(inp);
-      });
-    }
+        function calcMerit() {
+            const ped = parseFloat(document.getElementById('pedPoint').value) || 0;
+            const admin = parseFloat(document.getElementById('adminPoint').value) || 0;
+            const merit = ((ped * 3) + (admin * 2)) / 5;
+            document.getElementById('meritResult').innerText = `${merit.toFixed(2)} / 20`;
+        }
 
-    // تطبيق الخط والحجم على كافة الحقول
-    function applyFontStyles() {
-      const allInputs = document.querySelectorAll('input.field');
-      allInputs.forEach(input => {
-        input.style.fontSize = currentFontSize + 'px';
-        input.style.fontFamily = currentFontFamily;
-      });
-      document.getElementById('fontSizeDisplay').innerText = currentFontSize;
-    }
+        // دالة مساعدة لحساب تاريخ الاستيفاء والباقي لأي وتيرة
+        function computePaceDetails(effDate, paceVal, regionFactor, senY, senM, senD, fYear) {
+            const requiredMonthsRaw = (paceVal * 12) / regionFactor;
+            const requiredMonths = Math.floor(requiredMonthsRaw);
+            const requiredDays = Math.round((requiredMonthsRaw - requiredMonths) * 30);
 
-    // وظيفة تكبير/تصغير الخط
-    function changeFontSize(delta) {
-      currentFontSize = Math.min(Math.max(currentFontSize + delta, 9), 22);
-      applyFontStyles();
-    }
+            let targetDate = new Date(effDate);
+            targetDate.setMonth(targetDate.getMonth() + requiredMonths);
+            targetDate.setDate(targetDate.getDate() + requiredDays);
 
-    // وظيفة تغيير نوع الخط
-    function updateFontFamily() {
-      currentFontFamily = document.getElementById('fontFamilySelector').value;
-      applyFontStyles();
-    }
+            targetDate.setFullYear(targetDate.getFullYear() - senY);
+            targetDate.setMonth(targetDate.getMonth() - senM);
+            targetDate.setDate(targetDate.getDate() - senD);
 
-    // تطبيق أولي للخط
-    applyFontStyles();
+            const dd = String(targetDate.getDate()).padStart(2, '0');
+            const mm = String(targetDate.getMonth() + 1).padStart(2, '0');
+            const yyyy = targetDate.getFullYear();
+            const formattedDate = `${yyyy}/${mm}/${dd}`;
 
-    // استيراد صورة من الهاتف
-    const imgElement = document.getElementById('mainDocImage');
-    document.getElementById('imagePicker').addEventListener('change', function(e) {
-      if (e.target.files && e.target.files[0]) {
-        const reader = new FileReader();
-        reader.onload = function(evt) {
-          imgElement.src = evt.target.result;
+            const cutoffDate = new Date(fYear, 11, 31);
+            let isEligible = targetDate <= cutoffDate;
+            let retainedStr = "غير مستوفٍ";
+
+            if (isEligible) {
+                let yearsDiff = cutoffDate.getFullYear() - targetDate.getFullYear();
+                let monthsDiff = cutoffDate.getMonth() - targetDate.getMonth();
+                let daysDiff = cutoffDate.getDate() - targetDate.getDate();
+
+                if (daysDiff < 0) {
+                    monthsDiff--;
+                    const daysInMonth = new Date(cutoffDate.getFullYear(), cutoffDate.getMonth(), 0).getDate();
+                    daysDiff += daysInMonth;
+                }
+                if (monthsDiff < 0) {
+                    yearsDiff--;
+                    monthsDiff += 12;
+                }
+
+                let parts = [];
+                if (yearsDiff > 0) parts.push(`${yearsDiff} سنة`);
+                if (monthsDiff > 0) parts.push(`${monthsDiff} شهر`);
+                if (daysDiff > 0) parts.push(`${daysDiff} يوم`);
+                retainedStr = parts.length > 0 ? parts.join(' و ') : "0 يوم (مستوفاة بالضبط)";
+            }
+
+            return { formattedDate, isEligible, retainedStr };
+        }
+
+        function calculatePromotion() {
+            const effectiveDateInput = document.getElementById('effectiveDate').value;
+            if (!effectiveDateInput) {
+                alert("يرجى إدخال تاريخ سريان الدرجة الحالية.");
+                return;
+            }
+
+            const fYear = parseInt(document.getElementById('financialYear').value);
+            const effDate = new Date(effectiveDateInput);
+            const currentStep = parseInt(document.getElementById('currentStep').value);
+            const nextStep = Math.min(currentStep + 1, 12);
+            document.getElementById('targetStepLabel').innerText = `الدرجة ${String(nextStep).padStart(2, '0')}`;
+
+            const selectedPace = parseFloat(document.getElementById('promotionPace').value);
+            const regionFactor = parseFloat(document.getElementById('region').value);
+            const senY = parseInt(document.getElementById('seniorityYears').value) || 0;
+            const senM = parseInt(document.getElementById('seniorityMonths').value) || 0;
+            const senD = parseInt(document.getElementById('seniorityDays').value) || 0;
+
+            // حساب الوتيرة المختارة
+            const mainRes = computePaceDetails(effDate, selectedPace, regionFactor, senY, senM, senD, fYear);
+            document.getElementById('finalDate').innerText = mainRes.formattedDate;
+
+            const retainedBox = document.getElementById('retainedBox');
+            if (mainRes.isEligible) {
+                retainedBox.classList.remove('not-eligible');
+                document.getElementById('retainedTitle').innerText = `الأقدمية الإضافية المحتفظ بها إلى غاية 31/12/${fYear}:`;
+                document.getElementById('retainedSeniority').innerText = mainRes.retainedStr;
+            } else {
+                retainedBox.classList.add('not-eligible');
+                document.getElementById('retainedTitle').innerText = `الوضعية في جدول ترقية سنة ${fYear}:`;
+                document.getElementById('retainedSeniority').innerText = "لا يدرج في جدول هذه السنة (تاريخ الاستيفاء يتجاوز 31 ديسمبر).";
+            }
+
+            // ملء جدول مقارنة الوتائر الثلاث
+            const pacesList = [
+                { label: "الدنيا (2.5 سنة)", val: 2.5 },
+                { label: "الوسطى (3 سنوات)", val: 3.0 },
+                { label: "القصوى (3.5 سنة)", val: 3.5 }
+            ];
+
+            let tbodyHTML = "";
+            pacesList.forEach(p => {
+                let res = computePaceDetails(effDate, p.val, regionFactor, senY, senM, senD, fYear);
+                let activeClass = (p.val === selectedPace) ? "active-row" : "";
+                let statusBadge = res.isEligible 
+                    ? `<span class="status-badge status-ok">مستوفٍ للشرط</span>` 
+                    : `<span class="status-badge status-no">غير مستوفٍ</span>`;
+                
+                tbodyHTML += `
+                    <tr class="${activeClass}">
+                        <td>${p.label}</td>
+                        <td style="direction:ltr;">${res.formattedDate}</td>
+                        <td>${statusBadge}</td>
+                        <td>${res.retainedStr}</td>
+                    </tr>
+                `;
+            });
+
+            document.getElementById('pacesComparisonBody').innerHTML = tbodyHTML;
+            document.getElementById('resultBox').style.display = 'block';
+        }
+
+        // --- 5. دوال التبويب الثاني (محاكي المسار المهني 12 درجة) ---
+        const STEP_POINTS = { "5": 14, "7": 17, "8": 19, "10": 23, "11": 25, "12": 27, "13": 29, "14": 31, "15": 33, "16": 35, "17": 38, "HC1": 41, "HC2": 44 };
+        const POINT_VALUE = 45, SS_RATE = 0.09, PR_IRG_RATE = 0.10, SALARY_IRG_MARGINAL = 0.30;
+
+        function generateCareerTable() {
+            const startInput = document.getElementById('careerStartDate').value;
+            if (!startInput) return;
+
+            const cat = document.getElementById('careerCategory').value;
+            const pace = parseFloat(document.getElementById('careerPace').value);
+            const region = parseFloat(document.getElementById('careerRegion').value);
+            const pointsPerStep = STEP_POINTS[cat] || 27;
+
+            let currentDate = new Date(startInput);
+            const monthsPerStepRaw = (pace * 12) / region;
+            const addMonths = Math.floor(monthsPerStepRaw);
+            const addDays = Math.round((monthsPerStepRaw - addMonths) * 30);
+
+            let html = "";
+            for (let step = 1; step <= 12; step++) {
+                currentDate.setMonth(currentDate.getMonth() + addMonths);
+                currentDate.setDate(currentDate.getDate() + addDays);
+
+                const dd = String(currentDate.getDate()).padStart(2, '0');
+                const mm = String(currentDate.getMonth() + 1).padStart(2, '0');
+                const yyyy = currentDate.getFullYear();
+
+                const totalPoints = step * pointsPerStep;
+                const grossIncrease = totalPoints * POINT_VALUE;
+                const netIncrease = (grossIncrease * (1 - SS_RATE)) * (1 - SALARY_IRG_MARGINAL);
+
+                html += `
+                    <tr>
+                        <td><strong>الدرجة ${String(step).padStart(2, '0')}</strong></td>
+                        <td>+${totalPoints} نقطة</td>
+                        <td style="direction:ltr; font-weight:700; color:var(--dark-green);">${yyyy}/${mm}/${dd}</td>
+                        <td>${grossIncrease.toLocaleString('ar-DZ', {minimumFractionDigits: 2})} دج</td>
+                        <td style="font-weight:700; color:#1d4ed8;">${netIncrease.toLocaleString('ar-DZ', {minimumFractionDigits: 2, maximumFractionDigits: 2})} دج</td>
+                    </tr>
+                `;
+            }
+            document.getElementById('careerSimBody').innerHTML = html;
+        }
+
+        // --- 6. دوال التبويب الثالث (مخلفات الترقية الصافية) ---
+        function updateJobInfoArrears() {
+            const select = document.getElementById('jobTitleArrears');
+            const category = select.value;
+            const points = STEP_POINTS[category] || 27;
+            const grossVal = (points * POINT_VALUE).toLocaleString('ar-DZ', {minimumFractionDigits: 2});
+            let catDisplay = category.includes("HC") ? (category === "HC1" ? "خ ص ق ف 1" : "خ ص ق ف 2") : category;
+            document.getElementById('jobInfoDisplayArrears').innerText = `الصنف: ${catDisplay} | النقطة للدرجة: ${points} نقطة (${grossVal} دج خام شهرياً)`;
+        }
+
+        function calcArrears() {
+            const category = document.getElementById('jobTitleArrears').value;
+            const stepsCount = parseInt(document.getElementById('stepsCountArr').value) || 1;
+            const prRate = parseFloat(document.getElementById('prRateArr').value);
+            const startDateStr = document.getElementById('startDateArr').value;
+            const actualDateStr = document.getElementById('actualDateArr').value;
+
+            if (!startDateStr || !actualDateStr) return;
+            const start = new Date(startDateStr + "-01"), actual = new Date(actualDateStr + "-01");
+            let months = (actual.getFullYear() - start.getFullYear()) * 12 + (actual.getMonth() - start.getMonth());
+            
+            if (months <= 0) {
+                document.getElementById('resMonths').innerText = "تاريخ غير صالح";
+                return;
+            }
+
+            let stepGrossMonthly = (STEP_POINTS[category] || 27) * POINT_VALUE * stepsCount;
+            let totalSalaryGross = stepGrossMonthly * months;
+            let stepNetMonthly = (stepGrossMonthly - (stepGrossMonthly * SS_RATE)) * (1 - SALARY_IRG_MARGINAL);
+            let totalSalaryNet = stepNetMonthly * months;
+
+            let prGrossMonthly = stepGrossMonthly * prRate;
+            let prNetMonthly = (prGrossMonthly - (prGrossMonthly * SS_RATE)) * (1 - PR_IRG_RATE);
+            let totalPRNet = prNetMonthly * months;
+
+            document.getElementById('prBadgeDisplay').innerText = (prRate * 100) + "%";
+            document.getElementById('resMonths').innerText = months + " شهراً";
+            document.getElementById('resMonthlyGross').innerText = stepGrossMonthly.toLocaleString('ar-DZ', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + " دج";
+            document.getElementById('resSalaryGross').innerText = totalSalaryGross.toLocaleString('ar-DZ', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + " دج";
+            document.getElementById('resSalaryNet').innerText = totalSalaryNet.toLocaleString('ar-DZ', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + " دج";
+            document.getElementById('resPRNet').innerText = totalPRNet.toLocaleString('ar-DZ', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + " دج";
+            document.getElementById('resTotalNet').innerText = (totalSalaryNet + totalPRNet).toLocaleString('ar-DZ', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + " دج";
+        }
+
+        // تشغيل التهيئة الآلية عند فتح الصفحة
+        window.onload = () => {
+            loadFromLocal();
         };
-        reader.readAsDataURL(e.target.files[0]);
-      }
-    });
-
-    // رسم المحتوى وتصديره مع تطبيق نوع الخط وحجمه بدقة
-    function renderToCanvas(callback) {
-      const canvas = document.getElementById('renderCanvas');
-      const ctx = canvas.getContext('2d');
-
-      canvas.width = imgElement.naturalWidth || 1000;
-      canvas.height = imgElement.naturalHeight || 1414;
-
-      // رسم خلفية الصورة
-      ctx.drawImage(imgElement, 0, 0, canvas.width, canvas.height);
-
-      ctx.fillStyle = '#000000';
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'middle';
-
-      // احتساب نسبة التكبير بالنسبة لأبعاد الصورة الأصلية
-      const scaleFactor = canvas.width / (document.getElementById('editorContainer').clientWidth || 794);
-      const canvasFontSize = Math.round(currentFontSize * scaleFactor);
-
-      // تطبيق نفس الخط المختار على لوحة الرسم
-      ctx.font = `bold ${canvasFontSize}px ${currentFontFamily}`;
-
-      const allInputs = document.querySelectorAll('input.field');
-      allInputs.forEach(input => {
-        const text = input.value.trim();
-        if (text) {
-          const xPercent = parseFloat(input.getAttribute('data-x'));
-          const yPercent = parseFloat(input.getAttribute('data-y'));
-          const wPercent = parseFloat(input.getAttribute('data-w'));
-          const hPercent = parseFloat(input.getAttribute('data-h'));
-
-          const fieldX = (xPercent / 100) * canvas.width;
-          const fieldY = (yPercent / 100) * canvas.height;
-          const fieldW = (wPercent / 100) * canvas.width;
-          const fieldH = (hPercent / 100) * canvas.height;
-
-          const textCenterX = fieldX + (fieldW / 2);
-          const textCenterY = fieldY + (fieldH / 2);
-
-          ctx.fillText(text, textCenterX, textCenterY);
-        }
-      });
-
-      if (callback) callback(canvas);
-    }
-
-    // حفظ كصورة في الهاتف
-    function exportAsImage() {
-      renderToCanvas(function(canvas) {
-        const link = document.createElement('a');
-        link.download = 'محضر_تنصيب_مكتمل.png';
-        link.href = canvas.toDataURL('image/png');
-        link.click();
-      });
-    }
-
-    // طباعة بدون شاشة بيضاء
-    function printDocument() {
-      renderToCanvas(function(canvas) {
-        const dataUrl = canvas.toDataURL('image/png');
-        const printWindow = window.open('', '_blank');
-        if (printWindow) {
-          printWindow.document.write(`
-            <html>
-              <head>
-                <title>طباعة المحضر</title>
-                <style>
-                  @page { size: auto; margin: 0; }
-                  body { margin: 0; display: flex; justify-content: center; align-items: center; }
-                  img { width: 100%; height: auto; max-height: 100vh; object-fit: contain; }
-                </style>
-              </head>
-              <body onload="window.print(); window.close();">
-                <img src="${dataUrl}" />
-              </body>
-            </html>
-          `);
-          printWindow.document.close();
-        } else {
-          alert('يرجى السماح بالنوافذ المنبثقة أو استخدام زر الحفظ كصورة.');
-        }
-      });
-    }
-  </script>
+    </script>
 </body>
 </html>
